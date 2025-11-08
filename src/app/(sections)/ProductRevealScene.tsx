@@ -21,11 +21,17 @@ const ProductRevealScene = () => {
     }
 
     const ctx = gsap.context(() => {
+      const triggerTarget = bottleRef.current ?? sectionRef.current;
+
+      if (!triggerTarget) {
+        return;
+      }
+
       const timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
+          trigger: triggerTarget,
+          start: "top 65%",
+          end: "bottom 35%",
           scrub: true,
         },
       });
@@ -57,9 +63,9 @@ const ProductRevealScene = () => {
           xPercent: 100,
           ease: "sine.inOut",
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "bottom top",
+            trigger: triggerTarget,
+            start: "top 65%",
+            end: "bottom 35%",
             scrub: true,
           },
         }
@@ -103,7 +109,7 @@ const ProductRevealScene = () => {
             }}
             data-model-anchor
             data-model-key="product"
-            className="relative flex h-72 w-72 items-center justify-center rounded-full bg-linear-to-b from-white/80 to-white/40 shadow-2xl"
+            className="relative flex h-72 w-72 items-center justify-center"
           >
             <div
               ref={(node) => {

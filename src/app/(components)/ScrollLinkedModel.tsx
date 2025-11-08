@@ -20,10 +20,11 @@ type ModelConfig = {
 
 type ModelKey = "origin" | "transformation" | "product";
 
+// Jangan diubah lagi config ini
 const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
   origin: {
     modelPath: "/assets/cow_1k.glb",
-    modelScale: 0.005,
+    modelScale: 0.006,
     modelPosition: [0, 0, 0],
     modelRotation: [0, Math.PI / 12, 0],
     cameraPosition: [0.12, 0.4, 3.4],
@@ -39,7 +40,7 @@ const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
   },
   product: {
     modelPath: "/assets/cream_1k.glb",
-    modelScale: 12,
+    modelScale: 25,
     modelPosition: [0.2, 0.35, 0],
     modelRotation: [0.05, Math.PI / 5, 0],
     cameraPosition: [0.25, 0.35, 2.8],
@@ -139,8 +140,9 @@ const ScrollLinkedModel = () => {
         anchor: HTMLElement,
         options: { immediate?: boolean } = {}
       ) => {
+        const { immediate = false } = options;
         activeAnchorRef.current = anchor;
-        animateToAnchor(anchor, options);
+        animateToAnchor(anchor, { immediate });
 
         const nextKey = anchor.dataset.modelKey as ModelKey | undefined;
 
@@ -153,7 +155,11 @@ const ScrollLinkedModel = () => {
           setActiveKey(nextKey);
         }
 
-        gsap.to(follower, { opacity: 1, duration: 0.35, ease: "power2.out" });
+        gsap.to(follower, {
+          opacity: 1,
+          duration: immediate ? 0 : 0.25,
+          ease: "power2.out",
+        });
       };
 
       const deactivateAnchor = (anchor: HTMLElement) => {
@@ -170,7 +176,7 @@ const ScrollLinkedModel = () => {
           trigger: anchor,
           start: "top 65%",
           end: "bottom 35%",
-          onEnter: () => activateAnchor(anchor),
+          onEnter: () => activateAnchor(anchor, { immediate: true }),
           onEnterBack: () => activateAnchor(anchor, { immediate: true }),
           onLeave: () => deactivateAnchor(anchor),
           onLeaveBack: () => deactivateAnchor(anchor),
