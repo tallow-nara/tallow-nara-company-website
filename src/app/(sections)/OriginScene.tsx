@@ -5,7 +5,6 @@
 import { useLayoutEffect, useRef } from "react";
 
 import AnimatedText from "../(components)/AnimatedText";
-import ThreeModelCanvas from "../(components)/ThreeModelCanvas";
 import { gsap, registerGSAPPlugins } from "../lib/gsapConfig";
 
 const OriginScene = () => {
@@ -27,7 +26,6 @@ const OriginScene = () => {
           start: "top top",
           end: "bottom top",
           scrub: true,
-          pin: true,
         },
       });
 
@@ -90,18 +88,12 @@ const OriginScene = () => {
           ref={(node) => {
             imageWrapperRef.current = node;
           }}
+          data-model-anchor
+          data-model-key="origin"
           className="relative h-64 w-64"
         >
           <div className="pointer-events-none absolute -inset-6 rounded-full bg-white/20 blur-3xl" />
-          <ThreeModelCanvas
-            className="relative h-full w-full"
-            modelPath="/assets/cow_1k.glb"
-            modelScale={0.005}
-            modelPosition={[0, 0, 0]}
-            modelRotation={[0, Math.PI / 12, 0]}
-            cameraPosition={[0.12, 0.4, 3.4]}
-            autoRotateSpeed={0.0012}
-          />
+          <div aria-hidden className="h-full w-full opacity-0" />
         </div>
       </div>
     </section>

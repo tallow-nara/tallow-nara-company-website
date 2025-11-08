@@ -4,7 +4,6 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-import ThreeProductModel from "../(components)/ThreeProductModel";
 import AnimatedText from "../(components)/AnimatedText";
 import { gsap, registerGSAPPlugins } from "../lib/gsapConfig";
 
@@ -28,7 +27,6 @@ const ProductRevealScene = () => {
           start: "top top",
           end: "bottom top",
           scrub: true,
-          pin: true,
         },
       });
 
@@ -103,6 +101,8 @@ const ProductRevealScene = () => {
             ref={(node) => {
               bottleRef.current = node;
             }}
+            data-model-anchor
+            data-model-key="product"
             className="relative flex h-72 w-72 items-center justify-center rounded-full bg-linear-to-b from-white/80 to-white/40 shadow-2xl"
           >
             <div
@@ -111,15 +111,8 @@ const ProductRevealScene = () => {
               }}
               className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-transparent via-white/60 to-transparent opacity-0 blur-2xl"
             />
-            <div className="relative h-[85%] w-[55%]">
-              <ThreeProductModel
-                variant="plain"
-                modelPath="/assets/cream_1k.glb"
-                className="h-full w-full"
-              />
-            </div>
+            <div aria-hidden className="relative h-[85%] w-[55%] opacity-0" />
           </div>
-          <ThreeProductModel className="hidden sm:flex" />
         </div>
       </div>
     </section>

@@ -5,7 +5,6 @@
 import { useLayoutEffect, useRef } from "react";
 
 import AnimatedText from "../(components)/AnimatedText";
-import ThreeModelCanvas from "../(components)/ThreeModelCanvas";
 import { gsap, registerGSAPPlugins } from "../lib/gsapConfig";
 
 const TransformationScene = () => {
@@ -27,7 +26,6 @@ const TransformationScene = () => {
           start: "top top",
           end: "bottom top",
           scrub: true,
-          pin: true,
         },
       });
 
@@ -94,18 +92,12 @@ const TransformationScene = () => {
             ref={(node) => {
               particlesRef.current = node;
             }}
+            data-model-anchor
+            data-model-key="transformation"
             className="relative h-60 w-60"
           >
             <div className="pointer-events-none absolute -inset-5 rounded-full bg-white/30 blur-3xl" />
-            <ThreeModelCanvas
-              className="relative h-full w-full"
-              modelPath="/assets/fat_1k.glb"
-              modelScale={0.95}
-              modelPosition={[0, -0.25, 0]}
-              modelRotation={[0.3, Math.PI / 8, 0]}
-              cameraPosition={[0.15, 0.28, 2.9]}
-              autoRotateSpeed={0.0015}
-            />
+            <div aria-hidden className="h-full w-full opacity-0" />
           </div>
         </div>
       </div>

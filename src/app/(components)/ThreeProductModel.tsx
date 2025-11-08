@@ -41,7 +41,7 @@ const ThreeProductModel = ({
       <ThreeModelCanvas
         className="relative h-full w-full"
         modelPath={modelPath}
-        modelScale={0.95}
+        modelScale={0.005}
         modelPosition={[0, -0.6, 0]}
         modelRotation={[0.05, Math.PI / 5, 0]}
         cameraPosition={[0.25, 0.35, 2.8]}
