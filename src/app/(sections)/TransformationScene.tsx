@@ -86,7 +86,7 @@ const TransformationScene = () => {
             ref={(node) => {
               meltTrailRef.current = node;
             }}
-            className="absolute inset-y-6 w-36 rounded-full bg-gradient-to-b from-white/70 via-white/30 to-transparent"
+            className="absolute inset-y-6 w-36 rounded-full bg-linear-to-b from-white/70 via-white/30 to-transparent"
           />
           <div
             ref={(node) => {
