@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { gsap, ScrollTrigger, registerGSAPPlugins } from "../lib/gsapConfig";
 import ThreeModelCanvas from "./ThreeModelCanvas";
@@ -23,7 +23,7 @@ type ModelKey = "origin" | "transformation" | "product";
 const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
   origin: {
     modelPath: "/assets/cow_1k.glb",
-    modelScale: 0.006,
+    modelScale: 0.005,
     modelPosition: [0, 0, 0],
     modelRotation: [0, Math.PI / 12, 0],
     cameraPosition: [0.12, 0.4, 3.4],
@@ -31,8 +31,8 @@ const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
   },
   transformation: {
     modelPath: "/assets/fat_1k.glb",
-    modelScale: 1,
-    modelPosition: [0, -0.25, 0],
+    modelScale: 2,
+    modelPosition: [0, 0.2, 0],
     modelRotation: [0.3, Math.PI / 8, 0],
     cameraPosition: [0.15, 0.28, 2.9],
     autoRotateSpeed: 0.0015,
@@ -40,11 +40,32 @@ const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
   product: {
     modelPath: "/assets/cream_1k.glb",
     modelScale: 12,
-    modelPosition: [0, 0, 0],
+    modelPosition: [0.2, 0.35, 0],
     modelRotation: [0.05, Math.PI / 5, 0],
     cameraPosition: [0.25, 0.35, 2.8],
     autoRotateSpeed: 0.0025,
   },
+};
+
+const parseNumber = (value?: string, fallback = 0) => {
+  if (value == null) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const parseOffset = (value?: string): [number, number] => {
+  if (!value) {
+    return [0, 0];
+  }
+
+  const parts = value.split(",").map((part) => Number(part.trim()));
+  return [
+    Number.isFinite(parts[0]) ? parts[0]! : 0,
+    Number.isFinite(parts[1]) ? parts[1]! : 0,
+  ];
 };
 
 const ScrollLinkedModel = () => {
@@ -55,7 +76,7 @@ const ScrollLinkedModel = () => {
 
   const activeConfig = MODEL_CONFIGS[activeKey];
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     registerGSAPPlugins();
 
     if (typeof window === "undefined") {
@@ -63,7 +84,9 @@ const ScrollLinkedModel = () => {
     }
 
     const ctx = gsap.context(() => {
-      if (!followerRef.current) {
+      const follower = followerRef.current;
+
+      if (!follower) {
         return;
       }
 
@@ -73,7 +96,11 @@ const ScrollLinkedModel = () => {
         return;
       }
 
-      const moveToAnchor = (
+      gsap.set(follower, { opacity: 0 });
+
+      let positionTween: gsap.core.Tween | null = null;
+
+      const animateToAnchor = (
         anchor: HTMLElement,
         options: { immediate?: boolean } = {}
       ) => {
@@ -82,19 +109,38 @@ const ScrollLinkedModel = () => {
         }
 
         const { immediate = false } = options;
-        const followerWidth = followerRef.current.offsetWidth || 1;
-        const followerHeight = followerRef.current.offsetHeight || 1;
         const rect = anchor.getBoundingClientRect();
 
-        const targetX = rect.left + rect.width / 2 - followerWidth / 2;
-        const targetY = rect.top + rect.height / 2 - followerHeight / 2;
+        const targetWidth =
+          parseNumber(anchor.dataset.modelWidth, rect.width) ||
+          follower.offsetWidth ||
+          1;
+        const targetHeight =
+          parseNumber(anchor.dataset.modelHeight, rect.height) ||
+          follower.offsetHeight ||
+          1;
+        const [offsetX, offsetY] = parseOffset(anchor.dataset.modelOffset);
 
-        gsap.to(followerRef.current, {
+        const targetX = rect.left + rect.width / 2 - targetWidth / 2 + offsetX;
+        const targetY = rect.top + rect.height / 2 - targetHeight / 2 + offsetY;
+
+        positionTween?.kill();
+        positionTween = gsap.to(followerRef.current, {
           x: targetX,
           y: targetY,
-          duration: immediate ? 0 : 1,
+          width: targetWidth,
+          height: targetHeight,
+          duration: immediate ? 0 : 0.6,
           ease: "power3.out",
         });
+      };
+
+      const activateAnchor = (
+        anchor: HTMLElement,
+        options: { immediate?: boolean } = {}
+      ) => {
+        activeAnchorRef.current = anchor;
+        animateToAnchor(anchor, options);
 
         const nextKey = anchor.dataset.modelKey as ModelKey | undefined;
 
@@ -107,32 +153,71 @@ const ScrollLinkedModel = () => {
           setActiveKey(nextKey);
         }
 
-        activeAnchorRef.current = anchor;
+        gsap.to(follower, { opacity: 1, duration: 0.35, ease: "power2.out" });
+      };
+
+      const deactivateAnchor = (anchor: HTMLElement) => {
+        if (activeAnchorRef.current !== anchor) {
+          return;
+        }
+
+        activeAnchorRef.current = null;
+        gsap.to(follower, { opacity: 0, duration: 0.3, ease: "power2.out" });
       };
 
       const triggers = anchors.map((anchor) =>
         ScrollTrigger.create({
           trigger: anchor,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => moveToAnchor(anchor),
-          onEnterBack: () => moveToAnchor(anchor),
+          start: "top 65%",
+          end: "bottom 35%",
+          onEnter: () => activateAnchor(anchor),
+          onEnterBack: () => activateAnchor(anchor, { immediate: true }),
+          onLeave: () => deactivateAnchor(anchor),
+          onLeaveBack: () => deactivateAnchor(anchor),
+          onUpdate: () => {
+            if (activeAnchorRef.current === anchor) {
+              animateToAnchor(anchor, { immediate: true });
+            }
+          },
         })
       );
 
-      moveToAnchor(activeAnchorRef.current ?? anchors[0], { immediate: true });
+      const initialAnchor = activeAnchorRef.current ?? anchors[0];
+      activateAnchor(initialAnchor, { immediate: true });
 
       const refreshHandler = () => {
         if (activeAnchorRef.current) {
-          moveToAnchor(activeAnchorRef.current, { immediate: true });
+          animateToAnchor(activeAnchorRef.current, { immediate: true });
         }
       };
 
       ScrollTrigger.addEventListener("refresh", refreshHandler);
 
+      const resizeObserver =
+        typeof ResizeObserver !== "undefined"
+          ? new ResizeObserver(() => {
+              if (activeAnchorRef.current) {
+                animateToAnchor(activeAnchorRef.current, { immediate: true });
+              }
+            })
+          : null;
+
+      anchors.forEach((anchor) => resizeObserver?.observe(anchor));
+
+      const handleResize = () => {
+        if (activeAnchorRef.current) {
+          animateToAnchor(activeAnchorRef.current, { immediate: true });
+        }
+      };
+
+      window.addEventListener("resize", handleResize);
+
       return () => {
         triggers.forEach((trigger) => trigger.kill());
         ScrollTrigger.removeEventListener("refresh", refreshHandler);
+        resizeObserver?.disconnect();
+        window.removeEventListener("resize", handleResize);
+        positionTween?.kill();
       };
     });
 
