@@ -93,7 +93,6 @@ const OriginScene = () => {
           className="relative h-64 w-64"
         >
           <div className="pointer-events-none absolute -inset-6 rounded-full bg-white/20 blur-3xl" />
-          <div aria-hidden className="h-full w-full opacity-0" />
         </div>
       </div>
     </section>

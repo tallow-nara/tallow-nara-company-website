@@ -5,46 +5,38 @@
 import { useEffect, useRef, useState } from "react";
 
 import { gsap, ScrollTrigger, registerGSAPPlugins } from "../lib/gsapConfig";
-import ThreeModelCanvas from "./ThreeModelCanvas";
-
-type Vec3 = [number, number, number];
-
-type ModelConfig = {
-  modelPath: string;
-  modelScale?: number | Vec3;
-  modelPosition?: Vec3;
-  modelRotation?: Vec3;
-  cameraPosition?: Vec3;
-  autoRotateSpeed?: number;
-};
 
 type ModelKey = "origin" | "transformation" | "product";
 
-// Jangan diubah lagi config ini
-const MODEL_CONFIGS: Record<ModelKey, ModelConfig> = {
+type HighlightConfig = {
+  title: string;
+  description: string;
+  gradient: string;
+  glow: string;
+  accent: string;
+};
+
+const HIGHLIGHT_CONFIGS: Record<ModelKey, HighlightConfig> = {
   origin: {
-    modelPath: "/assets/cow_1k.glb",
-    modelScale: 0.006,
-    modelPosition: [0, 0, 0],
-    modelRotation: [0, Math.PI / 12, 0],
-    cameraPosition: [0.12, 0.4, 3.4],
-    autoRotateSpeed: 0.0012,
+    title: "Sumber Alami",
+    description: "Sapi keluarga dan pakan organik menjaga kemurnian tallow.",
+    gradient: "linear-gradient(135deg,#fdf0da 0%,#f5d4a5 45%,#fbd4c1 100%)",
+    glow: "rgba(247,215,173,0.6)",
+    accent: "#f7d9a8",
   },
   transformation: {
-    modelPath: "/assets/fat_1k.glb",
-    modelScale: 2,
-    modelPosition: [0, 0.2, 0],
-    modelRotation: [0.3, Math.PI / 8, 0],
-    cameraPosition: [0.15, 0.28, 2.9],
-    autoRotateSpeed: 0.0015,
+    title: "Ritual Peleburan",
+    description: "Lemak meleleh perlahan, menyisakan sari emas paling halus.",
+    gradient: "linear-gradient(135deg,#fde7cf 0%,#f4cfae 55%,#f0b999 100%)",
+    glow: "rgba(240,185,153,0.55)",
+    accent: "#f3b995",
   },
   product: {
-    modelPath: "/assets/cream_1k.glb",
-    modelScale: 25,
-    modelPosition: [0.2, 0.35, 0],
-    modelRotation: [0.05, Math.PI / 5, 0],
-    cameraPosition: [0.25, 0.35, 2.8],
-    autoRotateSpeed: 0.0025,
+    title: "Lapisan Akhir",
+    description: "Balm lembut menyegel hidrasi dan memantulkan kilau alami.",
+    gradient: "linear-gradient(135deg,#fff4e6 0%,#fbe1ca 50%,#ffd6c0 100%)",
+    glow: "rgba(255,214,192,0.65)",
+    accent: "#ffd6c0",
   },
 };
 
@@ -69,13 +61,20 @@ const parseOffset = (value?: string): [number, number] => {
   ];
 };
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+const calculateDuration = (distance: number) =>
+  clamp(0.25 + distance / 900, 0.35, 0.85);
+
 const ScrollLinkedModel = () => {
   const followerRef = useRef<HTMLDivElement | null>(null);
   const activeAnchorRef = useRef<HTMLElement | null>(null);
   const activeKeyRef = useRef<ModelKey>("origin");
+  const lastActivationRef = useRef(0);
   const [activeKey, setActiveKey] = useState<ModelKey>("origin");
 
-  const activeConfig = MODEL_CONFIGS[activeKey];
+  const activeConfig = HIGHLIGHT_CONFIGS[activeKey];
 
   useEffect(() => {
     registerGSAPPlugins();
@@ -125,14 +124,22 @@ const ScrollLinkedModel = () => {
         const targetX = rect.left + rect.width / 2 - targetWidth / 2 + offsetX;
         const targetY = rect.top + rect.height / 2 - targetHeight / 2 + offsetY;
 
+        const followerRect = follower.getBoundingClientRect();
+        const distance = Math.hypot(
+          targetX - (followerRect.left ?? 0),
+          targetY - (followerRect.top ?? 0)
+        );
+        const duration = immediate ? 0 : calculateDuration(distance);
+
         positionTween?.kill();
         positionTween = gsap.to(followerRef.current, {
           x: targetX,
           y: targetY,
           width: targetWidth,
           height: targetHeight,
-          duration: immediate ? 0 : 0.6,
+          duration,
           ease: "power3.out",
+          overwrite: "auto",
         });
       };
 
@@ -141,6 +148,15 @@ const ScrollLinkedModel = () => {
         options: { immediate?: boolean } = {}
       ) => {
         const { immediate = false } = options;
+
+        if (!immediate) {
+          const now = performance.now();
+          if (now - lastActivationRef.current < 220) {
+            return;
+          }
+          lastActivationRef.current = now;
+        }
+
         activeAnchorRef.current = anchor;
         animateToAnchor(anchor, { immediate });
 
@@ -148,7 +164,7 @@ const ScrollLinkedModel = () => {
 
         if (
           nextKey &&
-          nextKey in MODEL_CONFIGS &&
+          nextKey in HIGHLIGHT_CONFIGS &&
           nextKey !== activeKeyRef.current
         ) {
           activeKeyRef.current = nextKey;
@@ -242,15 +258,35 @@ const ScrollLinkedModel = () => {
     >
       <div className="relative h-full w-full">
         <div className="pointer-events-none absolute inset-0 rounded-full bg-white/5 blur-2xl" />
-        <ThreeModelCanvas
-          className="relative h-full w-full"
-          modelPath={activeConfig.modelPath}
-          modelScale={activeConfig.modelScale}
-          modelPosition={activeConfig.modelPosition}
-          modelRotation={activeConfig.modelRotation}
-          cameraPosition={activeConfig.cameraPosition}
-          autoRotateSpeed={activeConfig.autoRotateSpeed}
-        />
+        <div className="relative h-full w-full overflow-hidden rounded-[3rem] border border-white/30 bg-white/5 p-6 text-white shadow-[0_45px_120px_rgba(15,23,42,0.25)] backdrop-blur">
+          <div
+            className="absolute inset-0 opacity-90"
+            style={{ background: activeConfig.gradient }}
+          />
+          <div
+            className="absolute -inset-6 blur-3xl"
+            style={{ background: activeConfig.glow }}
+            aria-hidden
+          />
+          <div
+            className="absolute inset-3 rounded-[2.5rem] border opacity-60"
+            style={{ borderColor: activeConfig.accent }}
+            aria-hidden
+          />
+          <div className="relative z-10 flex h-full flex-col items-center justify-center gap-3 text-center">
+            <p className="text-xs uppercase tracking-[0.6rem] text-white/70">
+              {activeConfig.title}
+            </p>
+            <p className="text-sm leading-relaxed text-white/80">
+              {activeConfig.description}
+            </p>
+            <div className="mt-2 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.8rem] text-white/60">
+              <span className="h-px w-10 bg-white/40" aria-hidden />
+              ritual
+              <span className="h-px w-10 bg-white/40" aria-hidden />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

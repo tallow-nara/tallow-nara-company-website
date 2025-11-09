@@ -84,12 +84,6 @@ const TransformationScene = () => {
         <div className="relative flex h-72 w-full max-w-3xl items-center justify-center">
           <div
             ref={(node) => {
-              meltTrailRef.current = node;
-            }}
-            className="absolute inset-y-6 w-36 rounded-full bg-linear-to-b from-white/70 via-white/30 to-transparent"
-          />
-          <div
-            ref={(node) => {
               particlesRef.current = node;
             }}
             data-model-anchor
@@ -97,7 +91,6 @@ const TransformationScene = () => {
             className="relative h-60 w-60"
           >
             <div className="pointer-events-none absolute -inset-5 rounded-full bg-white/30 blur-3xl" />
-            <div aria-hidden className="h-full w-full opacity-0" />
           </div>
         </div>
       </div>
