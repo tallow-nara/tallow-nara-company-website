@@ -1,0 +1,110 @@
+.commitment {
+  position: relative;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 6vw, 5rem);
+  color: #fff;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://placehold.co/800x500/f0efe7/677152?text=Nature");
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.5);
+}
+
+.backgroundOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(46, 43, 38, 0.85), rgba(104, 118, 96, 0.9));
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.header {
+  max-width: 660px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.title {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  margin: 0.5rem 0;
+}
+
+.description {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.75;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  position: relative;
+  padding: 1.75rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+}
+
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.35), transparent 55%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.badge {
+  position: absolute;
+  right: clamp(1rem, 5vw, 3rem);
+  bottom: clamp(1rem, 3vw, 2.5rem);
+  background: rgba(246, 243, 236, 0.2);
+  border: 1px solid rgba(246, 243, 236, 0.5);
+  padding: 0.55rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1.25rem;
+  }
+}
