@@ -2,25 +2,27 @@
 
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import styles from "./HeroSection.module.css";
 
-const fadeUp = {
+const cubicEase = [0.25, 0.1, 0.25, 1] as const;
+
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: (delay = 0) => ({
+  visible: (custom = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, delay, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.9, delay: custom, ease: cubicEase },
   }),
 };
 
-const zoomIn = {
+const zoomIn: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.9, ease: cubicEase },
   },
 };
 
