@@ -1,5 +1,11 @@
 /** @format */
 
+import { HeroSection } from "@/sections/HeroSection";
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <main>
+      <HeroSection />
+    </main>
+  );
 }
