@@ -96,16 +96,33 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.4rem 0.9rem;
+  gap: 1rem;
+  padding: 0.55rem 1.35rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 25px rgba(181, 199, 157, 0.25);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 15px 35px rgba(181, 199, 157, 0.35);
   width: fit-content;
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  letter-spacing: 0.1em;
-  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  font-size: 1rem;
   text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.logoImage {
+  width: 24rem;
+  height: 12rem;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+.cornerLogo {
+  position: absolute;
+  top: 0;
+  left: 100;
+  z-index: 2;
+  padding: 0.65rem 1.5rem;
 }
 
 .logoDot {

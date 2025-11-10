@@ -45,15 +45,23 @@ export function HeroSection() {
         <div className={`${styles.leaf} ${styles.leafTwo}`} />
       </motion.div>
 
+      <motion.div
+        className={`${styles.cornerLogo}`}
+        variants={fadeUp}
+        custom={0}
+      >
+        <Image
+          src="/assets/logo-landscape.png"
+          alt="Tallownara logo"
+          width={200}
+          height={200}
+          className={styles.logoImage}
+          priority
+        />
+      </motion.div>
+
       <div className={styles.inner}>
         <div className={styles.content}>
-          <motion.div variants={fadeUp} custom={0}>
-            <div className={styles.logo}>
-              <span className={styles.logoDot} />
-              Tallownara
-            </div>
-          </motion.div>
-
           <motion.h1 className={styles.heading} variants={fadeUp} custom={0.1}>
             Lahir dari Cinta Seorang Ibu
           </motion.h1>
