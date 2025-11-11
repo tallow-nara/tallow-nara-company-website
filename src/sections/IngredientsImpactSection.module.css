@@ -119,6 +119,7 @@
   scroll-snap-align: start;
   border: 1px solid rgba(46, 43, 38, 0.06);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
 }
 
 .card:hover {
@@ -137,6 +138,11 @@
   width: 100%;
   height: auto;
   display: block;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .cardImage {
+  transform: scale(1.05);
 }
 
 .cardTitle {
@@ -170,6 +176,22 @@
   height: 0.45rem;
   border-radius: 50%;
   background: #c5d0a7;
+}
+
+.iconRow {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.iconBadge {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.6rem;
+  background: rgba(197, 208, 167, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
 }
 
 .sliderHint {

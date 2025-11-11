@@ -3,6 +3,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { useCallback } from "react";
 import styles from "./FooterSection.module.css";
 
 const variants: Variants = {
@@ -17,10 +18,15 @@ const variants: Variants = {
 const socials = [
   { label: "Instagram", link: "#", handle: "@tallownara" },
   { label: "TikTok", link: "#", handle: "@tallownara" },
-  { label: "Email", link: "mailto:hello@tallownara.com", handle: "hello@tallownara.com" },
+  { label: "Shopee", link: "#", handle: "tallownara.official" },
+  { label: "Tokopedia", link: "#", handle: "tallownara" },
 ];
 
 export function FooterSection() {
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <motion.footer
       className={styles.footer}
@@ -35,15 +41,32 @@ export function FooterSection() {
             Tallownara
           </motion.span>
           <motion.p className={styles.tagline} variants={variants} custom={1}>
-            Lembut, hangat, dan bersumber dari alam Bogor. Ritual kulit yang lahir dari cinta
-            seorang ibu untuk keluarga dan bumi.
+            “Nurture your skin, honor the earth.”
+          </motion.p>
+          <motion.p className={styles.mission} variants={variants} custom={2}>
+            Stay in touch with nature dan rasakan kelembutan ritual yang lahir dari kasih seorang ibu.
           </motion.p>
         </div>
 
-        <motion.div className={styles.info} variants={variants} custom={2}>
+        <motion.form className={styles.newsletter} variants={variants} custom={3}>
+          <label htmlFor="newsletter-email">
+            Dapatkan tips alami & promo eksklusif.
+          </label>
+          <div className={styles.inputGroup}>
+            <input
+              id="newsletter-email"
+              type="email"
+              placeholder="nama@email.com"
+              required
+            />
+            <button type="submit">Berlangganan</button>
+          </div>
+        </motion.form>
+
+        <motion.div className={styles.columns} variants={variants} custom={4}>
           <div>
-            <h4>Bogor, Jawa Barat</h4>
-            <p>Jl. Hujan Rintik No. 11, Bogor 16143</p>
+            <h4>Studio</h4>
+            <p>Jl. Hujan Rintik No. 11<br />Bogor 16143, Jawa Barat</p>
           </div>
           <div>
             <h4>Contact</h4>
@@ -55,7 +78,9 @@ export function FooterSection() {
             <ul>
               {socials.map((social) => (
                 <li key={social.label}>
-                  <a href={social.link}>{social.handle}</a>
+                  <a href={social.link} aria-label={social.label}>
+                    {social.handle}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -63,9 +88,18 @@ export function FooterSection() {
         </motion.div>
       </motion.div>
 
-      <motion.div className={styles.bottom} variants={variants} custom={3}>
-        <span>&copy; {new Date().getFullYear()} Tallownara. All rights reserved.</span>
-        <span>“Where love meets the wild earth.”</span>
+      <motion.div className={styles.bottom} variants={variants} custom={5}>
+        <span>&copy; 2025 Tallownara Mubaraka. All Rights Reserved.</span>
+        <span>“Nurture your skin, honor the earth.”</span>
+        <motion.button
+          className={styles.topButton}
+          onClick={scrollToTop}
+          whileHover={{ y: -4 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className={styles.topLeaf} aria-hidden="true" />
+          Kembali ke atas
+        </motion.button>
       </motion.div>
     </motion.footer>
   );

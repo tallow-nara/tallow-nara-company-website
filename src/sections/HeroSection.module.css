@@ -93,6 +93,14 @@
   gap: 1.25rem;
 }
 
+.kicker {
+  font-size: 0.9rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 38, 0.65);
+  font-family: var(--font-poppins, "Poppins"), sans-serif;
+}
+
 .logo {
   display: inline-flex;
   align-items: center;
@@ -120,7 +128,7 @@
 .cornerLogo {
   position: absolute;
   top: 0;
-  left: 100;
+  left: clamp(1rem, 4vw, 2.5rem);
   z-index: 2;
   padding: 0.65rem 1.5rem;
 }
@@ -148,6 +156,44 @@
   color: rgba(46, 43, 38, 0.8);
   max-width: 32rem;
   margin: 0;
+}
+
+.tagline {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(46, 43, 38, 0.8);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.productHighlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.productHighlights li {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(46, 43, 38, 0.08);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.productHighlights strong {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 1rem;
+}
+
+.productHighlights span {
+  font-size: 0.9rem;
+  color: rgba(46, 43, 38, 0.75);
 }
 
 .ctaGroup {
@@ -245,6 +291,23 @@
   font-size: 0.85rem;
   color: rgba(46, 43, 38, 0.7);
   margin: 0;
+}
+
+.productChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+}
+
+.productChips span {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(181, 199, 157, 0.18);
+  color: #506240;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .floatingBadge {

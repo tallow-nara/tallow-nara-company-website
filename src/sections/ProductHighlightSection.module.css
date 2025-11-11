@@ -137,25 +137,63 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  color: rgba(46, 43, 38, 0.8);
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 .benefits li {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.95rem;
+  flex: 1 1 45%;
+  min-width: 120px;
 }
 
-.benefits span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #b5c79d;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 4px rgba(181, 199, 157, 0.25);
+.benefitChip {
+  width: 100%;
+  border: 1px solid rgba(46, 43, 38, 0.15);
+  border-radius: 16px;
+  padding: 0.6rem 0.9rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  color: rgba(46, 43, 38, 0.9);
+  font-size: 0.85rem;
+  cursor: help;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefitChip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.5rem);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 220px;
+  padding: 0.5rem 0.75rem;
+  background: #2e2b26;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  white-space: normal;
+  text-align: left;
+}
+
+.benefitChip:hover::after {
+  opacity: 1;
+}
+
+.benefitChip:hover {
+  border-color: rgba(181, 199, 157, 0.6);
+  box-shadow: 0 12px 25px rgba(46, 43, 38, 0.08);
+}
+
+.benefitIcon {
+  font-size: 1rem;
 }
 
 .button {
@@ -171,8 +209,94 @@
   box-shadow: 0 18px 35px rgba(181, 199, 157, 0.35);
 }
 
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 10, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 50;
+  backdrop-filter: blur(4px);
+}
+
+.modalContent {
+  background: #fffdf7;
+  border-radius: 28px;
+  width: min(520px, 90vw);
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 35px 80px rgba(15, 15, 10, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.modalCategory {
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 38, 0.6);
+}
+
+.modalContent h3 {
+  margin: 0;
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+}
+
+.modalRitual {
+  border-radius: 18px;
+  background: rgba(181, 199, 157, 0.15);
+  padding: 1rem;
+}
+
+.modalRitual h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.modalRitual p {
+  margin: 0;
+  line-height: 1.6;
+  color: rgba(46, 43, 38, 0.8);
+}
+
+.modalTestimonial {
+  margin: 0;
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #2e2b26;
+}
+
+.modalTestimonial cite {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 38, 0.6);
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 1.5rem;
+  }
+
+  .modalOverlay {
+    padding: 1rem;
   }
 }

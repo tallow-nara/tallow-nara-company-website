@@ -15,6 +15,50 @@
   mix-blend-mode: overlay;
 }
 
+.sprout {
+  position: absolute;
+  bottom: clamp(1rem, 4vw, 2.5rem);
+  left: 10%;
+  width: 4px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.4);
+  transform-origin: bottom;
+  border-radius: 999px;
+  z-index: 0;
+}
+
+.leaf {
+  position: absolute;
+  width: 46px;
+  height: 20px;
+  border-radius: 50% 50% 0 50%;
+  background: rgba(246, 243, 236, 0.6);
+  top: 40%;
+  transform-origin: center;
+}
+
+.leaf:nth-of-type(2) {
+  top: 65%;
+  left: -30px;
+  transform: scale(0.8) rotate(-40deg);
+}
+
+.leaf:nth-of-type(1) {
+  left: 10px;
+  transform: rotate(30deg);
+}
+
+.seed {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  bottom: -10px;
+  left: -7px;
+  border-radius: 50%;
+  background: rgba(246, 243, 236, 0.8);
+  box-shadow: 0 0 20px rgba(246, 243, 236, 0.8);
+}
+
 .inner {
   position: relative;
   z-index: 1;

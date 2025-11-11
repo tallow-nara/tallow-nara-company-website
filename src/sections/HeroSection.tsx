@@ -27,6 +27,21 @@ const zoomIn: Variants = {
 };
 
 export function HeroSection() {
+  const productHighlights = [
+    {
+      title: "Sabun Artisan",
+      detail: "Membersihkan tanpa mengganggu skin barrier bayi & ibu.",
+    },
+    {
+      title: "Comfort Balm",
+      detail: "Mengatasi kulit kering dengan tekstur lembut meleleh.",
+    },
+    {
+      title: "Lavender Lotion",
+      detail: "Aroma Tasikmalaya yang menenangkan ritual malam.",
+    },
+  ];
+
   const { scrollY } = useScroll();
   const parallaxY = useTransform(scrollY, [0, 400], [0, 80]);
 
@@ -63,38 +78,56 @@ export function HeroSection() {
 
       <div className={styles.inner}>
         <div className={styles.content}>
+          <motion.span className={styles.kicker} variants={fadeUp} custom={0.05}>
+            Dari Alam untuk Kulitmu
+          </motion.span>
+
           <motion.h1 className={styles.heading} variants={fadeUp} custom={0.1}>
-            Lahir dari Cinta Seorang Ibu
+            Sentuhan lembut yang lahir dari kekayaan hayati Nusantara
           </motion.h1>
+
+          <motion.p className={styles.tagline} variants={fadeUp} custom={0.15}>
+            From the treasures of Nusantara’s biodiversity, lovingly made for your hands.
+          </motion.p>
 
           <motion.p
             className={styles.description}
             variants={fadeUp}
-            custom={0.2}
+            custom={0.25}
           >
-            Terinspirasi dari perjalanan seorang ibu di Bogor yang menemukan
-            perawatan alami untuk anaknya, Tallownara menghadirkan kelembutan
-            alam Nusantara dalam setiap sentuhan.
+            Terinspirasi oleh perjalanan seorang ibu dari Bogor hingga
+            Tasikmalaya, Tallownara memadukan tallow, botanikal tropis, dan
+            cahaya pagi yang menenangkan menjadi ritual perawatan yang hangat
+            bagi keluarga Anda.
           </motion.p>
+
+          <motion.ul className={styles.productHighlights} variants={fadeUp} custom={0.3}>
+            {productHighlights.map((highlight) => (
+              <li key={highlight.title}>
+                <strong>{highlight.title}</strong>
+                <span>{highlight.detail}</span>
+              </li>
+            ))}
+          </motion.ul>
 
           <motion.div
             className={styles.ctaGroup}
             variants={fadeUp}
-            custom={0.3}
+            custom={0.35}
           >
             <motion.button
               className={`${styles.button} ${styles.primaryButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Shop Now
+              Temukan Produk Kami
             </motion.button>
             <motion.button
               className={`${styles.button} ${styles.secondaryButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Explore Our Story
+              Pelajari Kisah Kami
             </motion.button>
           </motion.div>
         </div>
@@ -117,7 +150,9 @@ export function HeroSection() {
           </motion.div>
 
           <motion.div className={styles.productCard} variants={zoomIn}>
-            <span className={styles.floatingBadge}>Handcrafted in Bogor</span>
+            <span className={styles.floatingBadge}>
+              Sabun · Balm · Lotion
+            </span>
             <div className={styles.productImageWrapper}>
               <Image
                 src="https://placehold.co/400x400"
@@ -128,10 +163,16 @@ export function HeroSection() {
                 unoptimized
               />
             </div>
-            <p className={styles.productLabel}>Sabun Lembut Tallownara</p>
+            <p className={styles.productLabel}>Seri Botanical Tallownara</p>
             <p className={styles.productNote}>
-              Diformulasikan dari tallow, madu, dan botanikal Nusantara.
+              Diformulasikan dari tallow Tuban, illipe Kalimantan, dan lavender
+              Tasikmalaya.
             </p>
+            <div className={styles.productChips}>
+              {["Radiant Glow", "Calming Touch", "Slow-crafted"].map((chip) => (
+                <span key={chip}>{chip}</span>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>

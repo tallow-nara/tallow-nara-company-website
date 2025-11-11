@@ -52,9 +52,36 @@ const quoteVariants: Variants = {
 };
 
 const storyParagraphs = [
-  "Di kota hujan Bogor, seorang ibu menyaksikan anaknya berjuang melawan dermatitis atopik.",
-  "Dalam pencarian akan perawatan kulit yang aman, ia menemukan kekuatan bahan-bahan alami Nusantara — dari tallow organik hingga minyak kelapa murni.",
-  "Dari perjalanan itu, lahirlah Tallownara, sebuah persembahan lembut untuk keluarga dan bumi.",
+  "Tallownara lahir dari kegelisahan dan rasa cinta seorang ibu kepada buah hatinya. Ia mendambakan perawatan kulit yang aman, lembut, dan menenangkan bagi anaknya yang berkulit sensitif.",
+  "Perjalanan riset membawa sang ibu menyusuri Bogor, Tuban, Kalimantan, hingga Tasikmalaya untuk mendengarkan cerita para perajin, petani, dan peternak yang menjaga tradisi alam.",
+  "Kini, setiap tetes produk Tallownara menyimpan kasih ibu, kearifan lokal, dan komitmen untuk menjaga bumi tempat kita berpijak.",
+];
+
+const timelineStops = [
+  {
+    city: "Bogor",
+    label: "Ritual Pertama",
+    detail: "Dapur rumah menjadi laboratorium kecil meracik sabun tallow untuk kulit sensitif sang anak.",
+    year: "2017",
+  },
+  {
+    city: "Tuban",
+    label: "Jejak Peternak",
+    detail: "Berkolaborasi dengan peternak lokal yang memelihara sapi secara etis untuk mendapatkan tallow terbaik.",
+    year: "2018",
+  },
+  {
+    city: "Kalimantan",
+    label: "Hutan Tengkawang",
+    detail: "Menemukan mentega illipe yang dipanen lestari oleh perempuan penjaga hutan hujan.",
+    year: "2019",
+  },
+  {
+    city: "Tasikmalaya",
+    label: "Lavender yang Menenangkan",
+    detail: "Menggandeng petani lavender untuk menghadirkan aroma yang menenteramkan batin.",
+    year: "2021",
+  },
 ];
 
 export function StorySection() {
@@ -119,8 +146,32 @@ export function StorySection() {
             ))}
           </div>
 
+          <motion.div
+            className={styles.timelineWrapper}
+            variants={paragraphVariants}
+            custom={storyParagraphs.length + 1}
+          >
+            <ol className={styles.timeline} aria-label="Perjalanan Tallownara">
+              {timelineStops.map((stop, index) => (
+                <motion.li
+                  key={stop.city}
+                  className={styles.timelineItem}
+                  variants={paragraphVariants}
+                  custom={storyParagraphs.length + index + 2}
+                >
+                  <span className={styles.timelineYear}>{stop.year}</span>
+                  <span className={styles.timelineCity}>{stop.city}</span>
+                  <span className={styles.timelineLabel}>{stop.label}</span>
+                  <p>{stop.detail}</p>
+                </motion.li>
+              ))}
+            </ol>
+          </motion.div>
+
           <motion.blockquote className={styles.quote} variants={quoteVariants}>
-            Dari cinta seorang ibu, lahirlah kelembutan yang menyembuhkan.
+            Tallownara lahir dari kegelisahan dan rasa cinta seorang ibu kepada
+            buah hatinya, dalam upaya menemukan perawatan kulit yang aman dan
+            menenangkan.
           </motion.blockquote>
         </div>
 

@@ -28,6 +28,19 @@
   z-index: 0;
 }
 
+.cursorGlow {
+  position: absolute;
+  width: clamp(220px, 30vw, 320px);
+  height: clamp(220px, 30vw, 320px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(183, 194, 156, 0.35), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
 .parallaxLeaf {
   position: absolute;
   width: clamp(120px, 18vw, 200px);
@@ -117,6 +130,7 @@
   transition: transform 0.45s ease, box-shadow 0.45s ease,
     border-color 0.45s ease;
   border: 1px solid rgba(44, 42, 38, 0.06);
+  overflow: hidden;
 }
 
 .card:hover {
@@ -125,35 +139,15 @@
   border-color: rgba(183, 194, 156, 0.4);
 }
 
-.cardImageWrapper {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  background: rgba(183, 194, 156, 0.15);
-}
-
-.cardImage {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 20px;
-}
-
-.tag {
+.iconCircle {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1.2rem;
+  background: rgba(183, 194, 156, 0.2);
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(44, 42, 38, 0.6);
-}
-
-.tagDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: #b7c29c;
+  justify-content: center;
+  font-size: 1.8rem;
 }
 
 .cardTitle {
@@ -171,23 +165,22 @@
   font-family: var(--font-poppins, "Poppins"), "Open Sans", sans-serif;
 }
 
-.iconLeaf {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  width: 28px;
-  height: 28px;
-  background: rgba(183, 194, 156, 0.3);
-  border-radius: 8px 8px 2px 8px;
-  transform: rotate(20deg);
+.cardDetail {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(44, 42, 38, 0.7);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.iconLeaf::after {
-  content: "";
+.cardTexture {
   position: absolute;
-  inset: 25%;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  inset: auto -2rem -2rem auto;
+  width: 160px;
+  height: auto;
+  opacity: 0.15;
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
 @media (max-width: 1024px) {

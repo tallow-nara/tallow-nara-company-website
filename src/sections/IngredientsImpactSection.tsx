@@ -36,37 +36,43 @@ const cardVariants: Variants = {
 const cards = [
   {
     title: "Lemak Sapi Tuban",
-    benefit: "Kaya vitamin A, D, E, K untuk menutrisi kulit sensitif secara alami.",
-    impact: "Memanfaatkan seluruh bagian hewan sehingga mengurangi limbah pangan.",
+    benefit: "Kaya vitamin A, D, E, K untuk menutrisi lapisan kulit terdalam.",
+    impact:
+      "Menghargai setiap bagian hewan ternak sehingga mengurangi limbah pangan dan mendukung peternak Tuban.",
     image: "https://placehold.co/500x400",
     accent: "linear-gradient(135deg, #f8efe4 0%, #f3dcc4 100%)",
     icon: "🌱",
+    icons: ["💧", "♻️"],
   },
   {
-    title: "Mentega Illipe Kalimantan",
-    benefit:
-      "Melembapkan dan menjaga elastisitas kulit, membantu mencegah penuaan dini.",
-    impact: "Mendukung panen tengkawang berkelanjutan dan melindungi habitat orangutan.",
+    title: "Mentega Tengkawang Kalimantan",
+    benefit: "Melembapkan intens sekaligus membentuk lapisan pelindung alami.",
+    impact:
+      "Panen tengkawang dilakukan secara lestari untuk menjaga hutan hujan dan habitat orangutan.",
     image: "https://placehold.co/500x400",
     accent: "linear-gradient(135deg, #f2f8ec 0%, #deeed4 100%)",
     icon: "🌿",
+    icons: ["🧘‍♀️", "🌳"],
   },
   {
-    title: "Minyak Kelapa Simeulue",
-    benefit: "Menghidrasi kulit dan memperkuat lapisan pelindung alami.",
+    title: "Minyak Kelapa Sumatera",
+    benefit: "Anti-inflamasi yang menjaga keseimbangan mikrobioma kulit sensitif.",
     impact:
-      "Menghidupkan pertanian tradisional yang menjaga kesuburan tanah dan ekosistem pesisir.",
+      "Menghidupkan kembali perkebunan keluarga dan menjaga ekosistem pesisir Sumatera.",
     image: "https://placehold.co/500x400",
     accent: "linear-gradient(135deg, #fef4ec 0%, #f9dcc6 100%)",
     icon: "🌊",
+    icons: ["💧", "♻️"],
   },
   {
     title: "Minyak Lavender Tasikmalaya",
-    benefit: "Menjadi teman relaksasi yang menenangkan kulit dan pikiran.",
-    impact: "Menarik lebah penyerbuk dan mendukung pertanian ramah lingkungan.",
+    benefit: "Aroma lembut yang menenangkan kulit dan pikiran sebelum beristirahat.",
+    impact:
+      "Kebun lavender menarik lebah penyerbuk sekaligus membuka lapangan kerja bagi ibu daerah.",
     image: "https://placehold.co/500x400",
     accent: "linear-gradient(135deg, #f7f2fb 0%, #eadcf5 100%)",
     icon: "🫶",
+    icons: ["🌸", "🧘‍♀️"],
   },
 ];
 
@@ -137,14 +143,17 @@ export function IngredientsImpactSection() {
           <motion.span className={styles.eyebrow} variants={headerVariants} custom={0}>
             Ingredient Impact
           </motion.span>
-          <motion.h2 className={styles.title} variants={headerVariants} custom={1}>
-            Jejak Kebaikan dari Alam Nusantara
+          <motion.h2
+            className={styles.title}
+            variants={headerVariants}
+            custom={1}
+          >
+            Rahasia Alam Nusantara
           </motion.h2>
           <motion.p className={styles.description} variants={headerVariants} custom={2}>
-            Setiap bahan yang kami gunakan membawa cerita — tentang hutan yang dijaga,
-            tanah yang disuburkan, dan kehidupan yang diberdayakan. Melalui Tallownara,
-            kebaikan alam tidak hanya menyentuh kulit, tetapi juga menjaga bumi yang
-            kita cintai.
+            Empat bahan utama kami diracik dari hutan, kebun, dan ladang Indonesia.
+            Mereka hadir bukan hanya untuk menyehatkan kulit, tetapi juga menjaga bumi
+            dan orang-orang yang merawatnya.
           </motion.p>
         </div>
 
@@ -161,7 +170,7 @@ export function IngredientsImpactSection() {
                 className={styles.card}
                 variants={cardVariants}
                 custom={index + 1}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -5, rotateX: 2, rotateY: -2 }}
               >
                 <div
                   className={styles.cardImageWrapper}
@@ -181,6 +190,13 @@ export function IngredientsImpactSection() {
                   <span className={styles.labelDot} />
                   {card.icon} bahan alami
                 </span>
+                <div className={styles.iconRow}>
+                  {card.icons.map((ico) => (
+                    <span key={ico} className={styles.iconBadge}>
+                      {ico}
+                    </span>
+                  ))}
+                </div>
                 <h3 className={styles.cardTitle}>{card.title}</h3>
                 <p className={styles.benefit}>{card.benefit}</p>
                 <p className={styles.impactText}>{card.impact}</p>

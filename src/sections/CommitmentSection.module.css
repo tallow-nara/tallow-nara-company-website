@@ -3,21 +3,35 @@
   padding: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 6vw, 5rem);
   color: #fff;
   overflow: hidden;
+  background: #0f1c1a;
 }
 
 .backgroundImage {
   position: absolute;
   inset: 0;
-  background-image: url("https://placehold.co/800x500/f0efe7/677152?text=Nature");
+  background-image: url("https://placehold.co/1200x700/0f1c1a/2f463f?text=Forest+Canopy");
   background-size: cover;
   background-position: center;
-  filter: saturate(0.5);
 }
 
 .backgroundOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(46, 43, 38, 0.85), rgba(104, 118, 96, 0.9));
+  background: linear-gradient(135deg, rgba(6, 12, 10, 0.85), rgba(32, 54, 44, 0.9));
+}
+
+.globe {
+  position: absolute;
+  width: clamp(180px, 25vw, 280px);
+  height: clamp(180px, 25vw, 280px);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  top: 10%;
+  right: 8%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 60%);
+  box-shadow: inset 0 0 40px rgba(58, 95, 78, 0.4);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .inner {
@@ -37,7 +51,7 @@
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -49,62 +63,113 @@
 
 .description {
   margin: 0;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.75;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.metricCard {
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.metricValue {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+}
+
+.metricSuffix {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.metricLabel {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.metricCard p {
+  margin: 0.75rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.5rem;
 }
 
 .card {
   position: relative;
-  padding: 1.75rem;
+  padding: 1.5rem;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px);
+  background: rgba(8, 20, 18, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
 }
 
 .card h3 {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 .card p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
 }
 
-.cardGlow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.35), transparent 55%);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.badge {
-  position: absolute;
-  right: clamp(1rem, 5vw, 3rem);
-  bottom: clamp(1rem, 3vw, 2.5rem);
-  background: rgba(246, 243, 236, 0.2);
-  border: 1px solid rgba(246, 243, 236, 0.5);
-  padding: 0.55rem 1.4rem;
+.ctaButton {
+  align-self: flex-start;
+  border: none;
   border-radius: 999px;
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  padding: 0.95rem 2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  background: #b5c79d;
+  color: #1e251d;
+  cursor: pointer;
+  box-shadow: 0 15px 30px rgba(181, 199, 157, 0.4);
 }
 
 @media (max-width: 640px) {
-  .card {
-    padding: 1.25rem;
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
   }
 }

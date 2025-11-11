@@ -27,7 +27,7 @@ const testimonials = [
     location: "Bogor, Jawa Barat",
     role: "Ibu dari dua anak",
     quote:
-      "Sabun Tallownara adalah penyelamat kulit sensitif putri saya. Aromanya menenangkan, teksturnya lembut, dan ritual mandi kami jadi momen bonding favorit.",
+      "Anak saya yang punya kulit sensitif jadi lebih tenang setelah pakai balm Tallownara. Teksturnya lembut dan aromanya menenangkan.",
     image: "https://placehold.co/300x300/e5ded1/2e2b26?text=Alya",
   },
   {
@@ -73,12 +73,12 @@ export function TestimonialsSection() {
   return (
     <section className={styles.testimonials} data-scroll-scene="testimonials">
       <div className={styles.inner}>
-        <div className={styles.header}>
-          <span className={styles.eyebrow}>Testimonials</span>
-          <h2> Cerita dari Pengguna Kami</h2>
-          <p>
-            Mereka yang merasakan sentuhan lembut Tallownara menceritakan kisah tentang kulit yang
-            kembali nyaman, ritual yang menenangkan, dan rasa percaya pada produk alami Nusantara.
+          <div className={styles.header}>
+            <span className={styles.eyebrow}>Testimonials</span>
+            <h2>Cerita dari Mereka</h2>
+            <p>
+              Mereka yang merasakan sentuhan lembut Tallownara menceritakan kisah tentang kulit yang
+              kembali nyaman, ritual yang menenangkan, dan rasa percaya pada produk alami Nusantara.
           </p>
         </div>
 

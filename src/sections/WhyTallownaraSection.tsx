@@ -9,7 +9,7 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import styles from "./WhyTallownaraSection.module.css";
 
 const easeInOut = [0.42, 0, 0.2, 1] as const;
@@ -33,45 +33,57 @@ const cardVariants: Variants = {
   }),
 };
 
-const ingredients = [
+const pillars = [
   {
-    title: "Lemak Sapi Tuban (Tallow Organik)",
+    title: "Alam sebagai sumber penyembuhan",
     description:
-      "Kaya vitamin A, D, E, dan K yang membantu meregenerasi kulit sensitif dan menjaga lapisan pelindungnya tetap kuat.",
-    image: "https://placehold.co/600x400",
-    tag: "Mineral-rich",
+      "Bahan-bahan kami dipilih dari hutan, laut, dan kebun Nusantara yang dirawat dengan penuh hormat.",
+    icon: "🌿",
+    detail: "Kelembutan alami untuk kulit rapuh dan sensitif.",
   },
   {
-    title: "Mentega Illipe Kalimantan (Tengkawang Butter)",
+    title: "Keberlanjutan ekosistem",
     description:
-      "Mengunci hidrasi, menjaga elastisitas kulit, sekaligus mendukung pelestarian hutan hujan Kalimantan melalui panen berkelanjutan.",
-    image: "https://placehold.co/600x400",
-    tag: "Forest Kind",
+      "Setiap panen mendukung petani, peternak, dan penyerbuk yang menjaga keseimbangan alam.",
+    icon: "🐝",
+    detail: "Kemitraan langsung memastikan praktik tanam dan ternak yang lestari.",
   },
   {
-    title: "Minyak Kelapa Simeulue (Virgin Coconut Oil)",
+    title: "Kelembutan untuk kulit sensitif",
     description:
-      "Dik cold-press dari pulau Simeulue untuk menenangkan peradangan, melawan mikroba alami, dan menghadirkan kilau sehat.",
-    image: "https://placehold.co/600x400",
-    tag: "Island Pure",
+      "Formula bebas bahan keras, memprioritaskan tekstur yang nyaman untuk bayi hingga dewasa.",
+    icon: "🧴",
+    detail: "Proses slow-crafted menjaga potensi nutrisi tetap utuh.",
   },
   {
-    title: "Minyak Lavender Tasikmalaya",
+    title: "Cinta & tanggung jawab sosial",
     description:
-      "Aroma lembut yang merilekskan pikiran, sekaligus membantu kulit beristirahat dan pulih di malam hari.",
-    image: "https://placehold.co/600x400",
-    tag: "Calming",
+      "Tallownara adalah gerakan kecil yang menguatkan komunitas ibu, perajin, dan UMKM daerah.",
+    icon: "💚",
+    detail: "Setiap pembelian mendukung beasiswa anak petani dan program tanam pohon.",
   },
 ];
 
 export function WhyTallownaraSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const [cursor, setCursor] = useState({ x: 50, y: 50 });
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
   const parallaxY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
+
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      setCursor({ x, y });
+    },
+    [],
+  );
 
   return (
     <motion.section
@@ -81,7 +93,13 @@ export function WhyTallownaraSection() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
+      onMouseMove={handleMouseMove}
     >
+      <div
+        className={styles.cursorGlow}
+        style={{ left: `${cursor.x}%`, top: `${cursor.y}%` }}
+        aria-hidden="true"
+      />
       <motion.div className={styles.parallaxLayer} style={{ y: parallaxY }}>
         <span className={`${styles.parallaxLeaf} ${styles.leafOne}`} />
         <span className={`${styles.parallaxLeaf} ${styles.leafTwo}`} />
@@ -97,7 +115,11 @@ export function WhyTallownaraSection() {
             Why Tallownara
           </motion.span>
 
-          <motion.h2 className={styles.title} variants={headerVariants} custom={1}>
+          <motion.h2
+            className={styles.title}
+            variants={headerVariants}
+            custom={1}
+          >
             Mengapa Tallownara Hadir
           </motion.h2>
 
@@ -106,43 +128,42 @@ export function WhyTallownaraSection() {
             variants={headerVariants}
             custom={2}
           >
-            Di tengah kekayaan hayati Nusantara, kami menemukan harmoni antara alam
-            dan manusia. Tallownara memadukan bahan alami dari petani dan peternak
-            lokal — membawa kebaikan yang lembut untuk kulit sekaligus menjaga bumi
-            tetap seimbang.
+            Kami percaya bahwa perawatan sejati dimulai dari menghormati bumi
+            tempat kita berpijak. Filosofi Tallownara bertumpu pada harmoni
+            antara ibu, anak, dan alam yang saling menyembuhkan.
           </motion.p>
 
-          <motion.span className={styles.divider} variants={headerVariants} custom={3} />
+          <motion.span
+            className={styles.divider}
+            variants={headerVariants}
+            custom={3}
+          />
         </div>
 
         <div className={styles.grid}>
-          {ingredients.map((ingredient, index) => (
+          {pillars.map((pillar, index) => (
             <motion.article
-              key={ingredient.title}
+              key={pillar.title}
               className={styles.card}
               variants={cardVariants}
               custom={index + 1}
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 120, damping: 18 }}
             >
-              <div className={styles.cardImageWrapper}>
-                <Image
-                  src={`${ingredient.image}?text=${encodeURIComponent(ingredient.title)}`}
-                  alt={ingredient.title}
-                  width={600}
-                  height={400}
-                  className={styles.cardImage}
-                  unoptimized
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <span className={styles.iconLeaf} />
+              <div className={styles.iconCircle} aria-hidden="true">
+                {pillar.icon}
               </div>
-              <span className={styles.tag}>
-                <span className={styles.tagDot} />
-                {ingredient.tag}
-              </span>
-              <h3 className={styles.cardTitle}>{ingredient.title}</h3>
-              <p className={styles.cardDescription}>{ingredient.description}</p>
+              <h3 className={styles.cardTitle}>{pillar.title}</h3>
+              <p className={styles.cardDescription}>{pillar.description}</p>
+              <p className={styles.cardDetail}>{pillar.detail}</p>
+              <Image
+                src="https://placehold.co/500x350/fffdf7/c6d2ae?text=Botanical+Texture"
+                alt="Botanical texture"
+                width={500}
+                height={350}
+                className={styles.cardTexture}
+                unoptimized
+              />
             </motion.article>
           ))}
         </div>

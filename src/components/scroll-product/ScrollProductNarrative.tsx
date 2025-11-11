@@ -4,7 +4,6 @@
 
 import type { PropsWithChildren } from "react";
 import styles from "./scroll-product.module.css";
-import { PersistentProductScene } from "./PersistentProductScene";
 
 export function ScrollProductNarrative({ children }: PropsWithChildren) {
   return (
