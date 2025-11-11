@@ -6,7 +6,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem);
+  padding: 0 clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem);
 }
 
 .background {
@@ -19,13 +19,24 @@
 .backgroundGradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at top left,
-      rgba(255, 255, 255, 0.4),
-      transparent 55%
-    ),
-    radial-gradient(circle at 80% 20%, rgba(181, 199, 157, 0.3), transparent 60%),
-    linear-gradient(135deg, #f9f4ee 0%, #f1eddf 45%, #f6f3ec 100%);
+  background:
+  radial-gradient(
+    circle at top left,
+    rgba(255, 255, 255, 0.45),
+    transparent 60%
+  ),
+  radial-gradient(
+    circle at 80% 20%,
+    rgba(181, 199, 157, 0.25),
+    transparent 0%
+  ),
+  linear-gradient(
+    to bottom,
+    #f9f5ef 0%,
+    #f4efe7 10%,
+    #f2ede5 10%,
+    #f7f2ea 100%
+  );
 }
 
 .cloud {
@@ -126,11 +137,9 @@
 }
 
 .cornerLogo {
-  position: absolute;
-  top: 0;
   left: clamp(1rem, 4vw, 2.5rem);
   z-index: 2;
-  padding: 0.65rem 1.5rem;
+  /* padding: 0.65rem 1.5rem; */
 }
 
 .logoDot {
