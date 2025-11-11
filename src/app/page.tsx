@@ -1,5 +1,6 @@
 /** @format */
 
+import { ScrollProductNarrative } from "@/components/scroll-product";
 import { CTASection } from "@/sections/CTASection";
 import { CommitmentSection } from "@/sections/CommitmentSection";
 import { FooterSection } from "@/sections/FooterSection";
@@ -10,7 +11,7 @@ import { WhyTallownaraSection } from "@/sections/WhyTallownaraSection";
 
 export default function Home() {
   return (
-    <main>
+    <ScrollProductNarrative>
       <HeroSection />
       <WhyTallownaraSection />
       <ProductHighlightSection />
@@ -18,6 +19,6 @@ export default function Home() {
       <TestimonialsSection />
       <CTASection />
       <FooterSection />
-    </main>
+    </ScrollProductNarrative>
   );
 }

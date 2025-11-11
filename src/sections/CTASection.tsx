@@ -18,6 +18,7 @@ export function CTASection() {
   return (
     <motion.section
       className={styles.cta}
+      data-scroll-scene="cta"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.35 }}

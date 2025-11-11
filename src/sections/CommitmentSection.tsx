@@ -58,6 +58,7 @@ export function CommitmentSection() {
     <motion.section
       ref={sectionRef}
       className={styles.commitment}
+      data-scroll-scene="commitment"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.35 }}

@@ -71,7 +71,7 @@ export function TestimonialsSection() {
   }, []);
 
   return (
-    <section className={styles.testimonials}>
+    <section className={styles.testimonials} data-scroll-scene="testimonials">
       <div className={styles.inner}>
         <div className={styles.header}>
           <span className={styles.eyebrow}>Testimonials</span>

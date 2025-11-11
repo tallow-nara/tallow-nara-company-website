@@ -33,6 +33,7 @@ export function HeroSection() {
   return (
     <motion.section
       className={styles.hero}
+      data-scroll-scene="hero"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}

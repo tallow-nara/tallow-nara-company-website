@@ -24,6 +24,7 @@ export function FooterSection() {
   return (
     <motion.footer
       className={styles.footer}
+      data-scroll-scene="footer"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}

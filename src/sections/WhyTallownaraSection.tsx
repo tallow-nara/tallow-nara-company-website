@@ -77,6 +77,7 @@ export function WhyTallownaraSection() {
     <motion.section
       ref={sectionRef}
       className={styles.why}
+      data-scroll-scene="why"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}

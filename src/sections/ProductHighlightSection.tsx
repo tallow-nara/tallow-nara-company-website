@@ -59,6 +59,7 @@ export function ProductHighlightSection() {
   return (
     <motion.section
       className={styles.products}
+      data-scroll-scene="highlight"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.35 }}
