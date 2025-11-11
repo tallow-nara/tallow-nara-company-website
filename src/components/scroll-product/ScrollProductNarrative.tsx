@@ -11,7 +11,7 @@ export function ScrollProductNarrative({ children }: PropsWithChildren) {
     <div className={styles.narrative}>
       <main className={styles.content}>{children}</main>
       <div className={styles.sceneLayer} aria-hidden="true">
-        <PersistentProductScene className={styles.sceneCanvas} />
+        {/* <PersistentProductScene className={styles.sceneCanvas} /> */}
       </div>
     </div>
   );
