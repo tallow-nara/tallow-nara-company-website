@@ -36,37 +36,39 @@ const cardVariants: Variants = {
 const cards = [
   {
     title: "Lemak Sapi Tuban",
-    benefit: "Kaya vitamin A, D, E, K untuk menutrisi kulit sensitif secara alami.",
-    impact: "Memanfaatkan seluruh bagian hewan sehingga mengurangi limbah pangan.",
-    image: "https://placehold.co/500x400",
+    subtitle: "Kaya vitamin A, D, E, K, melembapkan sekaligus memperkuat skin barrier.",
+    impact: "Menghargai seluruh bagian ternak milik peternak kecil sehingga tidak ada limbah tersisa.",
+    image: "https://placehold.co/500x400/f4eadc/775c3a?text=Tallow",
     accent: "linear-gradient(135deg, #f8efe4 0%, #f3dcc4 100%)",
-    icon: "🌱",
+    icon: "💧",
+    highlights: ["Regenerasi kulit sensitif", "Memberikan lapisan pelindung alami"],
   },
   {
-    title: "Mentega Illipe Kalimantan",
-    benefit:
-      "Melembapkan dan menjaga elastisitas kulit, membantu mencegah penuaan dini.",
-    impact: "Mendukung panen tengkawang berkelanjutan dan melindungi habitat orangutan.",
-    image: "https://placehold.co/500x400",
+    title: "Mentega Tengkawang Kalimantan",
+    subtitle: "Butter illipe yang mengunci kelembapan dan menjaga elastisitas kulit.",
+    impact: "Panen hanya saat buah jatuh agar hutan tetap lestari dan satwa terjaga.",
+    image: "https://placehold.co/500x400/f2f8ec/5a744d?text=Tengkawang",
     accent: "linear-gradient(135deg, #f2f8ec 0%, #deeed4 100%)",
-    icon: "🌿",
+    icon: "♻️",
+    highlights: ["Tekstur melting", "Menjaga ekosistem hutan hujan"],
   },
   {
-    title: "Minyak Kelapa Simeulue",
-    benefit: "Menghidrasi kulit dan memperkuat lapisan pelindung alami.",
-    impact:
-      "Menghidupkan pertanian tradisional yang menjaga kesuburan tanah dan ekosistem pesisir.",
-    image: "https://placehold.co/500x400",
+    title: "Minyak Kelapa Sumatera",
+    subtitle: "Cold-pressed, kaya asam laurat anti inflamasi untuk kulit rentan iritasi.",
+    impact: "Menguatkan rantai pasok petani pesisir dan memelihara tanah subur.",
+    image: "https://placehold.co/500x400/fef4ec/725d45?text=Coconut",
     accent: "linear-gradient(135deg, #fef4ec 0%, #f9dcc6 100%)",
-    icon: "🌊",
+    icon: "🧘‍♀️",
+    highlights: ["Kembali menenangkan kulit merah", "Menghaluskan tekstur kulit"],
   },
   {
     title: "Minyak Lavender Tasikmalaya",
-    benefit: "Menjadi teman relaksasi yang menenangkan kulit dan pikiran.",
-    impact: "Menarik lebah penyerbuk dan mendukung pertanian ramah lingkungan.",
-    image: "https://placehold.co/500x400",
+    subtitle: "Aroma floral yang menenangkan pikiran dan mendukung tidur berkualitas.",
+    impact: "Ditanam oleh komunitas perempuan, menarik lebah penyerbuk dan meningkatkan kesejahteraan.",
+    image: "https://placehold.co/500x400/f7f2fb/6d5d97?text=Lavender",
     accent: "linear-gradient(135deg, #f7f2fb 0%, #eadcf5 100%)",
-    icon: "🫶",
+    icon: "🌸",
+    highlights: ["Aromaterapi natural", "Membantu kulit beristirahat"],
   },
 ];
 
@@ -138,13 +140,12 @@ export function IngredientsImpactSection() {
             Ingredient Impact
           </motion.span>
           <motion.h2 className={styles.title} variants={headerVariants} custom={1}>
-            Jejak Kebaikan dari Alam Nusantara
+            Rahasia Alam Nusantara
           </motion.h2>
           <motion.p className={styles.description} variants={headerVariants} custom={2}>
-            Setiap bahan yang kami gunakan membawa cerita — tentang hutan yang dijaga,
-            tanah yang disuburkan, dan kehidupan yang diberdayakan. Melalui Tallownara,
-            kebaikan alam tidak hanya menyentuh kulit, tetapi juga menjaga bumi yang
-            kita cintai.
+            Setiap bahan utama kami punya cerita tentang kelembutan kulit sekaligus keberlanjutan
+            bumi. Dari tallow Tuban hingga lavender Tasikmalaya, semuanya dirawat dengan penuh
+            kasih.
           </motion.p>
         </div>
 
@@ -161,14 +162,14 @@ export function IngredientsImpactSection() {
                 className={styles.card}
                 variants={cardVariants}
                 custom={index + 1}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -8, rotate: -0.5 }}
               >
                 <div
                   className={styles.cardImageWrapper}
                   style={{ background: card.accent }}
                 >
                   <Image
-                    src={`${card.image}?text=${encodeURIComponent(card.title)}`}
+                    src={card.image}
                     alt={card.title}
                     width={500}
                     height={400}
@@ -176,13 +177,15 @@ export function IngredientsImpactSection() {
                     unoptimized
                     sizes="(max-width: 768px) 90vw, 420px"
                   />
+                  <span className={styles.cardIcon}>{card.icon}</span>
                 </div>
-                <span className={styles.label}>
-                  <span className={styles.labelDot} />
-                  {card.icon} bahan alami
-                </span>
                 <h3 className={styles.cardTitle}>{card.title}</h3>
-                <p className={styles.benefit}>{card.benefit}</p>
+                <p className={styles.cardSubtitle}>{card.subtitle}</p>
+                <ul className={styles.cardHighlights}>
+                  {card.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
                 <p className={styles.impactText}>{card.impact}</p>
               </motion.article>
             ))}

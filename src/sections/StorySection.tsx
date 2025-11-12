@@ -52,9 +52,40 @@ const quoteVariants: Variants = {
 };
 
 const storyParagraphs = [
-  "Di kota hujan Bogor, seorang ibu menyaksikan anaknya berjuang melawan dermatitis atopik.",
-  "Dalam pencarian akan perawatan kulit yang aman, ia menemukan kekuatan bahan-bahan alami Nusantara — dari tallow organik hingga minyak kelapa murni.",
-  "Dari perjalanan itu, lahirlah Tallownara, sebuah persembahan lembut untuk keluarga dan bumi.",
+  "Di kota hujan Bogor, seorang ibu mencari jawaban untuk kulit bayi yang sensitif. Setiap tetes hujan menjadi doa agar ditemukan perawatan yang aman dan menenangkan.",
+  "Perjalanan itu menuntunnya ke Tuban, Kalimantan, dan Tasikmalaya untuk bertemu petani, peternak, serta peracik minyak aromatik yang setia menjaga alam.",
+  "Tallownara bukan sekadar produk; ia adalah cerita tentang cinta seorang ibu yang menjahit harapan melalui bahan-bahan terbaik Nusantara.",
+];
+
+const timelineJourney = [
+  {
+    city: "Bogor",
+    region: "Jawa Barat",
+    narrative:
+      "Awal kegelisahan: kulit bayi yang mudah kemerahan memantik pencarian akan perawatan paling lembut.",
+    year: "2015",
+  },
+  {
+    city: "Tuban",
+    region: "Jawa Timur",
+    narrative:
+      "Bertemu pengrajin tallow rumahan yang tekun memurnikan lemak sapi menjadi butter kaya vitamin.",
+    year: "2016",
+  },
+  {
+    city: "Kalimantan",
+    region: "Tengah & Barat",
+    narrative:
+      "Para penjaga hutan membagikan mentega tengkawang dan cerita keberlanjutan yang menumbuhkan empati.",
+    year: "2017",
+  },
+  {
+    city: "Tasikmalaya",
+    region: "Jawa Barat",
+    narrative:
+      "Penyuling lavender perempuan mengajarkan bagaimana aroma menenangkan pikiran dan kulit sekaligus.",
+    year: "2018",
+  },
 ];
 
 export function StorySection() {
@@ -104,7 +135,7 @@ export function StorySection() {
           </motion.span>
 
           <motion.h2 className={styles.title} variants={titleVariants}>
-            Lahir dari Cinta Seorang Ibu
+            Kisah di Balik Tallownara
           </motion.h2>
 
           <div className={styles.paragraphGroup}>
@@ -120,15 +151,42 @@ export function StorySection() {
           </div>
 
           <motion.blockquote className={styles.quote} variants={quoteVariants}>
-            Dari cinta seorang ibu, lahirlah kelembutan yang menyembuhkan.
+            Tallownara lahir dari kegelisahan dan rasa cinta seorang ibu kepada
+            buah hatinya, dalam upaya menemukan perawatan kulit yang aman dan
+            menenangkan.
           </motion.blockquote>
+
+          <motion.div
+            className={styles.timeline}
+            variants={paragraphVariants}
+            custom={4}
+          >
+            <div className={styles.timelineRail} />
+            <div className={styles.timelineItems}>
+              {timelineJourney.map((stop, index) => (
+                <motion.article
+                  key={stop.city}
+                  className={styles.timelineCard}
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
+                >
+                  <span className={styles.timelineYear}>{stop.year}</span>
+                  <h3>
+                    {stop.city} <span>· {stop.region}</span>
+                  </h3>
+                  <p>{stop.narrative}</p>
+                  <span className={styles.timelineDot} data-index={index + 1} />
+                </motion.article>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         <motion.div className={styles.visualColumn} variants={illustrationVariants}>
           <div className={styles.illustrationFrame}>
             <Image
-              src="https://placehold.co/700x500"
-              alt="Ilustrasi ibu dan anak Tallownara di Bogor"
+              src="https://placehold.co/700x500/f4ede2/8a7051?text=Ibu+dan+anak"
+              alt="Ilustrasi ibu berhijab merawat anaknya"
               width={700}
               height={500}
               className={styles.illustration}

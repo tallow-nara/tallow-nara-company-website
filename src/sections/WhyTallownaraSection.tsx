@@ -8,7 +8,6 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import Image from "next/image";
 import { useRef } from "react";
 import styles from "./WhyTallownaraSection.module.css";
 
@@ -33,34 +32,34 @@ const cardVariants: Variants = {
   }),
 };
 
-const ingredients = [
+const pillars = [
   {
-    title: "Lemak Sapi Tuban (Tallow Organik)",
+    title: "Alam sebagai sumber penyembuhan",
     description:
-      "Kaya vitamin A, D, E, dan K yang membantu meregenerasi kulit sensitif dan menjaga lapisan pelindungnya tetap kuat.",
-    image: "https://placehold.co/600x400",
-    tag: "Mineral-rich",
+      "Kami hanya mengambil secukupnya dan mengembalikan sisanya, memastikan setiap bahan membawa manfaat tanpa meninggalkan luka pada bumi.",
+    icon: "🌿",
+    detail: "Bahan-bahan dipanen musiman dan diproses dalam batch kecil.",
   },
   {
-    title: "Mentega Illipe Kalimantan (Tengkawang Butter)",
+    title: "Keberlanjutan & ekosistem",
     description:
-      "Mengunci hidrasi, menjaga elastisitas kulit, sekaligus mendukung pelestarian hutan hujan Kalimantan melalui panen berkelanjutan.",
-    image: "https://placehold.co/600x400",
-    tag: "Forest Kind",
+      "Kerja sama dengan petani, peternak, dan penyuling lokal menjaga rantai pasok tetap adil sekaligus melindungi biodiversitas Nusantara.",
+    icon: "🐝",
+    detail: "Pendanaan ulang untuk program penanaman tengkawang dan pakan ternak alami.",
   },
   {
-    title: "Minyak Kelapa Simeulue (Virgin Coconut Oil)",
+    title: "Kelembutan untuk kulit sensitif",
     description:
-      "Dik cold-press dari pulau Simeulue untuk menenangkan peradangan, melawan mikroba alami, dan menghadirkan kilau sehat.",
-    image: "https://placehold.co/600x400",
-    tag: "Island Pure",
+      "Formula Tallownara minim bahan, tanpa pewangi sintetis, dan meresap seperti pelukan hangat agar kulit sensitif merasa aman.",
+    icon: "🧴",
+    detail: "Setiap produk diuji pada sukarelawan dengan skin barrier rapuh.",
   },
   {
-    title: "Minyak Lavender Tasikmalaya",
+    title: "Cinta & tanggung jawab sosial",
     description:
-      "Aroma lembut yang merilekskan pikiran, sekaligus membantu kulit beristirahat dan pulih di malam hari.",
-    image: "https://placehold.co/600x400",
-    tag: "Calming",
+      "Kami percaya kecantikan sejati lahir saat komunitas ikut tumbuh—dari upah adil hingga dukungan untuk ibu-ibu peracik.",
+    icon: "💚",
+    detail: "Sebagian keuntungan dialokasikan untuk kelas literasi dan wirausaha ibu.",
   },
 ];
 
@@ -93,7 +92,7 @@ export function WhyTallownaraSection() {
             variants={headerVariants}
             custom={0}
           >
-            Why Tallownara
+            Philosophy
           </motion.span>
 
           <motion.h2 className={styles.title} variants={headerVariants} custom={1}>
@@ -105,43 +104,31 @@ export function WhyTallownaraSection() {
             variants={headerVariants}
             custom={2}
           >
-            Di tengah kekayaan hayati Nusantara, kami menemukan harmoni antara alam
-            dan manusia. Tallownara memadukan bahan alami dari petani dan peternak
-            lokal — membawa kebaikan yang lembut untuk kulit sekaligus menjaga bumi
-            tetap seimbang.
+            Kami percaya bahwa perawatan sejati dimulai dari menghormati bumi tempat kita berpijak.
+            Filosofi Tallownara hadir untuk menghadirkan kelembutan di kulit sekaligus menumbuhkan
+            kehidupan yang lebih seimbang di Nusantara.
           </motion.p>
 
           <motion.span className={styles.divider} variants={headerVariants} custom={3} />
+          <motion.p className={styles.subtitle} variants={headerVariants} custom={4}>
+            Empat pilar Tallownara
+          </motion.p>
         </div>
 
         <div className={styles.grid}>
-          {ingredients.map((ingredient, index) => (
+          {pillars.map((pillar, index) => (
             <motion.article
-              key={ingredient.title}
+              key={pillar.title}
               className={styles.card}
               variants={cardVariants}
               custom={index + 1}
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 120, damping: 18 }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 140, damping: 20 }}
             >
-              <div className={styles.cardImageWrapper}>
-                <Image
-                  src={`${ingredient.image}?text=${encodeURIComponent(ingredient.title)}`}
-                  alt={ingredient.title}
-                  width={600}
-                  height={400}
-                  className={styles.cardImage}
-                  unoptimized
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <span className={styles.iconLeaf} />
-              </div>
-              <span className={styles.tag}>
-                <span className={styles.tagDot} />
-                {ingredient.tag}
-              </span>
-              <h3 className={styles.cardTitle}>{ingredient.title}</h3>
-              <p className={styles.cardDescription}>{ingredient.description}</p>
+              <span className={styles.cardIcon}>{pillar.icon}</span>
+              <h3 className={styles.cardTitle}>{pillar.title}</h3>
+              <p className={styles.cardDescription}>{pillar.description}</p>
+              <p className={styles.cardDetail}>{pillar.detail}</p>
             </motion.article>
           ))}
         </div>

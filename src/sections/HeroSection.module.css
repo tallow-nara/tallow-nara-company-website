@@ -93,6 +93,14 @@
   gap: 1.25rem;
 }
 
+.eyebrow {
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 38, 0.7);
+  font-family: var(--font-poppins, "Poppins"), sans-serif;
+}
+
 .logo {
   display: inline-flex;
   align-items: center;
@@ -119,8 +127,8 @@
 
 .cornerLogo {
   position: absolute;
-  top: 0;
-  left: 100;
+  top: clamp(0.5rem, 2vw, 1.5rem);
+  left: clamp(0.5rem, 3vw, 2rem);
   z-index: 2;
   padding: 0.65rem 1.5rem;
 }
@@ -139,6 +147,14 @@
   letter-spacing: -0.02em;
   margin: 0;
   color: #2e2b26;
+}
+
+.tagline {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 1.1rem;
+  color: rgba(46, 43, 38, 0.75);
+  font-style: italic;
+  margin: 0;
 }
 
 .description {
@@ -183,7 +199,7 @@
 .visuals {
   position: relative;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .illustrationFrame {
@@ -205,30 +221,49 @@
 }
 
 .productCard {
-  position: absolute;
-  bottom: -1rem;
-  right: clamp(-0.5rem, -2vw, -1.5rem);
-  width: clamp(180px, 40%, 260px);
-  padding: 1rem;
-  border-radius: 24px;
-  background: #fff8f0;
-  box-shadow: 0 20px 40px rgba(46, 43, 38, 0.18);
+  position: relative;
+  padding: 1.2rem;
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), #fff8f0);
+  box-shadow: 0 25px 60px rgba(46, 43, 38, 0.18);
+  backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
+  min-height: 360px;
+  overflow: hidden;
+  transform-origin: center;
+}
+
+.productCluster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  position: relative;
+}
+
+.cardBadge {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(181, 199, 157, 0.15);
+  color: #6a7c60;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
 }
 
 .productImageWrapper {
-  border-radius: 18px;
+  border-radius: 20px;
   background: #f3ecdf;
-  padding: 0.75rem;
+  padding: 0.9rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 220px;
 }
 
 .productImage {
-  position: relative;
   width: 100%;
   height: auto;
   object-fit: contain;
@@ -236,14 +271,14 @@
 
 .productLabel {
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  font-size: 1rem;
-  color: #443b32;
+  font-size: 1.15rem;
+  color: #2e2b26;
   margin: 0;
 }
 
 .productNote {
-  font-size: 0.85rem;
-  color: rgba(46, 43, 38, 0.7);
+  font-size: 0.9rem;
+  color: rgba(46, 43, 38, 0.65);
   margin: 0;
 }
 
@@ -259,6 +294,15 @@
   font-family: var(--font-poppins, "Poppins"), "Open Sans", sans-serif;
   color: #6d8162;
   box-shadow: 0 10px 25px rgba(181, 199, 157, 0.45);
+}
+
+.productCluster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  pointer-events: none;
+  border: 1px solid rgba(181, 199, 157, 0.2);
 }
 
 @keyframes drift {
@@ -284,11 +328,8 @@
     grid-template-columns: 1fr;
   }
 
-  .productCard {
-    position: relative;
-    bottom: 0;
-    right: 0;
-    margin-left: auto;
+  .productCluster {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 
@@ -302,7 +343,7 @@
     align-items: stretch;
   }
 
-  .productCard {
-    width: 70%;
+  .productCluster {
+    grid-template-columns: 1fr;
   }
 }

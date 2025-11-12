@@ -2,7 +2,12 @@
 
 "use client";
 
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import Image from "next/image";
 import styles from "./HeroSection.module.css";
 
@@ -17,14 +22,35 @@ const fadeUp: Variants = {
   }),
 };
 
-const zoomIn: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
+const floatingCards: Variants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: (custom = 0) => ({
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.9, ease: cubicEase },
-  },
+    y: 0,
+    transition: { duration: 0.9, delay: 0.15 * custom, ease: cubicEase },
+  }),
 };
+
+const heroProducts = [
+  {
+    name: "Bogor Tallow Soap",
+    description: "Sabun padat lembut dengan busa creamy dan aroma daun jeruk.",
+    image: "https://placehold.co/420x520/fcf7ee/2e2b26?text=Soap",
+    badge: "Sabun",
+  },
+  {
+    name: "Illipe Comfort Balm",
+    description: "Balm serbaguna yang menenangkan kulit kering & sensitif.",
+    image: "https://placehold.co/420x520/f4efe7/2e2b26?text=Balm",
+    badge: "Balm",
+  },
+  {
+    name: "Lavender Dew Lotion",
+    description: "Lotion ringan dengan lavender Tasikmalaya untuk malam damai.",
+    image: "https://placehold.co/420x520/f4f1fa/2e2b26?text=Lotion",
+    badge: "Lotion",
+  },
+];
 
 export function HeroSection() {
   const { scrollY } = useScroll();
@@ -62,8 +88,12 @@ export function HeroSection() {
 
       <div className={styles.inner}>
         <div className={styles.content}>
+          <motion.span className={styles.eyebrow} variants={fadeUp} custom={0}>
+            Dari Alam untuk Kulitmu
+          </motion.span>
           <motion.h1 className={styles.heading} variants={fadeUp} custom={0.1}>
-            Lahir dari Cinta Seorang Ibu
+            “From the treasures of Nusantara’s biodiversity, lovingly made for
+            your hands.”
           </motion.h1>
 
           <motion.p
@@ -71,9 +101,14 @@ export function HeroSection() {
             variants={fadeUp}
             custom={0.2}
           >
-            Terinspirasi dari perjalanan seorang ibu di Bogor yang menemukan
-            perawatan alami untuk anaknya, Tallownara menghadirkan kelembutan
-            alam Nusantara dalam setiap sentuhan.
+            Tallownara menghadirkan sabun, balm, dan lotion dengan cahaya pagi
+            Bogor, tallow Tuban, serta botanikal Kalimantan yang sarat makna.
+            Semua dimulai dari kasih seorang ibu yang mencari perawatan paling
+            lembut bagi buah hatinya.
+          </motion.p>
+
+          <motion.p className={styles.tagline} variants={fadeUp} custom={0.25}>
+            “Dari alam Nusantara, kembali ke kulitmu dengan penuh cinta.”
           </motion.p>
 
           <motion.div
@@ -86,14 +121,14 @@ export function HeroSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Shop Now
+              Temukan Produk Kami
             </motion.button>
             <motion.button
               className={`${styles.button} ${styles.secondaryButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Explore Our Story
+              Pelajari Kisah Kami
             </motion.button>
           </motion.div>
         </div>
@@ -105,8 +140,8 @@ export function HeroSection() {
             custom={0.2}
           >
             <Image
-              src="https://placehold.co/700x500"
-              alt="Ilustrasi ibu dan anak Tallownara"
+              src="https://placehold.co/700x500/f6f1e8/996544?text=Tallownara+Story"
+              alt="Ilustrasi kisah Tallownara"
               fill
               className={styles.illustration}
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -115,23 +150,37 @@ export function HeroSection() {
             />
           </motion.div>
 
-          <motion.div className={styles.productCard} variants={zoomIn}>
-            <span className={styles.floatingBadge}>Handcrafted in Bogor</span>
-            <div className={styles.productImageWrapper}>
-              <Image
-                src="https://placehold.co/400x400"
-                alt="Tallownara hero product"
-                width={280}
-                height={280}
-                className={styles.productImage}
-                unoptimized
-              />
-            </div>
-            <p className={styles.productLabel}>Sabun Lembut Tallownara</p>
-            <p className={styles.productNote}>
-              Diformulasikan dari tallow, madu, dan botanikal Nusantara.
-            </p>
-          </motion.div>
+          <div className={styles.productCluster}>
+            {heroProducts.map((product, index) => (
+              <motion.article
+                key={product.name}
+                className={styles.productCard}
+                variants={floatingCards}
+                custom={index + 1}
+                whileHover={{ y: -6, rotate: 0 }}
+              >
+                <motion.span
+                  className={styles.cardBadge}
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  {product.badge}
+                </motion.span>
+                <div className={styles.productImageWrapper}>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={260}
+                    height={320}
+                    className={styles.productImage}
+                    unoptimized
+                  />
+                </div>
+                <h3 className={styles.productLabel}>{product.name}</h3>
+                <p className={styles.productNote}>{product.description}</p>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </div>
     </motion.section>

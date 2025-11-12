@@ -27,10 +27,11 @@ export function CTASection() {
           Join the Movement
         </motion.span>
         <motion.h2 className={styles.title} variants={variants} custom={1}>
-          From the treasures of Nusantara’s biodiversity, lovingly made for your hands.
+          Bagian dari Perubahan
         </motion.h2>
         <motion.p className={styles.description} variants={variants} custom={2}>
-          Mari bergabung dalam gerakan perawatan kulit yang merayakan ibu, keluarga, dan bumi.
+          “Melalui setiap pembelian, Anda turut menumbuhkan kehidupan yang lebih selaras dengan bumi.”
+          Kami mengundangmu menjadi penjaga kelembutan bersama Tallownara.
         </motion.p>
         <motion.div className={styles.actions} variants={variants} custom={3}>
           <motion.button
@@ -38,15 +39,25 @@ export function CTASection() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
           >
-            Shop Now
+            Gabung Komunitas Tallownara
           </motion.button>
           <motion.button
             className={`${styles.button} ${styles.secondary}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.96 }}
           >
-            Join the Movement
+            Ikuti Kami di Instagram
           </motion.button>
+        </motion.div>
+        <motion.div
+          className={styles.sprout}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2, ease: [0.42, 0, 0.2, 1], delay: 0.3 }}
+        >
+          <span className={styles.seed} />
+          <span className={styles.leaf} />
+          <span className={styles.leaf} />
         </motion.div>
       </motion.div>
     </motion.section>
