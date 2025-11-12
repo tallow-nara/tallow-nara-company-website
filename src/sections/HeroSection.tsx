@@ -22,33 +22,25 @@ const fadeUp: Variants = {
   }),
 };
 
-const floatingCards: Variants = {
-  hidden: { opacity: 0, y: 35 },
-  visible: (custom = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, delay: 0.15 * custom, ease: cubicEase },
-  }),
+const storyHighlight = {
+  label: "Natural Ritual",
+  title: "Tallownara Story",
+  description:
+    "Perpaduan tallow Nusantara, illipe, dan rempah yang meneduhkan untuk menghadirkan jeda hening di sela hari.",
 };
 
-const heroProducts = [
+const heroDetails = [
   {
-    name: "Bogor Tallow Soap",
-    description: "Sabun padat lembut dengan busa creamy dan aroma daun jeruk.",
-    image: "https://placehold.co/420x520/fcf7ee/2e2b26?text=Soap",
-    badge: "Sabun",
+    title: "Botanical Origins",
+    description: "Bogor morning light, tallow Tuban, illipe Kalimantan.",
   },
   {
-    name: "Illipe Comfort Balm",
-    description: "Balm serbaguna yang menenangkan kulit kering & sensitif.",
-    image: "https://placehold.co/420x520/f4efe7/2e2b26?text=Balm",
-    badge: "Balm",
+    title: "Slow-crafted",
+    description: "Batch kecil setiap pekan agar tekstur dan aroma tetap segar.",
   },
   {
-    name: "Lavender Dew Lotion",
-    description: "Lotion ringan dengan lavender Tasikmalaya untuk malam damai.",
-    image: "https://placehold.co/420x520/f4f1fa/2e2b26?text=Lotion",
-    badge: "Lotion",
+    title: "Tone",
+    description: "Calm, natural, elegant untuk ritual harian yang menenangkan.",
   },
 ];
 
@@ -111,10 +103,28 @@ export function HeroSection() {
             “Dari alam Nusantara, kembali ke kulitmu dengan penuh cinta.”
           </motion.p>
 
+          <motion.ul
+            className={styles.detailList}
+            initial="hidden"
+            whileInView="visible"
+          >
+            {heroDetails.map((detail, index) => (
+              <motion.li
+                key={detail.title}
+                className={styles.detailItem}
+                variants={fadeUp}
+                custom={0.26 + index * 0.05}
+              >
+                <span className={styles.detailTitle}>{detail.title}</span>
+                <p className={styles.detailCopy}>{detail.description}</p>
+              </motion.li>
+            ))}
+          </motion.ul>
+
           <motion.div
             className={styles.ctaGroup}
             variants={fadeUp}
-            custom={0.3}
+            custom={0.38}
           >
             <motion.button
               className={`${styles.button} ${styles.primaryButton}`}
@@ -135,12 +145,22 @@ export function HeroSection() {
 
         <div className={styles.visuals}>
           <motion.div
+            className={styles.storyHeader}
+            variants={fadeUp}
+            custom={0.15}
+          >
+            <span className={styles.storyLabel}>{storyHighlight.label}</span>
+            <h3 className={styles.storyTitle}>{storyHighlight.title}</h3>
+            <p className={styles.storyCopy}>{storyHighlight.description}</p>
+          </motion.div>
+
+          <motion.div
             className={styles.illustrationFrame}
             variants={fadeUp}
-            custom={0.2}
+            custom={0.22}
           >
             <Image
-              src="https://placehold.co/700x500/f6f1e8/996544?text=Tallownara+Story"
+              src="https://placehold.co/400x300?text=Tallownara+Story"
               alt="Ilustrasi kisah Tallownara"
               fill
               className={styles.illustration}
@@ -149,38 +169,6 @@ export function HeroSection() {
               unoptimized
             />
           </motion.div>
-
-          <div className={styles.productCluster}>
-            {heroProducts.map((product, index) => (
-              <motion.article
-                key={product.name}
-                className={styles.productCard}
-                variants={floatingCards}
-                custom={index + 1}
-                whileHover={{ y: -6, rotate: 0 }}
-              >
-                <motion.span
-                  className={styles.cardBadge}
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  {product.badge}
-                </motion.span>
-                <div className={styles.productImageWrapper}>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={260}
-                    height={320}
-                    className={styles.productImage}
-                    unoptimized
-                  />
-                </div>
-                <h3 className={styles.productLabel}>{product.name}</h3>
-                <p className={styles.productNote}>{product.description}</p>
-              </motion.article>
-            ))}
-          </div>
         </div>
       </div>
     </motion.section>

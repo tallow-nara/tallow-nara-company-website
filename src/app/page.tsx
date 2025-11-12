@@ -5,6 +5,7 @@ import { CommitmentSection } from "@/sections/CommitmentSection";
 import { CertificationSection } from "@/sections/CertificationSection";
 import { FooterSection } from "@/sections/FooterSection";
 import { HeroSection } from "@/sections/HeroSection";
+import { HeroProductListSection } from "@/sections/HeroProductListSection";
 import { IngredientsImpactSection } from "@/sections/IngredientsImpactSection";
 import { ProductHighlightSection } from "@/sections/ProductHighlightSection";
 import { StorySection } from "@/sections/StorySection";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <HeroProductListSection />
       <StorySection />
       <WhyTallownaraSection />
       <IngredientsImpactSection />
