@@ -2,12 +2,7 @@
 
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import Image from "next/image";
 import styles from "./HeroSection.module.css";
 
@@ -28,26 +23,6 @@ const storyHighlight = {
   description:
     "Perpaduan tallow Nusantara, illipe, dan rempah yang meneduhkan untuk menghadirkan jeda hening di sela hari.",
 };
-
-const supportHighlight = {
-  title: "Notes of calm",
-  copy: "Lavender Tasikmalaya • Daun jeruk Bogor • Illipe butter Kalimantan",
-};
-
-const heroDetails = [
-  {
-    title: "Botanical Origins",
-    description: "Bogor morning light, tallow Tuban, illipe Kalimantan.",
-  },
-  {
-    title: "Slow-crafted",
-    description: "Batch kecil setiap pekan agar tekstur dan aroma tetap segar.",
-  },
-  {
-    title: "Tone",
-    description: "Calm, natural, elegant untuk ritual harian yang menenangkan.",
-  },
-];
 
 export function HeroSection() {
   const { scrollY } = useScroll();
@@ -85,9 +60,6 @@ export function HeroSection() {
 
       <div className={styles.inner}>
         <div className={styles.content}>
-          <motion.span className={styles.eyebrow} variants={fadeUp} custom={0}>
-            Dari Alam untuk Kulitmu
-          </motion.span>
           <motion.h1 className={styles.heading} variants={fadeUp} custom={0.1}>
             “From the treasures of Nusantara’s biodiversity, lovingly made for
             your hands.”
@@ -107,45 +79,6 @@ export function HeroSection() {
           <motion.p className={styles.tagline} variants={fadeUp} custom={0.25}>
             “Dari alam Nusantara, kembali ke kulitmu dengan penuh cinta.”
           </motion.p>
-
-          <motion.div
-            className={styles.ctaGroup}
-            variants={fadeUp}
-            custom={0.32}
-          >
-            <motion.button
-              className={`${styles.button} ${styles.primaryButton}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Temukan Produk Kami
-            </motion.button>
-            <motion.button
-              className={`${styles.button} ${styles.secondaryButton}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Pelajari Kisah Kami
-            </motion.button>
-          </motion.div>
-
-          <motion.ul
-            className={styles.detailList}
-            initial="hidden"
-            whileInView="visible"
-          >
-            {heroDetails.map((detail, index) => (
-              <motion.li
-                key={detail.title}
-                className={styles.detailItem}
-                variants={fadeUp}
-                custom={0.4 + index * 0.05}
-              >
-                <span className={styles.detailTitle}>{detail.title}</span>
-                <p className={styles.detailCopy}>{detail.description}</p>
-              </motion.li>
-            ))}
-          </motion.ul>
         </div>
 
         <div className={styles.visuals}>
@@ -171,16 +104,6 @@ export function HeroSection() {
               <h3 className={styles.storyTitle}>{storyHighlight.title}</h3>
               <p className={styles.storyCopy}>{storyHighlight.description}</p>
             </div>
-          </motion.div>
-
-          <motion.div
-            className={styles.supportCard}
-            variants={fadeUp}
-            custom={0.25}
-          >
-            <span className={styles.supportLabel}>Harmoni aroma</span>
-            <p className={styles.supportTitle}>{supportHighlight.title}</p>
-            <p className={styles.supportCopy}>{supportHighlight.copy}</p>
           </motion.div>
         </div>
       </div>
