@@ -29,6 +29,11 @@ const storyHighlight = {
     "Perpaduan tallow Nusantara, illipe, dan rempah yang meneduhkan untuk menghadirkan jeda hening di sela hari.",
 };
 
+const supportHighlight = {
+  title: "Notes of calm",
+  copy: "Lavender Tasikmalaya • Daun jeruk Bogor • Illipe butter Kalimantan",
+};
+
 const heroDetails = [
   {
     title: "Botanical Origins",
@@ -103,28 +108,10 @@ export function HeroSection() {
             “Dari alam Nusantara, kembali ke kulitmu dengan penuh cinta.”
           </motion.p>
 
-          <motion.ul
-            className={styles.detailList}
-            initial="hidden"
-            whileInView="visible"
-          >
-            {heroDetails.map((detail, index) => (
-              <motion.li
-                key={detail.title}
-                className={styles.detailItem}
-                variants={fadeUp}
-                custom={0.26 + index * 0.05}
-              >
-                <span className={styles.detailTitle}>{detail.title}</span>
-                <p className={styles.detailCopy}>{detail.description}</p>
-              </motion.li>
-            ))}
-          </motion.ul>
-
           <motion.div
             className={styles.ctaGroup}
             variants={fadeUp}
-            custom={0.38}
+            custom={0.32}
           >
             <motion.button
               className={`${styles.button} ${styles.primaryButton}`}
@@ -141,33 +128,59 @@ export function HeroSection() {
               Pelajari Kisah Kami
             </motion.button>
           </motion.div>
+
+          <motion.ul
+            className={styles.detailList}
+            initial="hidden"
+            whileInView="visible"
+          >
+            {heroDetails.map((detail, index) => (
+              <motion.li
+                key={detail.title}
+                className={styles.detailItem}
+                variants={fadeUp}
+                custom={0.4 + index * 0.05}
+              >
+                <span className={styles.detailTitle}>{detail.title}</span>
+                <p className={styles.detailCopy}>{detail.description}</p>
+              </motion.li>
+            ))}
+          </motion.ul>
         </div>
 
         <div className={styles.visuals}>
           <motion.div
-            className={styles.storyHeader}
+            className={styles.visualFocus}
             variants={fadeUp}
             custom={0.15}
           >
-            <span className={styles.storyLabel}>{storyHighlight.label}</span>
-            <h3 className={styles.storyTitle}>{storyHighlight.title}</h3>
-            <p className={styles.storyCopy}>{storyHighlight.description}</p>
+            <div className={styles.illustrationFrame}>
+              <Image
+                src="https://placehold.co/520x560/f6f1e8/9d8264?text=Tallownara+Story"
+                alt="Ilustrasi kisah Tallownara"
+                fill
+                className={styles.illustration}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                unoptimized
+              />
+            </div>
+
+            <div className={styles.storyCard}>
+              <span className={styles.storyLabel}>{storyHighlight.label}</span>
+              <h3 className={styles.storyTitle}>{storyHighlight.title}</h3>
+              <p className={styles.storyCopy}>{storyHighlight.description}</p>
+            </div>
           </motion.div>
 
           <motion.div
-            className={styles.illustrationFrame}
+            className={styles.supportCard}
             variants={fadeUp}
-            custom={0.22}
+            custom={0.25}
           >
-            <Image
-              src="https://placehold.co/400x300?text=Tallownara+Story"
-              alt="Ilustrasi kisah Tallownara"
-              fill
-              className={styles.illustration}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-              unoptimized
-            />
+            <span className={styles.supportLabel}>Harmoni aroma</span>
+            <p className={styles.supportTitle}>{supportHighlight.title}</p>
+            <p className={styles.supportCopy}>{supportHighlight.copy}</p>
           </motion.div>
         </div>
       </div>

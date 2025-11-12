@@ -6,7 +6,7 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 6.5rem clamp(4rem, 7vw, 6.5rem);
+  padding: 6.75rem clamp(4rem, 8vw, 7rem);
 }
 
 .background {
@@ -83,15 +83,15 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: clamp(2.5rem, 4vw, 4.5rem);
-  align-items: flex-start;
+  gap: clamp(2.75rem, 5vw, 5rem);
+  align-items: stretch;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: min(60vw, 42rem);
+  gap: 1.25rem;
+  max-width: min(58vw, 40rem);
 }
 
 .eyebrow {
@@ -119,11 +119,11 @@
 }
 
 .logoImage {
-  width: 24rem;
-  height: 12rem;
+  width: clamp(7rem, 14vw, 12rem);
+  height: auto;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
 }
 
 .cornerLogo {
@@ -146,7 +146,7 @@
   font-size: clamp(2.8rem, 4.6vw, 4.25rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
-  margin: 0;
+  margin: 0.5rem 0 0.75rem;
   color: #2e2b26;
   max-width: min(60vw, 46rem);
 }
@@ -156,7 +156,7 @@
   font-size: 1.1rem;
   color: rgba(46, 43, 38, 0.75);
   font-style: italic;
-  margin: 0;
+  margin: 0.5rem 0 0;
   letter-spacing: 0.01em;
   max-width: 32rem;
 }
@@ -166,7 +166,7 @@
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   line-height: 1.75;
   color: rgba(46, 43, 38, 0.82);
-  max-width: min(60vw, 38rem);
+  max-width: min(58vw, 36rem);
   margin: 0;
 }
 
@@ -174,7 +174,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   align-items: center;
 }
 
@@ -214,21 +214,22 @@
   box-shadow: 0 18px 35px rgba(0, 0, 0, 0.07);
 }
 
+
 .detailList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 1.1rem;
+  gap: 1rem;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0.5rem 0 0;
 }
 
 .detailItem {
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 28px;
-  padding: 1.15rem 1.35rem;
-  box-shadow: 0 20px 45px rgba(46, 43, 38, 0.08);
-  border: 1px solid rgba(181, 199, 157, 0.25);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  padding: 1.1rem 1.35rem;
+  box-shadow: 0 18px 40px rgba(46, 43, 38, 0.08);
+  border: 1px solid rgba(181, 199, 157, 0.2);
 }
 
 .detailTitle {
@@ -250,24 +251,57 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: clamp(1.75rem, 3vw, 2.5rem);
+  gap: 1.5rem;
   align-self: stretch;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-.storyHeader {
-  background: rgba(255, 253, 247, 0.92);
-  border-radius: 32px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 35px 65px rgba(46, 43, 38, 0.15);
-  border: 1px solid rgba(181, 199, 157, 0.25);
+.visualFocus {
+  position: relative;
+  border-radius: 36px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 35px 70px rgba(46, 43, 38, 0.14);
+  border: 1px solid rgba(181, 199, 157, 0.3);
+  min-height: 460px;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.illustrationFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.9), #f0ebe0);
+}
+
+.illustration {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.storyCard {
+  position: absolute;
+  right: 7%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 253, 247, 0.95);
+  padding: 1.5rem 1.75rem;
+  border-radius: 26px;
+  box-shadow: 0 25px 55px rgba(46, 43, 38, 0.12);
+  max-width: 260px;
+  border: 1px solid rgba(181, 199, 157, 0.25);
 }
 
 .storyLabel {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: rgba(46, 43, 38, 0.6);
@@ -276,36 +310,49 @@
 
 .storyTitle {
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  font-size: clamp(1.8rem, 2.3vw, 2.35rem);
-  margin: 0;
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0;
   color: #2e2b26;
 }
 
 .storyCopy {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.7;
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: rgba(46, 43, 38, 0.78);
-  max-width: 28rem;
 }
 
-.illustrationFrame {
-  position: relative;
-  border-radius: 32px;
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.85), #f4efe2);
-  padding: 1.8rem;
-  box-shadow: 0 30px 70px rgba(46, 43, 38, 0.15);
-  overflow: hidden;
-  min-height: 360px;
-  border: 1px solid rgba(181, 199, 157, 0.2);
+.supportCard {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 26px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 20px 45px rgba(46, 43, 38, 0.1);
+  border: 1px solid rgba(181, 199, 157, 0.25);
+  max-width: 320px;
 }
 
-.illustration {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 24px;
+.supportLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(46, 43, 38, 0.55);
+  font-family: var(--font-poppins, "Poppins"), sans-serif;
+}
+
+.supportTitle {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #3a3a34;
+}
+
+.supportCopy {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(46, 43, 38, 0.7);
 }
 
 
@@ -342,7 +389,7 @@
   }
 
   .detailList {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   }
 }
 
@@ -358,5 +405,21 @@
 
   .detailList {
     grid-template-columns: 1fr;
+  }
+
+  .visualFocus {
+    min-height: 360px;
+  }
+
+  .storyCard {
+    position: relative;
+    inset: unset;
+    transform: none;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+
+  .visuals {
+    gap: 1rem;
   }
 }
