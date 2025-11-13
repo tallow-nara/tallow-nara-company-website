@@ -73,9 +73,15 @@
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.topGrid {
   display: grid;
-  gap: clamp(2rem, 6vw, 5rem);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
 }
 
@@ -83,6 +89,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  max-width: 640px;
 }
 
 .eyebrow {
@@ -111,75 +118,100 @@
 }
 
 .quote {
-  margin: 1.5rem 0 0;
-  padding: 1.25rem 1.5rem;
-  border-left: 3px solid #c9d1a7;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 18px;
-  box-shadow: 0 20px 45px rgba(46, 43, 38, 0.08);
+  margin: 0 auto;
+  max-width: 720px;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(201, 209, 167, 0.4);
+  box-shadow: 0 35px 75px rgba(46, 43, 38, 0.12);
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.7;
+  text-align: center;
+  font-style: italic;
+  color: rgba(46, 43, 38, 0.85);
+}
+
+.quote::before,
+.quote::after {
+  font-size: 2.4rem;
+  color: #c9d1a7;
 }
 
 .quote::before {
   content: "“";
-  font-size: 2rem;
-  color: #c9d1a7;
   margin-right: 0.35rem;
 }
 
 .quote::after {
   content: "”";
-  font-size: 2rem;
-  color: #c9d1a7;
   margin-left: 0.35rem;
 }
 
 .timeline {
   position: relative;
-  margin-top: 1.5rem;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem)
+    clamp(3.5rem, 5vw, 4.5rem);
+  border-radius: 36px;
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(181, 199, 157, 0.35);
+  box-shadow: 0 40px 80px rgba(46, 43, 38, 0.12);
+  background-image: linear-gradient(
+    to right,
+    rgba(118, 138, 109, 0.3),
+    rgba(118, 138, 109, 0.3)
+  );
+  background-repeat: no-repeat;
+  background-size: calc(100% - 3rem) 2px;
+  background-position: center calc(100% - 1.1rem);
 }
 
-.timelineRail {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(105, 126, 97, 0.2);
-  transform: translateY(-50%);
-  pointer-events: none;
+.timelineIntro {
+  max-width: 640px;
+  margin: 0 auto clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+  font-family: var(--font-poppins, "Poppins"), "Open Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(46, 43, 38, 0.7);
 }
 
-.timelineItems {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+.timelineCards {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(180px, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 .timelineCard {
   position: relative;
-  min-width: 230px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 22px;
-  padding: 1rem;
-  box-shadow: 0 15px 35px rgba(46, 43, 38, 0.12);
-  scroll-snap-align: start;
+  padding: 1.5rem 1.25rem 3rem;
+  border-radius: 24px;
+  background: #fffdf7;
+  box-shadow: 0 25px 55px rgba(46, 43, 38, 0.12);
+  border: 1px solid rgba(201, 209, 167, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-height: 190px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timelineCard:hover {
+  box-shadow: 0 30px 65px rgba(46, 43, 38, 0.15);
 }
 
 .timelineCard h3 {
-  margin: 0.25rem 0;
+  margin: 0;
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  font-size: 1.2rem;
-  display: flex;
-  flex-direction: column;
+  font-size: 1.25rem;
+  line-height: 1.3;
 }
 
 .timelineCard h3 span {
+  display: block;
   font-size: 0.9rem;
   font-weight: 400;
   color: rgba(46, 43, 38, 0.65);
@@ -190,45 +222,52 @@
   margin: 0;
   font-size: 0.95rem;
   color: rgba(46, 43, 38, 0.75);
+  line-height: 1.5;
 }
 
 .timelineYear {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(46, 43, 38, 0.55);
+  color: rgba(46, 43, 38, 0.5);
 }
 
-.timelineDot {
+.timelineMarker {
   position: absolute;
-  bottom: -1.35rem;
+  bottom: 0.6rem;
   left: 50%;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #b5c79d;
-  box-shadow: 0 0 0 6px rgba(181, 199, 157, 0.35);
+  background: linear-gradient(140deg, #b7cba0, #98b186);
+  box-shadow: 0 0 0 8px rgba(183, 203, 160, 0.25);
   transform: translateX(-50%);
 }
 
 .visualColumn {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.5rem, 1.5vw, 1rem);
 }
 
 .illustrationFrame {
   position: relative;
-  border-radius: 36px;
+  border-radius: 40px;
   background: rgba(255, 255, 255, 0.65);
-  padding: clamp(1rem, 2vw, 1.8rem);
-  box-shadow: 0 30px 70px rgba(46, 43, 38, 0.18);
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+  box-shadow: 0 40px 80px rgba(46, 43, 38, 0.18);
   overflow: hidden;
+  max-width: 520px;
+  width: 100%;
 }
 
 .illustrationFrame::after {
   content: "";
   position: absolute;
   inset: 12%;
-  border-radius: 32px;
+  border-radius: 34px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   pointer-events: none;
 }
@@ -301,16 +340,32 @@
 }
 
 @media (max-width: 1024px) {
-  .inner {
+  .topGrid {
     grid-template-columns: 1fr;
-  }
-
-  .visualColumn {
-    order: -1;
   }
 
   .illustration {
     min-height: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .timeline {
+    padding-bottom: 3.5rem;
+    background-size: 120% 2px;
+    background-position: center calc(100% - 0.9rem);
+  }
+
+  .timelineCards {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.75rem;
+  }
+
+  .timelineCard {
+    min-width: 240px;
+    scroll-snap-align: center;
   }
 }
 
@@ -325,5 +380,15 @@
 
   .quote {
     font-size: 1rem;
+    padding: 1.5rem;
+  }
+
+  .timeline {
+    padding: 1.5rem 1.25rem 3.25rem;
+    background-size: 140% 2px;
+  }
+
+  .timelineIntro {
+    font-size: 0.95rem;
   }
 }

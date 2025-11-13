@@ -2,12 +2,7 @@
 
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  type Variants,
-} from "framer-motion";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -29,24 +24,35 @@ const cardVariants: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.85, delay: 0.1 * custom, ease: [0.42, 0, 0.2, 1] },
+    transition: {
+      duration: 0.85,
+      delay: 0.1 * custom,
+      ease: [0.42, 0, 0.2, 1],
+    },
   }),
 };
 
 const cards = [
   {
     title: "Lemak Sapi Tuban",
-    subtitle: "Kaya vitamin A, D, E, K, melembapkan sekaligus memperkuat skin barrier.",
-    impact: "Menghargai seluruh bagian ternak milik peternak kecil sehingga tidak ada limbah tersisa.",
+    subtitle:
+      "Kaya vitamin A, D, E, K, melembapkan sekaligus memperkuat skin barrier.",
+    impact:
+      "Menghargai seluruh bagian ternak milik peternak kecil sehingga tidak ada limbah tersisa.",
     image: "https://placehold.co/500x400/f4eadc/775c3a?text=Tallow",
     accent: "linear-gradient(135deg, #f8efe4 0%, #f3dcc4 100%)",
     icon: "💧",
-    highlights: ["Regenerasi kulit sensitif", "Memberikan lapisan pelindung alami"],
+    highlights: [
+      "Regenerasi kulit sensitif",
+      "Memberikan lapisan pelindung alami",
+    ],
   },
   {
     title: "Mentega Tengkawang Kalimantan",
-    subtitle: "Butter illipe yang mengunci kelembapan dan menjaga elastisitas kulit.",
-    impact: "Panen hanya saat buah jatuh agar hutan tetap lestari dan satwa terjaga.",
+    subtitle:
+      "Butter illipe yang mengunci kelembapan dan menjaga elastisitas kulit.",
+    impact:
+      "Panen hanya saat buah jatuh agar hutan tetap lestari dan satwa terjaga.",
     image: "https://placehold.co/500x400/f2f8ec/5a744d?text=Tengkawang",
     accent: "linear-gradient(135deg, #f2f8ec 0%, #deeed4 100%)",
     icon: "♻️",
@@ -54,17 +60,24 @@ const cards = [
   },
   {
     title: "Minyak Kelapa Sumatera",
-    subtitle: "Cold-pressed, kaya asam laurat anti inflamasi untuk kulit rentan iritasi.",
-    impact: "Menguatkan rantai pasok petani pesisir dan memelihara tanah subur.",
+    subtitle:
+      "Cold-pressed, kaya asam laurat anti inflamasi untuk kulit rentan iritasi.",
+    impact:
+      "Menguatkan rantai pasok petani pesisir dan memelihara tanah subur.",
     image: "https://placehold.co/500x400/fef4ec/725d45?text=Coconut",
     accent: "linear-gradient(135deg, #fef4ec 0%, #f9dcc6 100%)",
     icon: "🧘‍♀️",
-    highlights: ["Kembali menenangkan kulit merah", "Menghaluskan tekstur kulit"],
+    highlights: [
+      "Kembali menenangkan kulit merah",
+      "Menghaluskan tekstur kulit",
+    ],
   },
   {
     title: "Minyak Lavender Tasikmalaya",
-    subtitle: "Aroma floral yang menenangkan pikiran dan mendukung tidur berkualitas.",
-    impact: "Ditanam oleh komunitas perempuan, menarik lebah penyerbuk dan meningkatkan kesejahteraan.",
+    subtitle:
+      "Aroma floral yang menenangkan pikiran dan mendukung tidur berkualitas.",
+    impact:
+      "Ditanam oleh komunitas perempuan, menarik lebah penyerbuk dan meningkatkan kesejahteraan.",
     image: "https://placehold.co/500x400/f7f2fb/6d5d97?text=Lavender",
     accent: "linear-gradient(135deg, #f7f2fb 0%, #eadcf5 100%)",
     icon: "🌸",
@@ -103,7 +116,7 @@ export function IngredientsImpactSection() {
               end: "bottom top",
               scrub: true,
             },
-          },
+          }
         );
       }
     }, sectionRef);
@@ -136,16 +149,28 @@ export function IngredientsImpactSection() {
 
       <div className={styles.inner}>
         <div className={styles.header}>
-          <motion.span className={styles.eyebrow} variants={headerVariants} custom={0}>
+          <motion.span
+            className={styles.eyebrow}
+            variants={headerVariants}
+            custom={0}
+          >
             Ingredient Impact
           </motion.span>
-          <motion.h2 className={styles.title} variants={headerVariants} custom={1}>
+          <motion.h2
+            className={styles.title}
+            variants={headerVariants}
+            custom={1}
+          >
             Rahasia Alam Nusantara
           </motion.h2>
-          <motion.p className={styles.description} variants={headerVariants} custom={2}>
-            Setiap bahan utama kami punya cerita tentang kelembutan kulit sekaligus keberlanjutan
-            bumi. Dari tallow Tuban hingga lavender Tasikmalaya, semuanya dirawat dengan penuh
-            kasih.
+          <motion.p
+            className={styles.description}
+            variants={headerVariants}
+            custom={2}
+          >
+            Setiap bahan utama kami punya cerita tentang kelembutan kulit
+            sekaligus keberlanjutan bumi. Dari tallow Tuban hingga lavender
+            Tasikmalaya, semuanya dirawat dengan penuh kasih.
           </motion.p>
         </div>
 
@@ -190,10 +215,6 @@ export function IngredientsImpactSection() {
               </motion.article>
             ))}
           </motion.div>
-          <div className={styles.sliderHint}>
-            <span className={styles.hintDot} />
-            Geser untuk menjelajah dampak setiap bahan
-          </div>
         </div>
       </div>
     </motion.section>

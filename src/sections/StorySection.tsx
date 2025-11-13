@@ -59,32 +59,32 @@ const storyParagraphs = [
 
 const timelineJourney = [
   {
+    year: "2015",
     city: "Bogor",
     region: "Jawa Barat",
     narrative:
-      "Awal kegelisahan: kulit bayi yang mudah kemerahan memantik pencarian akan perawatan paling lembut.",
-    year: "2015",
+      "Awal kegelisahan seorang ibu untuk menemukan perawatan paling lembut bagi kulit bayi.",
   },
   {
+    year: "2016",
     city: "Tuban",
     region: "Jawa Timur",
     narrative:
-      "Bertemu pengrajin tallow rumahan yang tekun memurnikan lemak sapi menjadi butter kaya vitamin.",
-    year: "2016",
+      "Bertemu pengrajin tallow rumahan yang tekun memurnikan bahan kaya vitamin.",
   },
   {
+    year: "2017",
     city: "Kalimantan",
     region: "Tengah & Barat",
     narrative:
-      "Para penjaga hutan membagikan mentega tengkawang dan cerita keberlanjutan yang menumbuhkan empati.",
-    year: "2017",
+      "Para penjaga hutan mengenalkan mentega tengkawang dan makna keberlanjutan.",
   },
   {
+    year: "2018",
     city: "Tasikmalaya",
     region: "Jawa Barat",
     narrative:
-      "Penyuling lavender perempuan mengajarkan bagaimana aroma menenangkan pikiran dan kulit sekaligus.",
-    year: "2018",
+      "Penyuling lavender perempuan mengajarkan pendekatan aroma yang menenangkan kulit dan batin.",
   },
 ];
 
@@ -129,73 +129,87 @@ export function StorySection() {
       />
 
       <div className={styles.inner}>
-        <div className={styles.textColumn}>
-          <motion.span className={styles.eyebrow} variants={paragraphVariants}>
-            Origin Story
-          </motion.span>
+        <div className={styles.topGrid}>
+          <div className={styles.textColumn}>
+            <motion.span
+              className={styles.eyebrow}
+              variants={paragraphVariants}
+            >
+              Origin Story
+            </motion.span>
 
-          <motion.h2 className={styles.title} variants={titleVariants}>
-            Kisah di Balik Tallownara
-          </motion.h2>
+            <motion.h2 className={styles.title} variants={titleVariants}>
+              Kisah di Balik Tallownara
+            </motion.h2>
 
-          <div className={styles.paragraphGroup}>
-            {storyParagraphs.map((text, index) => (
-              <motion.p
-                key={text}
-                variants={paragraphVariants}
-                custom={index + 1}
-              >
-                {text}
-              </motion.p>
-            ))}
+            <div className={styles.paragraphGroup}>
+              {storyParagraphs.map((text, index) => (
+                <motion.p
+                  key={text}
+                  variants={paragraphVariants}
+                  custom={index + 1}
+                >
+                  {text}
+                </motion.p>
+              ))}
+            </div>
           </div>
 
-          <motion.blockquote className={styles.quote} variants={quoteVariants}>
-            Tallownara lahir dari kegelisahan dan rasa cinta seorang ibu kepada
-            buah hatinya, dalam upaya menemukan perawatan kulit yang aman dan
-            menenangkan.
-          </motion.blockquote>
-
           <motion.div
-            className={styles.timeline}
-            variants={paragraphVariants}
-            custom={4}
+            className={styles.visualColumn}
+            variants={illustrationVariants}
           >
-            <div className={styles.timelineRail} />
-            <div className={styles.timelineItems}>
-              {timelineJourney.map((stop, index) => (
-                <motion.article
-                  key={stop.city}
-                  className={styles.timelineCard}
-                  whileHover={{ y: -8 }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                >
-                  <span className={styles.timelineYear}>{stop.year}</span>
-                  <h3>
-                    {stop.city} <span>· {stop.region}</span>
-                  </h3>
-                  <p>{stop.narrative}</p>
-                  <span className={styles.timelineDot} data-index={index + 1} />
-                </motion.article>
-              ))}
+            <div className={styles.illustrationFrame}>
+              <Image
+                src="https://placehold.co/700x500/f4ede2/8a7051?text=Ibu+dan+anak"
+                alt="Ilustrasi ibu berhijab merawat anaknya"
+                width={700}
+                height={500}
+                className={styles.illustration}
+                unoptimized
+              />
+
+              <span className={`${styles.dew} ${styles.dewOne}`} />
+              <span className={`${styles.dew} ${styles.dewTwo}`} />
+              <span className={styles.leaf} />
             </div>
           </motion.div>
         </div>
 
-        <motion.div className={styles.visualColumn} variants={illustrationVariants}>
-          <div className={styles.illustrationFrame}>
-            <Image
-              src="https://placehold.co/700x500/f4ede2/8a7051?text=Ibu+dan+anak"
-              alt="Ilustrasi ibu berhijab merawat anaknya"
-              width={700}
-              height={500}
-              className={styles.illustration}
-              unoptimized
-            />
+        <motion.blockquote className={styles.quote} variants={quoteVariants}>
+          Tallownara lahir dari kegelisahan dan rasa cinta seorang ibu kepada
+          buah hatinya, dalam upaya menemukan perawatan kulit yang aman dan
+          menenangkan.
+        </motion.blockquote>
 
-            <span className={`${styles.dew} ${styles.dewOne}`} />
-            <span className={`${styles.dew} ${styles.dewTwo}`} />
-            <span className={styles.leaf} />
+        <motion.div
+          className={styles.timeline}
+          variants={paragraphVariants}
+          custom={4}
+        >
+          <div className={styles.timelineIntro}>
+            <p>
+              Setiap kota menjadi penanda perjalanan, menjahit pengalaman alam
+              menjadi perawatan hangat untuk keluarga lain.
+            </p>
+          </div>
+
+          <div className={styles.timelineCards}>
+            {timelineJourney.map((stop) => (
+              <motion.article
+                key={stop.city}
+                className={styles.timelineCard}
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 140, damping: 20 }}
+              >
+                <span className={styles.timelineYear}>{stop.year}</span>
+                <h3>
+                  {stop.city} <span>· {stop.region}</span>
+                </h3>
+                <p>{stop.narrative}</p>
+                <span className={styles.timelineMarker} aria-hidden="true" />
+              </motion.article>
+            ))}
           </div>
         </motion.div>
       </div>

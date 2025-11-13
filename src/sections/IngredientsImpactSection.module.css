@@ -93,17 +93,23 @@
   gap: clamp(1rem, 3vw, 1.5rem);
   overflow-x: auto;
   padding-bottom: 1.5rem;
+  padding-top: 1rem;
+  padding-left: 2rem;
   scroll-snap-type: x mandatory;
   scroll-padding: clamp(1rem, 2vw, 1.5rem);
   -webkit-overflow-scrolling: touch;
+
+  /* ✅ Tambahkan baris di bawah ini */
+  scrollbar-width: none; /* Untuk Firefox */
+  -ms-overflow-style: none; /* Untuk Internet Explorer dan Edge lama */
 }
 
 .slider::-webkit-scrollbar {
   height: 6px;
+  display: none; /* Untuk Chrome, Safari, dan Opera */
 }
 
 .slider::-webkit-scrollbar-thumb {
-  background: rgba(197, 208, 167, 0.6);
   border-radius: 999px;
 }
 
@@ -111,7 +117,6 @@
   flex: 0 0 min(320px, 80vw);
   background: #fffdf8;
   border-radius: 28px;
-  box-shadow: 0 35px 65px rgba(46, 43, 38, 0.1);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;

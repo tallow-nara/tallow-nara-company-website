@@ -37,7 +37,8 @@ const impactHighlights = [
   {
     title: "Petani lokal",
     icon: "🌾",
-    description: "Kemitraan langsung dengan keluarga petani & peternak untuk bahan tallow dan botanikal.",
+    description:
+      "Kemitraan langsung dengan keluarga petani & peternak untuk bahan tallow dan botanikal.",
     value: 48,
     suffix: "+",
     footnote: "keluarga diberdayakan",
@@ -45,7 +46,8 @@ const impactHighlights = [
   {
     title: "Hewan terlindungi",
     icon: "🐄",
-    description: "Lemak sapi diperoleh dari peternak yang menerapkan animal welfare dan zero waste.",
+    description:
+      "Lemak sapi diperoleh dari peternak yang menerapkan animal welfare dan zero waste.",
     value: 120,
     suffix: "+",
     footnote: "sapi dirawat etis",
@@ -53,7 +55,8 @@ const impactHighlights = [
   {
     title: "Hutan lestari",
     icon: "🌳",
-    description: "Panen tengkawang mengikuti musim jatuh alami, menjaga 340 hektar hutan tetap rindang.",
+    description:
+      "Panen tengkawang mengikuti musim jatuh alami, menjaga 340 hektar hutan tetap rindang.",
     value: 340,
     suffix: "ha",
     footnote: "wilayah hutan dijaga",
@@ -81,7 +84,7 @@ function useAnimatedCounter(target: number, shouldStart: boolean) {
 
   useEffect(() => {
     const unsubscribe = springValue.on("change", (latest) =>
-      setValue(Math.round(latest)),
+      setValue(Math.round(latest))
     );
     return () => unsubscribe();
   }, [springValue]);
@@ -158,12 +161,15 @@ export function CommitmentSection() {
             Lebih dari Sekadar Skincare
           </motion.h2>
           <motion.p className={styles.description} variants={itemVariants}>
-            “Setiap produk yang Anda pilih membantu menjaga hutan, menguatkan petani & peternak
-            lokal, serta melindungi keanekaragaman hayati.” Kami menjahit dampak positif mulai dari
-            ladang hingga ke tanganmu.
+            “Setiap produk yang Anda pilih membantu menjaga hutan, menguatkan
+            petani & peternak lokal, serta melindungi keanekaragaman hayati.”
+            Kami menjahit dampak positif mulai dari ladang hingga ke tanganmu.
           </motion.p>
           <motion.div className={styles.actions} variants={itemVariants}>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+            >
               Pelajari Dampak Kami
             </motion.button>
           </motion.div>
@@ -176,9 +182,6 @@ export function CommitmentSection() {
         </div>
       </div>
 
-      <motion.div className={styles.badge} style={{ y: badgeY }}>
-        Gentle Ethics
-      </motion.div>
       <motion.div className={styles.planet} style={{ rotate: planetSpin }}>
         <span />
       </motion.div>
