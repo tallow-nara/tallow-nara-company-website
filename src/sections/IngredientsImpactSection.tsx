@@ -39,7 +39,7 @@ const cards = [
       "Kaya vitamin A, D, E, K, melembapkan sekaligus memperkuat skin barrier.",
     impact:
       "Menghargai seluruh bagian ternak milik peternak kecil sehingga tidak ada limbah tersisa.",
-    image: "https://placehold.co/500x400/f4eadc/775c3a?text=Tallow",
+    image: "/assets/LemakSapi.png",
     accent: "linear-gradient(135deg, #f8efe4 0%, #f3dcc4 100%)",
     icon: "💧",
     highlights: [
@@ -53,7 +53,7 @@ const cards = [
       "Butter illipe yang mengunci kelembapan dan menjaga elastisitas kulit.",
     impact:
       "Panen hanya saat buah jatuh agar hutan tetap lestari dan satwa terjaga.",
-    image: "https://placehold.co/500x400/f2f8ec/5a744d?text=Tengkawang",
+    image: "/assets/Mentega.png",
     accent: "linear-gradient(135deg, #f2f8ec 0%, #deeed4 100%)",
     icon: "♻️",
     highlights: ["Tekstur melting", "Menjaga ekosistem hutan hujan"],
@@ -64,7 +64,7 @@ const cards = [
       "Cold-pressed, kaya asam laurat anti inflamasi untuk kulit rentan iritasi.",
     impact:
       "Menguatkan rantai pasok petani pesisir dan memelihara tanah subur.",
-    image: "https://placehold.co/500x400/fef4ec/725d45?text=Coconut",
+    image: "/assets/MinyakKelapa.png",
     accent: "linear-gradient(135deg, #fef4ec 0%, #f9dcc6 100%)",
     icon: "🧘‍♀️",
     highlights: [
@@ -78,8 +78,8 @@ const cards = [
       "Aroma floral yang menenangkan pikiran dan mendukung tidur berkualitas.",
     impact:
       "Ditanam oleh komunitas perempuan, menarik lebah penyerbuk dan meningkatkan kesejahteraan.",
-    image: "https://placehold.co/500x400/f7f2fb/6d5d97?text=Lavender",
-    accent: "linear-gradient(135deg, #f7f2fb 0%, #eadcf5 100%)",
+    image: "/assets/Lavender.png",
+    accent: "linear-gradient(135deg, #fef4ec 0%, #f9dcc6 100%)",
     icon: "🌸",
     highlights: ["Aromaterapi natural", "Membantu kulit beristirahat"],
   },
@@ -196,8 +196,7 @@ export function IngredientsImpactSection() {
                   <Image
                     src={card.image}
                     alt={card.title}
-                    width={500}
-                    height={400}
+                    fill
                     className={styles.cardImage}
                     unoptimized
                     sizes="(max-width: 768px) 90vw, 420px"

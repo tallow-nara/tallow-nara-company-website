@@ -98,15 +98,13 @@
   scroll-snap-type: x mandatory;
   scroll-padding: clamp(1rem, 2vw, 1.5rem);
   -webkit-overflow-scrolling: touch;
-
-  /* ✅ Tambahkan baris di bawah ini */
-  scrollbar-width: none; /* Untuk Firefox */
-  -ms-overflow-style: none; /* Untuk Internet Explorer dan Edge lama */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .slider::-webkit-scrollbar {
   height: 6px;
-  display: none; /* Untuk Chrome, Safari, dan Opera */
+  display: none;
 }
 
 .slider::-webkit-scrollbar-thumb {
@@ -137,12 +135,17 @@
   position: relative;
   background: rgba(197, 208, 167, 0.2);
   padding: 0.85rem;
+  aspect-ratio: 1 / 1;
+  display: block;
 }
 
 .cardImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
+  object-fit: cover;
   border-radius: 18px;
 }
 
