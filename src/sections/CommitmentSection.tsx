@@ -133,7 +133,7 @@ export function CommitmentSection() {
   });
 
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.4, 0.6]);
-  const badgeY = useTransform(scrollYProgress, [0, 1], [0, -20]);
+  // const badgeY = useTransform(scrollYProgress, [0, 1], [0, -20]);
   const planetSpin = useTransform(scrollYProgress, [0, 1], ["0deg", "15deg"]);
 
   return (
