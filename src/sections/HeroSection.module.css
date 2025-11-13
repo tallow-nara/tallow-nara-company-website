@@ -19,13 +19,13 @@
 .backgroundGradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
+  /* background: radial-gradient(
       circle at top left,
       rgba(255, 255, 255, 0.4),
       transparent 55%
     ),
     radial-gradient(circle at 80% 20%, rgba(181, 199, 157, 0.3), transparent 60%),
-    linear-gradient(135deg, #f9f4ee 0%, #f1eddf 45%, #f6f3ec 100%);
+    linear-gradient(135deg, #f9f4ee 0%, #f1eddf 45%, #f6f3ec 100%); */
 }
 
 .cloud {
