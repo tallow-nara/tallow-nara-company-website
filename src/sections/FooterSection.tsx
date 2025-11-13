@@ -18,7 +18,7 @@ const variants: Variants = {
 const socials = [
   { label: "Instagram", link: "#", handle: "@tallownara" },
   { label: "TikTok", link: "#", handle: "@tallownara" },
-  { label: "Shopee", link: "#", handle: "Shopee Mall" },
+  { label: "Shopee", link: "https://shopee.co.id/yasyfeen_id?categoryId=100632&entryPoint=ShopByPDP&itemId=18585542253", handle: "Shopee Mall" },
   { label: "Tokopedia", link: "#", handle: "Tallownara Store" },
 ];
 
@@ -55,13 +55,13 @@ export function FooterSection() {
         <motion.div className={styles.info} variants={variants} custom={3}>
           <div>
             <h4>Bogor Studio</h4>
-            <p>Jl. Hujan Rintik No. 11</p>
-            <p>Bogor 16143 · Indonesia</p>
+            <p>Kristal Garden Residence</p>
+            <p>Kab.Bogor 1618</p>
           </div>
           <div>
             <h4>Hubungi Kami</h4>
             <p>hello@tallownara.com</p>
-            <p>+62 812 3456 7890</p>
+            <p>0815-819-2911</p>
           </div>
           <div>
             <h4>Ikuti</h4>

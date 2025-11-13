@@ -32,7 +32,7 @@ const heroProducts = [
   },
   {
     name: "Lavender Dew Lotion",
-    description: "Lotion ringan beraroma lavender Tasikmalaya untuk malam damai.",
+    description: "Lotion ringan beraroma lavender Artisan Bogor untuk malam damai.",
     image: "https://placehold.co/400x300?text=Lotion",
     badge: "Lotion",
     accent: "#f0ecf6",

@@ -73,7 +73,7 @@ const cards = [
     ],
   },
   {
-    title: "Minyak Lavender Tasikmalaya",
+    title: "Minyak Lavender Artisan Bogor",
     subtitle:
       "Aroma floral yang menenangkan pikiran dan mendukung tidur berkualitas.",
     impact:
@@ -170,7 +170,7 @@ export function IngredientsImpactSection() {
           >
             Setiap bahan utama kami punya cerita tentang kelembutan kulit
             sekaligus keberlanjutan bumi. Dari tallow Tuban hingga lavender
-            Tasikmalaya, semuanya dirawat dengan penuh kasih.
+            Bogor, semuanya dirawat dengan penuh kasih.
           </motion.p>
         </div>
 

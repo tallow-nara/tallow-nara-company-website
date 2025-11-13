@@ -28,30 +28,30 @@ const cardVariants: Variants = {
 
 const products = [
   {
-    name: "Bogor Tallow Soap",
-    category: "Sabun Padat",
+    name: "Tallow Balm",
+    category: "Balm",
     description:
-      "Sabun artisan dengan lapisan busa creamy, membersihkan lembut tanpa membuat kulit terasa kering.",
-    benefits: ["Vitamin A, D, E, K", "Busa creamy", "Aroma daun jeruk"],
-    image: "https://placehold.co/420x420/f5eee4/2e2b26?text=Tallow+Soap",
+      "A Daily moisturizer, face cream, baby lotion, deep conditioning treatment for hair, sunburn and diaper rash.",
+    benefits: ["Beef tallow from 100% grass fed cows", "Organic certified extra virgin olive oil", "true lavender essential oil"],
+    image: "/assets/product/ProductTallow.jpg",
     accent: "#f0e3d4",
     detail: {
       intro:
-        "Diproses dingin 6 minggu agar nutrisi tallow Tuban tetap utuh. Cocok untuk bayi hingga dewasa.",
-      ritual: "Busakan di telapak tangan, pijat lembut dan biarkan busa bekerja 60 detik sebelum dibilas.",
+        "Enjoy our small-batch made, grass-fed, tallow balm. The texture is light, allowing the balm to absorb right on skin contact. We always package in reusable glass jars.",
+      ritual: "Apply a small amount on your dry area to provide occlusive, nourishing protective layer to your skin and seal in your skincare for optimal results.",
       testimonial: {
-        quote: "Kulit anak saya tidak lagi bersisik setelah mandi dengan sabun ini.",
-        author: "Rani · Bogor",
+        quote: "Pembelian kedua langsung upsize 100ml, Pekan lalu beli size 30ml karena cobain dulu yaa ges. Alhamdulillah anakku cocok, eksim di kakinya membaik dengan izin Allah",
+        author: "Review · Shopee",
       },
     },
   },
   {
-    name: "Illipe Comfort Balm",
-    category: "Balm",
+    name: "Tallow Soap",
+    category: "Soap",
     description:
-      "Balm serbaguna yang meleleh begitu menyentuh kulit, menenangkan ruam, gigitan serangga, hingga bibir pecah.",
-    benefits: ["Mentega tengkawang", "Zero petroleum", "Barrier repair"],
-    image: "https://placehold.co/420x420/f2eadf/2e2b26?text=Comfort+Balm",
+      "A gentle cleansing bar that moisturizes and soothes the skin without stripping its natural moisture barrier.",
+    benefits: ["100% Grass-fed Beef Tallow", "Natural Cold Process Soap", "SLS/SLES & Toxin-Free"],
+    image: "https://placehold.co/420x420/f2eadf/2e2b26?text=Comfort+Soap",
     accent: "#f7e8d8",
     detail: {
       intro:
@@ -60,42 +60,6 @@ const products = [
       testimonial: {
         quote: "Area siku dan pipi bayi saya kembali lembap dalam tiga hari.",
         author: "Mita · Jakarta",
-      },
-    },
-  },
-  {
-    name: "Lavender Dew Lotion",
-    category: "Lotion",
-    description:
-      "Lotion ringan dengan humektan nabati dan lavender Tasikmalaya yang membantu kulit beristirahat di malam hari.",
-    benefits: ["Cepat meresap", "Relaksasi aroma", "Hydra-lock 8 jam"],
-    image: "https://placehold.co/420x420/ede8f4/2e2b26?text=Lavender+Dew",
-    accent: "#e7e0f1",
-    detail: {
-      intro:
-        "Tekstur water-cream dengan sentuhan minyak lavender yang menenangkan pikiran sekaligus menjaga kelembapan.",
-      ritual: "Gunakan setelah mandi sore, pijat dari kaki ke atas untuk membantu sirkulasi.",
-      testimonial: {
-        quote: "Tidur saya lebih pulas dan kulit terasa kenyal saat bangun.",
-        author: "Nadia · Bandung",
-      },
-    },
-  },
-  {
-    name: "Sunlit Veil Hand Butter",
-    category: "Limited Batch",
-    description:
-      "Krim tangan dengan minyak bunga matahari dan lilin lebah, melindungi kulit dari keringnya AC.",
-    benefits: ["Melting texture", "Shea & tallow", "Proteksi harian"],
-    image: "https://placehold.co/420x420/fdf4e6/2e2b26?text=Hand+Butter",
-    accent: "#fdeedc",
-    detail: {
-      intro:
-        "Dipadukan dengan minyak bunga kenanga untuk aroma lembut yang bertahan lama tanpa menyengat.",
-      ritual: "Oleskan sebanyak biji jagung, gosok perlahan hingga menyerap. Ulangi kapan pun dibutuhkan.",
-      testimonial: {
-        quote: "Tidak lengket sama sekali dan kuku terlihat sehat.",
-        author: "Dara · Surabaya",
       },
     },
   },

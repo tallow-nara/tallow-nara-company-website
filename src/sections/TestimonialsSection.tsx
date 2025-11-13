@@ -35,7 +35,7 @@ const testimonials = [
     location: "Bandung, Jawa Barat",
     role: "Pecinta produk natural",
     quote:
-      "Illipe Comfort Balm benar-benar melembapkan tanpa rasa lengket. Saya suka karena komitmennya pada komunitas lokal.",
+      "Tallow Balm benar-benar melembapkan tanpa rasa lengket. Saya suka karena komitmennya pada komunitas lokal.",
     image: "https://placehold.co/300x300/f1ebe2/2e2b26?text=Dinda",
   },
   {
@@ -43,7 +43,7 @@ const testimonials = [
     location: "Jakarta Selatan",
     role: "Health Coach",
     quote:
-      "Lavender Dew Lotion membuat kulit saya tenang setelah aktivitas luar ruangan. Teksturnya ringan tapi hasilnya bertahan lama.",
+      "Tallow Balm membuat kulit saya tenang setelah aktivitas luar ruangan. Teksturnya ringan tapi hasilnya bertahan lama.",
     image: "https://placehold.co/300x300/efe8da/2e2b26?text=Zahra",
   },
   {

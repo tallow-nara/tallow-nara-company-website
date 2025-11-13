@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import styles from "./StorySection.module.css";
 
+
 const cubicEase = [0.45, 0.05, 0.2, 1] as const;
 
 const titleVariants: Variants = {
@@ -53,14 +54,14 @@ const quoteVariants: Variants = {
 
 const storyParagraphs = [
   "Di kota hujan Bogor, seorang ibu mencari jawaban untuk kulit bayi yang sensitif. Setiap tetes hujan menjadi doa agar ditemukan perawatan yang aman dan menenangkan.",
-  "Perjalanan itu menuntunnya ke Tuban, Kalimantan, dan Tasikmalaya untuk bertemu petani, peternak, serta peracik minyak aromatik yang setia menjaga alam.",
-  "Tallownara bukan sekadar produk; ia adalah cerita tentang cinta seorang ibu yang menjahit harapan melalui bahan-bahan terbaik Nusantara.",
+  "Perjalanan itu menuntunnya ke Tuban, dan Kalimantan untuk bertemu petani, peternak, serta peracik minyak aromatik yang setia menjaga alam.",
+  "Tallownara bukan sekadar produk, ia adalah cerita tentang cinta seorang ibu yang menjahit harapan melalui bahan-bahan terbaik Nusantara.",
 ];
 
 const timelineJourney = [
   {
     year: "2015",
-    city: "Bogor",
+    city: "Kab.Bogor",
     region: "Jawa Barat",
     narrative:
       "Awal kegelisahan seorang ibu untuk menemukan perawatan paling lembut bagi kulit bayi.",
@@ -81,7 +82,7 @@ const timelineJourney = [
   },
   {
     year: "2018",
-    city: "Tasikmalaya",
+    city: "Bogor",
     region: "Jawa Barat",
     narrative:
       "Penyuling lavender perempuan mengajarkan pendekatan aroma yang menenangkan kulit dan batin.",
@@ -161,7 +162,7 @@ export function StorySection() {
           >
             <div className={styles.illustrationFrame}>
               <Image
-                src="https://placehold.co/700x500/f4ede2/8a7051?text=Ibu+dan+anak"
+                src="/assets/Ibu&Anak.png"
                 alt="Ilustrasi ibu berhijab merawat anaknya"
                 width={700}
                 height={500}

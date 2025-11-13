@@ -89,7 +89,7 @@ export function HeroSection() {
           >
             <div className={styles.illustrationFrame}>
               <Image
-                src="https://placehold.co/520x560/f6f1e8/9d8264?text=Tallownara+Story"
+                src="/assets/product/ProductTallow.jpg"
                 alt="Ilustrasi kisah Tallownara"
                 fill
                 className={styles.illustration}
