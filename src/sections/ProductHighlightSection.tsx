@@ -51,7 +51,7 @@ const products = [
     description:
       "A gentle cleansing bar that moisturizes and soothes the skin without stripping its natural moisture barrier.",
     benefits: ["100% Grass-fed Beef Tallow", "Natural Cold Process Soap", "SLS/SLES & Toxin-Free"],
-    image: "https://placehold.co/420x420/f2eadf/2e2b26?text=Comfort+Soap",
+    image: "/assets/product/TallowSoap.png",
     accent: "#f7e8d8",
     detail: {
       intro:
