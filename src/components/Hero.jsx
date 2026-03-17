@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 function Hero() {
   return (
     <section 
@@ -9,10 +11,15 @@ function Hero() {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <h2>Perawatan Kulit Alami</h2>
-      <h1>Kulit Sehat Berseri Bersama Tallownara</h1>
-      <p>Temukan rangkaian produk skincare terbaik kami</p>
-      <button>Belanja Sekarang</button>
+      <div style={{ paddingLeft: '20px' }}>
+        <h2>Perawatan Kulit Alami</h2>
+        <h1 style={{ color: '#ffffff' }}>Kulit Sehat Berseri Bersama Tallownara</h1>
+        <p style={{ color: '#ffffff' }}>Temukan rangkaian produk skincare terbaik kami</p>
+        
+        <Link href="/shop">
+          <button className="normal">Belanja Sekarang</button>
+        </Link>
+      </div>
     </section>
   );
 }

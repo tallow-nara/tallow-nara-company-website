@@ -6,7 +6,6 @@ function ProductCard({ image, category, title, price, shopeeLink, bpom, safeForA
         <span>{category}</span>
         <h5>{title}</h5>
         
-        {/* Tambahan BPOM dan Label Keamanan */}
         {bpom && <p style={{ fontSize: '11px', color: '#8c9c8a', margin: '5px 0' }}>BPOM: {bpom}</p>}
         {safeForAll && (
           <p style={{ fontSize: '11px', color: '#2c3e2e', fontWeight: 'bold', margin: '0 0 5px 0' }}>
