@@ -52,7 +52,7 @@ function About() {
             Setiap tetes hujan menjadi doa agar ditemukan perawatan yang aman dan menenangkan.
           </p>
           <p>
-            Perjalanan itu menuntunnya ke Tuban, dan Kalimantan untuk bertemu petani, 
+            Perjalanan itu menuntunnya ke Tuban untuk bertemu petani, 
             peternak, serta peracik minyak aromatik yang setia menjaga alam.
           </p>
           <p>
@@ -88,13 +88,13 @@ function About() {
             <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', margin: 0 }}>Bertemu pengrajin tallow rumahan yang tekun memurnikan bahan kaya vitamin.</p>
           </div>
 
-          {/* Kartu 2017 */}
+          {/* Kartu 2017
           <div style={cardStyle}>
             <span style={{ fontSize: '13px', color: '#8c9c8a', letterSpacing: '1px', marginBottom: '8px' }}>2017</span>
             <h3 style={{ color: darkGreenText, fontSize: '18px', marginBottom: '4px' }}>Kalimantan</h3>
             <p style={{ fontSize: '12px', color: '#888', marginBottom: '15px' }}>Tengah & Barat</p>
             <p style={{ fontSize: '14px', color: '#555', lineHeight: '1.6', margin: 0 }}>Para penjaga hutan mengenalkan mentega tengkawang dan makna keberlanjutan.</p>
-          </div>
+          </div> */}
 
           {/* Kartu 2018 */}
           <div style={cardStyle}>
