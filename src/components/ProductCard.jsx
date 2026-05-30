@@ -1,4 +1,4 @@
-function ProductCard({ image, category, title, price, shopeeLink, bpom, safeForAll }) {
+function ProductCard({ image, category, title, bpom, safeForAll }) {
   return (
     <div className="pro">
       <img src={image} alt={title} />
@@ -21,11 +21,7 @@ function ProductCard({ image, category, title, price, shopeeLink, bpom, safeForA
           <i className="fas fa-star"></i>
           <i className="fas fa-star"></i>
         </div>
-        <h4>{price}</h4>
       </div>
-      <a href={shopeeLink} target="_blank" rel="noopener noreferrer">
-        <i className="fal fa-shopping-cart cart"></i>
-      </a>
     </div>
   );
 }

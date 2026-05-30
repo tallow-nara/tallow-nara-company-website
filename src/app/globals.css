@@ -355,7 +355,6 @@ body {
   padding: 10px 12px;
   border: 1px solid #eaeaea;
   border-radius: 16px;
-  cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
   margin: 15px 0;
   transition: 0.3s ease;
@@ -392,33 +391,6 @@ body {
 #product1 .pro .des i {
   font-size: 12px;
   color: rgb(243, 181, 25);
-}
-
-#product1 .pro .des h4 {
-  padding-top: 7px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #2c3e2e;
-}
-
-#product1 .pro .cart {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 50px;
-  background-color: #faf9f6;
-  font-weight: 500;
-  color: #2c3e2e;
-  border: none;
-  position: absolute;
-  bottom: 20px;
-  right: 10px;
-  transition: 0.3s ease;
-}
-
-#product1 .pro .cart:hover {
-  background-color: #2c3e2e;
-  color: #ffffff;
 }
 
 .slider-container {
@@ -1575,7 +1547,6 @@ body {
   padding: 10px 12px;
   border: 1px solid #eaeaea;
   border-radius: 16px;
-  cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
   margin: 15px 0;
   transition: 0.3s ease;
@@ -1612,33 +1583,6 @@ body {
 #product1 .pro .des i {
   font-size: 12px;
   color: rgb(243, 181, 25);
-}
-
-#product1 .pro .des h4 {
-  padding-top: 7px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #2c3e2e;
-}
-
-#product1 .pro .cart {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 50px;
-  background-color: #faf9f6;
-  font-weight: 500;
-  color: #2c3e2e;
-  border: none;
-  position: absolute;
-  bottom: 20px;
-  right: 10px;
-  transition: 0.3s ease;
-}
-
-#product1 .pro .cart:hover {
-  background-color: #2c3e2e;
-  color: #ffffff;
 }
 
 .slider-container {
