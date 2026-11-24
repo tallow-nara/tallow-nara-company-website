@@ -7,6 +7,9 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
 import { Achievements } from './collections/Achievements'
+import { CustomerSessions } from './collections/CustomerSessions'
+import { CustomerTokens } from './collections/CustomerTokens'
+import { Customers } from './collections/Customers'
 import { Faqs } from './collections/Faqs'
 import { LegalPages } from './collections/LegalPages'
 import { Media } from './collections/Media'
@@ -17,20 +20,47 @@ import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { WebhookEvents } from './collections/WebhookEvents'
 import { About } from './globals/About'
+import { GalleryPage } from './globals/GalleryPage'
+import { Home } from './globals/Home'
 import { SiteSettings } from './globals/SiteSettings'
 import { serverEnv } from './lib/env'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const isProduction = process.env.NODE_ENV === 'production'
+// Asal permintaan yang boleh memakai cookie login. Saat pengembangan, port lokal ikut diizinkan.
+const trustedOrigins = [
+  serverEnv.NEXT_PUBLIC_SITE_URL,
+  ...(isProduction
+    ? []
+    : [3000, 3001, 3002].flatMap((port) => [`http://localhost:${port}`, `http://127.0.0.1:${port}`])),
+]
+
 export default buildConfig({
+  // Alamat admin dibaca dari .env (ADMIN_PATH) dan tidak ada di kode. src/proxy.ts meneruskannya ke halaman admin.
+  routes: { admin: serverEnv.ADMIN_PATH },
+  // GraphQL tidak dipakai; dimatikan agar permukaan serangan lebih kecil.
+  graphQL: { disable: true },
+  csrf: trustedOrigins,
+  cors: trustedOrigins,
   admin: {
+    theme: 'light',
     user: Users.slug,
-    importMap: { baseDir: dirname },
+    importMap: {
+      baseDir: dirname,
+      // Folder internal tetap /admin walau alamat publiknya rahasia (lihat src/proxy.ts).
+      importMapFile: path.resolve(dirname, 'app/(payload)/admin/importMap.js'),
+    },
     meta: { titleSuffix: ' · Tallownara' },
+    components: {
+      beforeDashboard: ['/components/admin/DashboardWelcome#DashboardWelcome'],
+      graphics: { Logo: '/components/admin/Logo#Logo', Icon: '/components/admin/Logo#Icon' },
+    },
   },
   collections: [
     Products,
     Orders,
+    Customers,
     Reviews,
     Achievements,
     LegalPages,
@@ -38,9 +68,11 @@ export default buildConfig({
     Media,
     Users,
     OtpCodes,
+    CustomerSessions,
+    CustomerTokens,
     WebhookEvents,
   ],
-  globals: [SiteSettings, About],
+  globals: [Home, About, GalleryPage, SiteSettings],
   db: postgresAdapter({
     pool: { connectionString: serverEnv.DATABASE_URL },
   }),
@@ -48,6 +80,8 @@ export default buildConfig({
   i18n: {
     fallbackLanguage: 'id',
     supportedLanguages: { id },
+    // Kolom centang di daftar tampil "benar/salah" secara bawaan; "Ya/Tidak" lebih mudah dipahami.
+    translations: { id: { general: { true: 'Ya', false: 'Tidak' } } },
   },
   secret: serverEnv.PAYLOAD_SECRET,
   sharp,

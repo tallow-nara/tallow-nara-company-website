@@ -1,37 +1,20 @@
 'use server'
 
 import config from '@payload-config'
-import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import { z } from 'zod'
 
-import { sendEmail } from './integrations/email'
 import { isMockPayment } from './integrations/payment'
 import { midtransSignature } from './integrations/payment/midtrans-signature'
 import { MOCK_SERVER_KEY, createMockPaymentAdapter } from './integrations/payment/mock'
 import { getShippingAdapter } from './integrations/shipping'
 import type { ShippingArea, ShippingRate } from './integrations/shipping/types'
-import { sendWhatsapp } from './integrations/whatsapp'
-import { getOrderByToken, getOrdersForPhone, trackOrder } from './orders/queries'
+import { getCurrentCustomer } from './customers/session'
+import { getOrderByToken, trackOrder } from './orders/queries'
 import { priceItems } from './orders/pricing'
 import { checkoutSchema } from './orders/schema'
 import { applyPaymentNotification, createOrder, type CreateOrderResult } from './orders/service'
-import {
-  generateOtp,
-  hashOtp,
-  HISTORY_SESSION_MS,
-  OTP_MAX_ATTEMPTS,
-  OTP_MAX_PER_HOUR,
-  OTP_RESEND_MS,
-  OTP_TTL_MS,
-  readSession,
-  signSession,
-  verifyOtpHash,
-} from './otp'
-import { normalizePhone } from './phone'
 import type { PublicOrder } from './shop-types'
-
-const SESSION_COOKIE = 'riwayat_sesi'
 
 export async function searchAreasAction(
   query: string,
@@ -86,8 +69,13 @@ export async function placeOrderAction(input: unknown): Promise<CreateOrderResul
   if (!parsed.success) {
     return { ok: false, message: parsed.error.issues[0]?.message ?? 'Periksa kembali data Anda.' }
   }
+  const customer = await getCurrentCustomer()
+  if (!customer) return { ok: false, message: 'Masuk dulu untuk membuat pesanan. Isi keranjang Anda tetap tersimpan.' }
+  if (!customer.verified) {
+    return { ok: false, message: 'Verifikasi email Anda dulu. Kami sudah mengirim tautannya; buka halaman Akun untuk mengirim ulang.' }
+  }
   try {
-    return await createOrder(parsed.data)
+    return await createOrder(parsed.data, { id: customer.id, email: customer.email })
   } catch (error) {
     console.error('Pesanan gagal dibuat', error)
     return { ok: false, message: 'Pesanan belum bisa dibuat. Data Anda aman, silakan coba lagi.' }
@@ -130,120 +118,6 @@ export async function trackOrderAction(_previous: TrackState, formData: FormData
     console.error('Lacak pesanan gagal', error)
     return { status: 'error' }
   }
-}
-
-export type OtpRequestResult = { ok: true; phone: string } | { ok: false; message: string }
-
-export async function requestOtpAction(rawPhone: string): Promise<OtpRequestResult> {
-  const phone = normalizePhone(rawPhone)
-  if (!phone) return { ok: false, message: 'Isi nomor WhatsApp aktif, contoh: 0812 3456 7890.' }
-
-  try {
-    const payload = await getPayload({ config })
-    const now = Date.now()
-    const { docs: recent } = await payload.find({
-      collection: 'otp-codes',
-      where: {
-        and: [
-          { phone: { equals: phone } },
-          { createdAt: { greater_than: new Date(now - 3_600_000).toISOString() } },
-        ],
-      },
-      sort: '-createdAt',
-      limit: OTP_MAX_PER_HOUR,
-      depth: 0,
-    })
-
-    if (recent.length >= OTP_MAX_PER_HOUR) {
-      return { ok: false, message: 'Batas 5 kode per jam tercapai. Coba lagi satu jam kemudian.' }
-    }
-    if (recent[0] && now - new Date(recent[0].createdAt).getTime() < OTP_RESEND_MS) {
-      return { ok: false, message: 'Tunggu 60 detik sebelum meminta kode baru.' }
-    }
-
-    const { docs: orders } = await payload.find({
-      collection: 'orders',
-      where: { customerPhone: { equals: phone } },
-      limit: 1,
-      depth: 0,
-    })
-
-    const code = generateOtp()
-    await payload.create({
-      collection: 'otp-codes',
-      data: { phone, codeHash: hashOtp(phone, code), expiresAt: new Date(now + OTP_TTL_MS).toISOString(), attempts: 0 },
-    })
-
-    const order = orders[0]
-    if (order) {
-      try {
-        await sendWhatsapp({ to: phone, template: 'kode_otp', params: [code] })
-      } catch (error) {
-        console.error('OTP WhatsApp gagal, memakai email', error)
-        await sendEmail({
-          to: order.customerEmail,
-          subject: 'Kode masuk Riwayat pesanan',
-          text: `Kode Anda ${code}. Berlaku 5 menit.`,
-        })
-      }
-    }
-    return { ok: true, phone }
-  } catch (error) {
-    console.error('OTP gagal dibuat', error)
-    return { ok: false, message: 'Kode belum bisa dikirim. Coba lagi beberapa saat.' }
-  }
-}
-
-export async function verifyOtpAction(
-  phone: string,
-  code: string,
-): Promise<{ ok: true } | { ok: false; message: string }> {
-  const invalid = { ok: false as const, message: 'Kode salah atau sudah kedaluwarsa. Periksa lalu coba lagi.' }
-  if (!/^\d{6}$/.test(code)) return { ok: false, message: 'Kode terdiri dari 6 angka.' }
-
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'otp-codes',
-    where: { and: [{ phone: { equals: phone } }, { consumedAt: { exists: false } }] },
-    sort: '-createdAt',
-    limit: 1,
-    depth: 0,
-  })
-  const record = docs[0]
-  if (!record || new Date(record.expiresAt).getTime() < Date.now() || record.attempts >= OTP_MAX_ATTEMPTS) {
-    return invalid
-  }
-
-  if (!verifyOtpHash(phone, code, record.codeHash)) {
-    await payload.update({ collection: 'otp-codes', id: record.id, data: { attempts: record.attempts + 1 } })
-    return invalid
-  }
-
-  await payload.update({ collection: 'otp-codes', id: record.id, data: { consumedAt: new Date().toISOString() } })
-  const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE, signSession(phone), {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: HISTORY_SESSION_MS / 1000,
-    path: '/',
-  })
-  return { ok: true }
-}
-
-export async function getHistorySession(): Promise<string | null> {
-  const cookieStore = await cookies()
-  return readSession(cookieStore.get(SESSION_COOKIE)?.value)
-}
-
-export async function getHistoryOrders(): Promise<PublicOrder[] | null> {
-  const phone = await getHistorySession()
-  return phone ? getOrdersForPhone(phone) : null
-}
-
-export async function endHistorySession(): Promise<void> {
-  const cookieStore = await cookies()
-  cookieStore.delete(SESSION_COOKIE)
 }
 
 const reviewSchema = z.object({

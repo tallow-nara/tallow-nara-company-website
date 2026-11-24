@@ -1,9 +1,19 @@
 import type { CollectionConfig } from 'payload'
 
+import { superAdminOnly } from '../access'
+
 export const LegalPages: CollectionConfig = {
   slug: 'legal-pages',
   labels: { singular: 'Halaman kebijakan', plural: 'Halaman kebijakan' },
-  admin: { useAsTitle: 'title', group: 'Konten', defaultColumns: ['title', 'slug', 'updatedLabel'] },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Konten',
+    defaultColumns: ['title', 'slug', 'updatedLabel'],
+    description:
+      'Syarat & Ketentuan, Kebijakan Pengembalian, dan Kebijakan Privasi. Isinya bisa diubah, tetapi halamannya tidak bisa dihapus karena ditautkan dari footer. Perubahan lama bisa dipulihkan lewat tab Versi.',
+  },
+  access: { create: superAdminOnly, delete: superAdminOnly },
+  versions: { maxPerDoc: 20 },
   fields: [
     { name: 'title', type: 'text', label: 'Judul', required: true },
     { name: 'slug', type: 'text', label: 'Alamat halaman', required: true, unique: true },

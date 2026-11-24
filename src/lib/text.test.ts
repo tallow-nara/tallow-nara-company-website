@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { toParagraphs } from './text'
+import { slugify, toParagraphs } from './text'
 
 describe('toParagraphs', () => {
   it('memisahkan paragraf pada baris kosong', () => {
@@ -19,5 +19,16 @@ describe('toParagraphs', () => {
     expect(toParagraphs(null)).toEqual([])
     expect(toParagraphs(undefined)).toEqual([])
     expect(toParagraphs('  \n\n ')).toEqual([])
+  })
+})
+
+describe('slugify', () => {
+  it('membuat alamat URL yang rapi', () => {
+    expect(slugify('Pemenang Pertama UMi Youthpreneur 2025')).toBe('pemenang-pertama-umi-youthpreneur-2025')
+    expect(slugify('3 Teratas Kategori Perawatan Diri, DCE Telkomsel 2026')).toBe(
+      '3-teratas-kategori-perawatan-diri-dce-telkomsel-2026',
+    )
+    expect(slugify('Pencapaian & acara')).toBe('pencapaian-dan-acara')
+    expect(slugify('  Café — Jakarta!  ')).toBe('cafe-jakarta')
   })
 })

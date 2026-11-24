@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url'
 
 import { getPayload } from 'payload'
 
+import { HOME_DEFAULTS } from './lib/home-content'
+import { slugify } from './lib/text'
 import config from './payload.config'
 
 const payload = await getPayload({ config })
@@ -349,6 +351,94 @@ for (const [index, { replaces, photos, ...entry }] of ENTRIES.entries()) {
   else await payload.create({ collection: 'achievements', data })
 }
 payload.logger.info('Pencapaian siap.')
+
+// Galeri: lengkapi alamat halaman album lama, album kegiatan, dan album unggulan beranda.
+const { docs: allAlbums } = await payload.find({ collection: 'achievements', depth: 0, pagination: false })
+for (const album of allAlbums) {
+  if (!album.slug) await payload.update({ collection: 'achievements', id: album.id, data: { slug: slugify(album.title) } })
+}
+const { totalDocs: hasProduction } = await payload.count({
+  collection: 'achievements',
+  where: { kind: { equals: 'kegiatan' } },
+})
+if (hasProduction === 0) {
+  await payload.create({
+    collection: 'achievements',
+    data: {
+      title: 'Produksi di Tuban',
+      kind: 'kegiatan',
+      dateLabel: '[[ISI: waktu]]',
+      location: 'Tuban, Jawa Timur',
+      summary: 'Tallow dimasak perlahan dan disaring dua kali di fasilitas produksi kami sebelum diolah menjadi balm dan sabun.',
+      photos: [
+        await foto('produksi-ruang', 'Ruang produksi Tallownara di Tuban'),
+        await foto('produksi-mesin', 'Peralatan baja tahan karat untuk mengolah tallow'),
+        await foto('lokakarya', 'Lokakarya perawatan kulit tallow bersama tim Tallownara'),
+      ],
+      sortOrder: 50,
+      isVisible: true,
+    },
+  })
+}
+const { totalDocs: featuredCount } = await payload.count({
+  collection: 'achievements',
+  where: { isFeatured: { equals: true } },
+})
+if (featuredCount === 0) {
+  const { docs: withPhotos } = await payload.find({
+    collection: 'achievements',
+    where: { isVisible: { equals: true } },
+    sort: 'sortOrder',
+    depth: 0,
+    pagination: false,
+  })
+  for (const album of withPhotos.filter((item) => (item.photos ?? []).length > 0).slice(0, 3)) {
+    await payload.update({ collection: 'achievements', id: album.id, data: { isFeatured: true } })
+  }
+}
+payload.logger.info('Galeri siap.')
+
+// Beranda: diisi dari teks bawaan sekali saja, supaya pemilik bisa langsung mengubahnya di admin.
+const currentHome = await payload.findGlobal({ slug: 'home', depth: 0 })
+if (!currentHome.heroTitle) {
+  const d = HOME_DEFAULTS
+  await payload.updateGlobal({
+    slug: 'home',
+    data: {
+      heroTitle: d.heroTitle,
+      heroBody: d.heroBody,
+      heroBadges: d.heroBadges.map((text) => ({ text })),
+      heroCaption: d.heroCaption,
+      heroImage: await foto('hero-peternakan', d.heroImage.alt),
+      heroImageMobile: await foto('hero-potret', d.heroImageMobile.alt),
+      productsTitle: d.productsTitle,
+      storyTitle: d.storyTitle,
+      storyBody: d.storyBody,
+      storyImage: await foto('tangan-bayi', d.storyImage.alt),
+      historyTitle: d.historyTitle,
+      historyIntro: d.historyIntro,
+      history: await Promise.all(
+        d.history.map(async ({ image, ...item }) => ({
+          ...item,
+          image: await foto(path.basename(image.src, '.webp'), image.alt),
+        })),
+      ),
+      processTitle: d.processTitle,
+      processIntro: d.processIntro,
+      processImage: await foto('sapi-padang', 'Sapi merumput di padang'),
+      process: d.process,
+      reviewsTitle: d.reviewsTitle,
+      galleryTitle: d.galleryTitle,
+      services: await Promise.all(
+        d.services.map(async ({ image, ...item }) => ({
+          ...item,
+          image: await foto(path.basename(image.src, '.webp'), item.title),
+        })),
+      ),
+    },
+  })
+  payload.logger.info('Beranda siap.')
+}
 
 // Halaman kebijakan dan FAQ: templat awal, perlu ditinjau pemilik dan penasihat hukum.
 const IDENTITY = '[[ISI: nama badan usaha]], beralamat di [[ISI: alamat badan usaha]]'

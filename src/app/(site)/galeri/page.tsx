@@ -1,69 +1,31 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 import { EmptyState } from '@/components/EmptyState'
-import { MediaImage } from '@/components/MediaImage'
+import { AlbumCard } from '@/components/gallery/AlbumCard'
 import { TemplateText } from '@/components/TemplateText'
-import { getVisibleAchievements } from '@/lib/content'
-import type { Achievement } from '@/payload-types'
+import { getGalleryPage, getVisibleAchievements } from '@/lib/content'
+import { albumMeta, isAlbumKind, KIND_LABELS, KIND_ORDER, photoCount } from '@/lib/gallery'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Pencapaian & acara',
-  description: 'Jejak Tallownara di panggung kompetisi dan pameran.',
+const DEFAULT_TITLE = 'Galeri'
+const DEFAULT_INTRO = 'Jejak Tallownara di panggung kompetisi, pameran, dan dapur produksi di Tuban.'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getGalleryPage()
+  return {
+    title: page?.title || DEFAULT_TITLE,
+    description: page?.intro || DEFAULT_INTRO,
+  }
 }
 
-const SECTIONS: { kind: Achievement['kind']; heading: string }[] = [
-  { kind: 'lomba', heading: 'Lomba' },
-  { kind: 'acara', heading: 'Acara' },
-]
+type Props = { searchParams: Promise<{ jenis?: string | string[] }> }
 
-function AchievementEntry({ item }: { item: Achievement }) {
-  const photos = item.photos ?? []
+export default async function GalleryPage({ searchParams }: Props) {
+  const [albums, page, { jenis }] = await Promise.all([getVisibleAchievements(), getGalleryPage(), searchParams])
 
-  return (
-    <article className="grid grid-cols-12 gap-x-6 gap-y-3 border-t border-stone py-8">
-      <p className="col-span-12 text-sm text-muted sm:text-base lg:col-span-3">
-        <TemplateText text={[item.dateLabel, item.location].filter(Boolean).join(' · ')} />
-      </p>
-      <div className="col-span-12 lg:col-span-9">
-        <h3 className="text-3xl font-normal sm:text-4xl">
-          <TemplateText text={item.title} />
-        </h3>
-        {item.summary && (
-          <p className="mt-3 max-w-2xl whitespace-pre-line">
-            <TemplateText text={item.summary} />
-          </p>
-        )}
-        {photos.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
-            {photos.map((photo, index) => {
-              const isLead = index === 0
-              const fillsTwoRows = isLead && photos.length >= 3
-              return (
-                <div
-                  key={typeof photo === 'number' ? photo : photo.id}
-                  className={`${isLead ? 'col-span-2' : ''} ${fillsTwoRows ? 'lg:row-span-2' : ''}`}
-                >
-                  <MediaImage
-                    media={photo}
-                    sizes={isLead ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 25vw, 50vw'}
-                    className={`aspect-[3/2] ${fillsTwoRows ? 'lg:aspect-auto lg:h-full' : ''}`}
-                  />
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
-    </article>
-  )
-}
-
-export default async function GalleryPage() {
-  const achievements = await getVisibleAchievements()
-
-  if (achievements.length === 0) {
+  if (albums.length === 0) {
     return (
       <EmptyState
         title="Galeri masih kosong"
@@ -74,28 +36,92 @@ export default async function GalleryPage() {
     )
   }
 
+  const activeKind = isAlbumKind(jenis) ? jenis : null
+  const withPhotos = albums.filter((album) => photoCount(album) > 0)
+  const withoutPhotos = albums.filter((album) => photoCount(album) === 0)
+  const kinds = KIND_ORDER.filter((kind) => withPhotos.some((album) => album.kind === kind))
+  const shown = activeKind ? withPhotos.filter((album) => album.kind === activeKind) : withPhotos
+
+  const filters = [
+    { href: '/galeri', label: 'Semua', isActive: activeKind === null },
+    ...kinds.map((kind) => ({ href: `/galeri?jenis=${kind}`, label: KIND_LABELS[kind], isActive: activeKind === kind })),
+  ]
+
   return (
-    <div className="page-shell pb-16 sm:pb-24">
-      <div className="py-16 sm:py-24">
-        <h1 className="display">Pencapaian &amp; acara</h1>
-        <p className="mt-6 max-w-xl text-muted">Jejak Tallownara di panggung kompetisi dan pameran.</p>
-      </div>
+    <div className="page-shell pb-20 sm:pb-28">
+      <header className="grid grid-cols-12 gap-x-6 gap-y-6 py-14 sm:py-20">
+        <div className="col-span-12 lg:col-span-8">
+          <p className="kicker">Galeri</p>
+          <h1 className="display mt-4">{page?.title || DEFAULT_TITLE}</h1>
+        </div>
+        <p className="col-span-12 max-w-xl self-end text-muted lg:col-span-4">{page?.intro || DEFAULT_INTRO}</p>
+      </header>
 
-      <div className="space-y-16">
-        {SECTIONS.map(({ kind, heading }) => {
-          const items = achievements.filter((item) => item.kind === kind)
-          if (items.length === 0) return null
+      {kinds.length > 1 && (
+        <nav aria-label="Saring album" className="mb-10">
+          <ul className="flex flex-wrap gap-2">
+            {filters.map(({ href, label, isActive }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className="chip min-h-11 border border-stone bg-white/70 px-5 text-ink no-underline hover:border-olive aria-[current=page]:border-olive-deep aria-[current=page]:bg-olive-deep aria-[current=page]:text-white"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
 
-          return (
-            <section key={kind}>
-              <h2 className="section-title pb-6">{heading}</h2>
-              {items.map((item) => (
-                <AchievementEntry key={item.id} item={item} />
-              ))}
-            </section>
-          )
-        })}
-      </div>
+      {shown.length > 0 ? (
+        <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((album) => (
+            <AlbumCard key={album.id} album={album} />
+          ))}
+        </div>
+      ) : (
+        <div className="panel p-8">
+          <p className="text-muted">
+            {activeKind ? `Belum ada album ${KIND_LABELS[activeKind].toLowerCase()} yang berfoto.` : 'Foto album menyusul.'}
+          </p>
+          {activeKind && (
+            <Link href="/galeri" className="btn btn-outline mt-5">
+              Lihat semua album
+            </Link>
+          )}
+        </div>
+      )}
+
+      {withoutPhotos.length > 0 && !activeKind && (
+        <section aria-labelledby="judul-juga-hadir" className="mt-24">
+          <h2 id="judul-juga-hadir" className="section-title">
+            {page?.otherEventsTitle || 'Juga hadir di'}
+          </h2>
+          <ul className="mt-8 grid gap-x-6 sm:grid-cols-2">
+            {withoutPhotos.map((album) => (
+              <li key={album.id} className="border-t border-stone py-6">
+                <p className="text-sm text-muted">
+                  {KIND_LABELS[album.kind]}
+                  {albumMeta(album) && (
+                    <>
+                      {' · '}
+                      <TemplateText text={albumMeta(album)} />
+                    </>
+                  )}
+                </p>
+                <h3 className="mt-1 text-2xl font-normal">{album.title}</h3>
+                {album.summary && (
+                  <p className="mt-2 text-base text-muted">
+                    <TemplateText text={album.summary} />
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   )
 }

@@ -42,7 +42,10 @@ export async function expireOverdueOrders(payload: Payload): Promise<void> {
   )
 }
 
-export async function createOrder(input: CheckoutInput): Promise<CreateOrderResult> {
+export async function createOrder(
+  input: CheckoutInput,
+  account: { id: number; email: string },
+): Promise<CreateOrderResult> {
   const payload = await getPayload({ config })
   await expireOverdueOrders(payload)
 
@@ -95,7 +98,8 @@ export async function createOrder(input: CheckoutInput): Promise<CreateOrderResu
       accessToken,
       status: 'menunggu_pembayaran',
       customerName: input.customerName,
-      customerEmail: input.customerEmail,
+      customer: account.id,
+      customerEmail: account.email,
       customerPhone,
       addressStreet: input.addressStreet,
       areaLabel: input.areaLabel,
@@ -121,7 +125,7 @@ export async function createOrder(input: CheckoutInput): Promise<CreateOrderResu
       accessToken,
       grossAmount: total,
       expiryHours: hours,
-      customer: { name: input.customerName, email: input.customerEmail, phone: customerPhone },
+      customer: { name: input.customerName, email: account.email, phone: customerPhone },
       items: [
         ...priced.items.map((item) => ({
           id: String(item.productId),

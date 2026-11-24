@@ -3,6 +3,11 @@ import type { GlobalConfig } from 'payload'
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Identitas dan angka',
+  versions: { max: 20 },
+  admin: {
+    group: 'Pengaturan',
+    description: 'Identitas badan usaha (tampil di footer) dan angka di beranda.',
+  },
   fields: [
     { name: 'legalName', type: 'text', label: 'Nama badan usaha' },
     { name: 'legalAddress', type: 'textarea', label: 'Alamat badan usaha' },

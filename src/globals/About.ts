@@ -5,6 +5,8 @@ const PARAGRAPH_HINT = 'Pisahkan paragraf dengan satu baris kosong.'
 export const About: GlobalConfig = {
   slug: 'about',
   label: 'Tentang kami',
+  versions: { max: 20 },
+  admin: { group: 'Konten' },
   fields: [
     {
       type: 'tabs',

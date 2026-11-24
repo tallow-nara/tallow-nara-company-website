@@ -49,15 +49,22 @@ export async function trackOrder(rawCode: string, lastFour: string): Promise<Pub
   return order && lastFourDigits(order.customerPhone) === lastFour ? toPublicOrder(order) : null
 }
 
-export async function getOrdersForPhone(phone: string): Promise<PublicOrder[]> {
+export async function getOrdersForCustomer(customerId: number): Promise<PublicOrder[]> {
   const payload = await getPayload({ config })
   await expireOverdueOrders(payload)
   const { docs } = await payload.find({
     collection: 'orders',
-    where: { customerPhone: { equals: phone } },
+    where: { customer: { equals: customerId } },
     sort: '-createdAt',
     depth: 0,
     limit: 50,
   })
   return docs.map(toPublicOrder)
+}
+
+export async function getOrderForCustomer(code: string, customerId: number): Promise<PublicOrder | null> {
+  const order = await findByCode(code)
+  if (!order) return null
+  const owner = typeof order.customer === 'object' && order.customer ? order.customer.id : order.customer
+  return owner === customerId ? toPublicOrder(order) : null
 }

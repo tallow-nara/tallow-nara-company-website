@@ -90,3 +90,34 @@ export async function getVisibleAchievements() {
   })
   return docs
 }
+
+export async function getHome() {
+  try {
+    const payload = await getPayload({ config })
+    return await payload.findGlobal({ slug: 'home', depth: 2 })
+  } catch (error) {
+    console.error('Gagal memuat isi beranda', error)
+    return null
+  }
+}
+
+export async function getGalleryPage() {
+  try {
+    const payload = await getPayload({ config })
+    return await payload.findGlobal({ slug: 'gallery-page', depth: 0 })
+  } catch (error) {
+    console.error('Gagal memuat halaman galeri', error)
+    return null
+  }
+}
+
+export async function getAchievementBySlug(slug: string) {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'achievements',
+    where: { and: [{ slug: { equals: slug } }, { isVisible: { equals: true } }] },
+    depth: 1,
+    limit: 1,
+  })
+  return docs[0] ?? null
+}

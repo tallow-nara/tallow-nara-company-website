@@ -9,6 +9,7 @@ export const Reviews: CollectionConfig = {
     group: 'Toko',
     description: 'Ulasan hanya tampil di website setelah statusnya Disetujui.',
   },
+  trash: true,
   fields: [
     { name: 'authorName', type: 'text', label: 'Nama', required: true },
     { name: 'authorNote', type: 'text', label: 'Keterangan penulis' },

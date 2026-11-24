@@ -10,8 +10,14 @@ export const Products: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'price', 'stock', 'bpomNumber', 'isVisible'],
     group: 'Toko',
+    listSearchableFields: ['name', 'slug'],
+    description:
+      'Harga, stok, foto, dan deskripsi produk. Stok berkurang otomatis saat pesanan dibayar. Produk yang dihapus masuk Sampah dan bisa dipulihkan.',
   },
   defaultSort: 'sortOrder',
+  trash: true,
+  versions: { maxPerDoc: 20 },
+
   fields: [
     {
       type: 'tabs',

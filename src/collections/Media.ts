@@ -6,8 +6,14 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const Media: CollectionConfig = {
   slug: 'media',
-  labels: { singular: 'Media', plural: 'Media' },
+  labels: { singular: 'Foto', plural: 'Pustaka foto' },
+  admin: {
+    group: 'Konten',
+    description:
+      'Semua foto website. Atur "titik fokus" saat mengunggah agar bagian penting (misalnya wajah) tidak terpotong di kartu.',
+  },
   access: { read: () => true },
+  trash: true,
   upload: {
     staticDir: path.resolve(dirname, '../../media'),
     mimeTypes: ['image/*'],
@@ -18,6 +24,10 @@ export const Media: CollectionConfig = {
       type: 'text',
       label: 'Teks alternatif',
       required: true,
+      admin: {
+        description:
+          'Jelaskan isi foto dalam satu kalimat, misalnya "Tim Tallownara di stan pameran Beograd". Dibacakan untuk pengguna tunanetra dan tampil sebagai keterangan di galeri.',
+      },
     },
   ],
 }

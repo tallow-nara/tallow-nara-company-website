@@ -5,9 +5,9 @@ import Link from 'next/link'
 import type { CartProduct } from '@/lib/shop-types'
 
 import { useCart, useHydrated } from './cart-store'
-import { CheckoutForm } from './CheckoutForm'
+import { CheckoutForm, type CheckoutAccount } from './CheckoutForm'
 
-export function CheckoutClient({ products }: { products: CartProduct[] }) {
+export function CheckoutClient({ products, account }: { products: CartProduct[]; account: CheckoutAccount }) {
   const lines = useCart()
   const hydrated = useHydrated()
 
@@ -36,5 +36,5 @@ export function CheckoutClient({ products }: { products: CartProduct[] }) {
     )
   }
 
-  return <CheckoutForm rows={rows} />
+  return <CheckoutForm rows={rows} account={account} />
 }

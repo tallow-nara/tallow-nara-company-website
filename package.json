@@ -18,7 +18,8 @@
     "db:down": "docker compose down",
     "seed": "payload run src/seed.ts",
     "generate:types": "payload generate:types",
-    "generate:importmap": "payload generate:importmap"
+    "generate:importmap": "payload generate:importmap",
+    "admin:super-admin": "payload run src/scripts/jadikan-super-admin.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

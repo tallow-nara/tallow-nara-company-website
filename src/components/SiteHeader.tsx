@@ -2,9 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import logo from '../../public/logo-tallownara.png'
+import { getCurrentCustomer } from '@/lib/customers/session'
+
 import { NavLinks } from './NavLinks'
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const customer = await getCurrentCustomer()
   return (
     <header className="sticky top-0 z-30 pt-3 sm:pt-4">
       <div className="page-shell">
@@ -12,7 +15,7 @@ export function SiteHeader() {
           <Link href="/" className="inline-block py-1">
             <Image src={logo} alt="Tallownara, ke beranda" priority className="h-7 w-auto sm:h-8" />
           </Link>
-          <NavLinks />
+          <NavLinks signedIn={customer !== null} />
         </div>
       </div>
     </header>

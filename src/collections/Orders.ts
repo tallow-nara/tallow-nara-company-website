@@ -109,6 +109,14 @@ export const Orders: CollectionConfig = {
         {
           label: 'Pembeli',
           fields: [
+            {
+              name: 'customer',
+              type: 'relationship',
+              relationTo: 'customers',
+              label: 'Akun pelanggan',
+              index: true,
+              admin: { ...readOnly, description: 'Kosong untuk pesanan lama yang dibuat sebagai tamu.' },
+            },
             { name: 'customerName', type: 'text', label: 'Nama', required: true, admin: readOnly },
             { name: 'customerEmail', type: 'email', label: 'Email', required: true, admin: readOnly },
             { name: 'customerPhone', type: 'text', label: 'Nomor WhatsApp', required: true, index: true, admin: readOnly },

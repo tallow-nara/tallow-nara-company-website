@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     products: Product;
     orders: Order;
+    customers: Customer;
     reviews: Review;
     achievements: Achievement;
     'legal-pages': LegalPage;
@@ -76,6 +77,8 @@ export interface Config {
     media: Media;
     users: User;
     'otp-codes': OtpCode;
+    'customer-sessions': CustomerSession;
+    'customer-tokens': CustomerToken;
     'webhook-events': WebhookEvent;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -86,6 +89,7 @@ export interface Config {
   collectionsSelect: {
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    customers: CustomersSelect<false> | CustomersSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
@@ -93,6 +97,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'otp-codes': OtpCodesSelect<false> | OtpCodesSelect<true>;
+    'customer-sessions': CustomerSessionsSelect<false> | CustomerSessionsSelect<true>;
+    'customer-tokens': CustomerTokensSelect<false> | CustomerTokensSelect<true>;
     'webhook-events': WebhookEventsSelect<false> | WebhookEventsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -104,12 +110,16 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    'site-settings': SiteSetting;
+    home: Home;
     about: About;
+    'gallery-page': GalleryPage;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
-    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    'gallery-page': GalleryPageSelect<false> | GalleryPageSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -140,6 +150,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Harga, stok, foto, dan deskripsi produk. Stok berkurang otomatis saat pesanan dibayar. Produk yang dihapus masuk Sampah dan bisa dipulihkan.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
@@ -191,16 +203,23 @@ export interface Product {
   sortOrder: number;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
+ * Semua foto website. Atur "titik fokus" saat mengunggah agar bagian penting (misalnya wajah) tidak terpotong di kartu.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
   id: number;
+  /**
+   * Jelaskan isi foto dalam satu kalimat, misalnya "Tim Tallownara di stan pameran Beograd". Dibacakan untuk pengguna tunanetra dan tampil sebagai keterangan di galeri.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -240,6 +259,10 @@ export interface Order {
   subtotal: number;
   shippingCost: number;
   total: number;
+  /**
+   * Kosong untuk pesanan lama yang dibuat sebagai tamu.
+   */
+  customer?: (number | null) | Customer;
   customerName: string;
   customerEmail: string;
   customerPhone: string;
@@ -269,6 +292,31 @@ export interface Order {
   createdAt: string;
 }
 /**
+ * Akun pembeli di tallownara.com. Pembeli mendaftar sendiri; di sini Anda hanya melihat dan membantu.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers".
+ */
+export interface Customer {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  /**
+   * Kosong berarti pembeli belum mengeklik tautan verifikasi.
+   */
+  emailVerifiedAt?: string | null;
+  lastLoginAt?: string | null;
+  passwordHash?: string | null;
+  failedLogins?: number | null;
+  /**
+   * Akun terkunci sementara setelah 5 kali salah kata sandi.
+   */
+  lockedUntil?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Ulasan hanya tampil di website setelah statusnya Disetujui.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -286,22 +334,42 @@ export interface Review {
   isFeatured?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
+ * Satu album untuk satu lomba, acara, atau kegiatan. Album dengan foto tampil sebagai kartu di halaman Galeri; album tanpa foto tampil di daftar "Juga hadir di".
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
  */
 export interface Achievement {
   id: number;
   title: string;
-  kind: 'lomba' | 'acara';
+  kind: 'lomba' | 'acara' | 'kegiatan';
   /**
    * Contoh: Mei 2026
    */
   dateLabel?: string | null;
+  /**
+   * Contoh: Beograd, Serbia
+   */
   location?: string | null;
+  /**
+   * Dua sampai tiga kalimat. Di kartu galeri hanya tiga baris pertama yang terlihat.
+   */
   summary?: string | null;
+  /**
+   * Foto pertama menjadi sampul. Seret untuk mengubah urutan. Bisa memilih atau mengunggah banyak foto sekaligus. Isi "Teks alternatif" tiap foto dengan keterangan singkat; teks ini juga tampil sebagai keterangan foto.
+   */
   photos?: (number | Media)[] | null;
+  /**
+   * Terisi otomatis dari judul. Contoh: tei-2026 → tallownara.com/galeri/tei-2026
+   */
+  slug?: string | null;
+  /**
+   * Maksimal tiga album dengan foto. Bila tidak ada yang dicentang, beranda memakai tiga album teratas.
+   */
+  isFeatured?: boolean | null;
   /**
    * Angka kecil tampil lebih dulu.
    */
@@ -309,8 +377,11 @@ export interface Achievement {
   isVisible?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
+ * Syarat & Ketentuan, Kebijakan Pengembalian, dan Kebijakan Privasi. Isinya bisa diubah, tetapi halamannya tidak bisa dihapus karena ditautkan dari footer. Perubahan lama bisa dipulihkan lewat tab Versi.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "legal-pages".
  */
@@ -334,6 +405,8 @@ export interface LegalPage {
   createdAt: string;
 }
 /**
+ * Pertanyaan yang tampil di halaman FAQ. Angka Urutan yang kecil tampil lebih dulu.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
@@ -345,13 +418,24 @@ export interface Faq {
   sortOrder: number;
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
 }
 /**
+ * Siapa saja yang bisa masuk ke admin. Super admin mengelola akun dan pengaturan; Admin mengelola konten, produk, dan pesanan.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  /**
+   * Nama yang mudah dikenali tim.
+   */
+  name?: string | null;
+  /**
+   * Hanya Super admin yang bisa mengubah peran.
+   */
+  role: 'super-admin' | 'admin';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -383,6 +467,32 @@ export interface OtpCode {
   expiresAt: string;
   attempts: number;
   consumedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-sessions".
+ */
+export interface CustomerSession {
+  id: number;
+  customer: number | Customer;
+  tokenHash: string;
+  expiresAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-tokens".
+ */
+export interface CustomerToken {
+  id: number;
+  customer: number | Customer;
+  kind: 'verifikasi' | 'reset';
+  tokenHash: string;
+  expiresAt: string;
+  usedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -430,6 +540,10 @@ export interface PayloadLockedDocument {
         value: number | Order;
       } | null)
     | ({
+        relationTo: 'customers';
+        value: number | Customer;
+      } | null)
+    | ({
         relationTo: 'reviews';
         value: number | Review;
       } | null)
@@ -456,6 +570,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'otp-codes';
         value: number | OtpCode;
+      } | null)
+    | ({
+        relationTo: 'customer-sessions';
+        value: number | CustomerSession;
+      } | null)
+    | ({
+        relationTo: 'customer-tokens';
+        value: number | CustomerToken;
       } | null)
     | ({
         relationTo: 'webhook-events';
@@ -539,6 +661,7 @@ export interface ProductsSelect<T extends boolean = true> {
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -560,6 +683,7 @@ export interface OrdersSelect<T extends boolean = true> {
   subtotal?: T;
   shippingCost?: T;
   total?: T;
+  customer?: T;
   customerName?: T;
   customerEmail?: T;
   customerPhone?: T;
@@ -590,6 +714,22 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers_select".
+ */
+export interface CustomersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  emailVerifiedAt?: T;
+  lastLoginAt?: T;
+  passwordHash?: T;
+  failedLogins?: T;
+  lockedUntil?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews_select".
  */
 export interface ReviewsSelect<T extends boolean = true> {
@@ -603,6 +743,7 @@ export interface ReviewsSelect<T extends boolean = true> {
   isFeatured?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -615,10 +756,13 @@ export interface AchievementsSelect<T extends boolean = true> {
   location?: T;
   summary?: T;
   photos?: T;
+  slug?: T;
+  isFeatured?: T;
   sortOrder?: T;
   isVisible?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -650,6 +794,7 @@ export interface FaqsSelect<T extends boolean = true> {
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -659,6 +804,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -674,6 +820,8 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -702,6 +850,30 @@ export interface OtpCodesSelect<T extends boolean = true> {
   expiresAt?: T;
   attempts?: T;
   consumedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-sessions_select".
+ */
+export interface CustomerSessionsSelect<T extends boolean = true> {
+  customer?: T;
+  tokenHash?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customer-tokens_select".
+ */
+export interface CustomerTokensSelect<T extends boolean = true> {
+  customer?: T;
+  kind?: T;
+  tokenHash?: T;
+  expiresAt?: T;
+  usedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -756,19 +928,93 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Isi halaman depan website. Perubahan langsung tampil setelah disimpan.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-settings".
+ * via the `definition` "home".
  */
-export interface SiteSetting {
+export interface Home {
   id: number;
-  legalName?: string | null;
-  legalAddress?: string | null;
-  nib?: string | null;
-  hours?: string | null;
-  stats?:
+  /**
+   * Bila dikosongkan, website memakai teks bawaan.
+   */
+  heroTitle?: string | null;
+  heroBody?: string | null;
+  /**
+   * Contoh: Terdaftar BPOM, Halal, Organik.
+   */
+  heroBadges?:
     | {
-        value: string;
-        label: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Foto mendatar, minimal 2000 px. Bagian kiri tertutup kotak teks.
+   */
+  heroImage?: (number | null) | Media;
+  /**
+   * Foto berdiri, rasio 4:5. Bila kosong, memakai foto lebar.
+   */
+  heroImageMobile?: (number | null) | Media;
+  /**
+   * Contoh: Diolah di Tuban, Jawa Timur. Hanya tampil di layar lebar.
+   */
+  heroCaption?: string | null;
+  /**
+   * Bila dikosongkan, website memakai teks bawaan.
+   */
+  productsTitle?: string | null;
+  storyTitle?: string | null;
+  /**
+   * Pisahkan paragraf dengan satu baris kosong. Paragraf kedua dan seterusnya tampil lebih redup.
+   */
+  storyBody?: string | null;
+  storyImage?: (number | null) | Media;
+  historyTitle?: string | null;
+  historyIntro?: string | null;
+  history?:
+    | {
+        /**
+         * Contoh: 500+ SM
+         */
+        era: string;
+        title: string;
+        body: string;
+        /**
+         * Gambar persegi berlatar polos atau transparan.
+         */
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  processTitle?: string | null;
+  processIntro?: string | null;
+  /**
+   * Foto ditutup warna hijau tua agar teks tetap terbaca.
+   */
+  processImage?: (number | null) | Media;
+  process?:
+    | {
+        title: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  reviewsTitle?: string | null;
+  galleryTitle?: string | null;
+  /**
+   * Tombol tiap kartu membuka WhatsApp toko.
+   */
+  services?:
+    | {
+        title: string;
+        body: string;
+        /**
+         * Kata kerja + objek. Contoh: Tanyakan jadwal lokakarya
+         */
+        action: string;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -820,19 +1066,97 @@ export interface About {
   createdAt?: string | null;
 }
 /**
+ * Judul dan pengantar halaman Galeri. Album dan fotonya diatur di menu Galeri.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-settings_select".
+ * via the `definition` "gallery-page".
  */
-export interface SiteSettingsSelect<T extends boolean = true> {
-  legalName?: T;
-  legalAddress?: T;
-  nib?: T;
-  hours?: T;
+export interface GalleryPage {
+  id: number;
+  /**
+   * Bawaan: Galeri
+   */
+  title?: string | null;
+  intro?: string | null;
+  /**
+   * Bawaan: Juga hadir di
+   */
+  otherEventsTitle?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Identitas badan usaha (tampil di footer) dan angka di beranda.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  legalName?: string | null;
+  legalAddress?: string | null;
+  nib?: string | null;
+  hours?: string | null;
   stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroBody?: T;
+  heroBadges?:
     | T
     | {
-        value?: T;
-        label?: T;
+        text?: T;
+        id?: T;
+      };
+  heroImage?: T;
+  heroImageMobile?: T;
+  heroCaption?: T;
+  productsTitle?: T;
+  storyTitle?: T;
+  storyBody?: T;
+  storyImage?: T;
+  historyTitle?: T;
+  historyIntro?: T;
+  history?:
+    | T
+    | {
+        era?: T;
+        title?: T;
+        body?: T;
+        image?: T;
+        id?: T;
+      };
+  processTitle?: T;
+  processIntro?: T;
+  processImage?: T;
+  process?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        id?: T;
+      };
+  reviewsTitle?: T;
+  galleryTitle?: T;
+  services?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+        action?: T;
+        image?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -871,6 +1195,38 @@ export interface AboutSelect<T extends boolean = true> {
         role?: T;
         group?: T;
         photo?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-page_select".
+ */
+export interface GalleryPageSelect<T extends boolean = true> {
+  title?: T;
+  intro?: T;
+  otherEventsTitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  legalName?: T;
+  legalAddress?: T;
+  nib?: T;
+  hours?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
         id?: T;
       };
   updatedAt?: T;

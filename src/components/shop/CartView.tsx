@@ -101,7 +101,7 @@ export function CartView({ products }: { products: CartProduct[] }) {
             <dt>Subtotal</dt>
             <dd className="tabular font-semibold">{formatRupiah(subtotal)}</dd>
           </dl>
-          <p className="mt-2 text-base text-muted">Ongkir dihitung saat checkout.</p>
+          <p className="mt-2 text-base text-muted">Ongkir dihitung saat checkout. Anda perlu masuk atau daftar akun untuk memesan.</p>
           {hasOverStock ? (
             <p className="field-error">Sesuaikan jumlah barang lebih dulu.</p>
           ) : (

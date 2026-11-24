@@ -68,9 +68,17 @@ const FOCUS_ID: Record<(typeof FIELD_ORDER)[number], string> = {
 
 type Row = { quantity: number; product: CartProduct }
 
-export function CheckoutForm({ rows }: { rows: Row[] }) {
+export type CheckoutAccount = { name: string; email: string; phone: string | null }
+
+export function CheckoutForm({ rows, account }: { rows: Row[]; account: CheckoutAccount }) {
   const [initial] = useState(readSaved)
-  const [values, setValues] = useState<Values>(initial)
+  // Data akun mengisi otomatis; isian yang pernah diubah di checkout ini tetap dipertahankan.
+  const [values, setValues] = useState<Values>({
+    ...initial,
+    customerName: initial.customerName || account.name,
+    customerPhone: initial.customerPhone || (account.phone ?? ''),
+    customerEmail: account.email,
+  })
   const [area, setArea] = useState<ShippingArea | null>(initial.area)
   const [rateKey, setRateKey] = useState(initial.rateKey)
   const [accepted, setAccepted] = useState(false)
@@ -88,7 +96,7 @@ export function CheckoutForm({ rows }: { rows: Row[] }) {
   const itemsKey = JSON.stringify(items)
 
   useEffect(() => {
-    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...values, area, rateKey }))
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...values, customerEmail: '', area, rateKey }))
   }, [values, area, rateKey])
 
   const fetchRates = (areaId: string) =>
@@ -224,7 +232,11 @@ export function CheckoutForm({ rows }: { rows: Row[] }) {
         <section className="space-y-5">
           <h2 className="border-t border-stone pt-6 text-3xl font-normal">Kontak penerima</h2>
           {textField('customerName', 'Nama lengkap', { autoComplete: 'name' })}
-          {textField('customerEmail', 'Email', { type: 'email', autoComplete: 'email', inputMode: 'email' })}
+          <div>
+            <p className="field-label">Email pesanan</p>
+            <p className="rounded-[var(--radius-sm)] bg-paper px-3 py-2 break-all">{account.email}</p>
+            <p className="mt-1 text-base text-muted">Bukti pesanan dikirim ke email akun Anda.</p>
+          </div>
           {textField('customerPhone', 'Nomor WhatsApp', { type: 'tel', autoComplete: 'tel', inputMode: 'tel' }, 'Kode pesanan dan nomor resi kami kirim ke nomor ini.')}
         </section>
 

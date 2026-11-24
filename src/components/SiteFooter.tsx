@@ -14,14 +14,14 @@ const COLUMNS = [
       { href: '/produk', label: 'Semua produk' },
       { href: '/keranjang', label: 'Keranjang' },
       { href: '/lacak', label: 'Lacak pesanan' },
-      { href: '/riwayat', label: 'Riwayat pesanan' },
+      { href: '/akun', label: 'Akun saya' },
     ],
   },
   {
     heading: 'Perusahaan',
     links: [
       { href: '/tentang-kami', label: 'Tentang kami' },
-      { href: '/galeri', label: 'Pencapaian dan acara' },
+      { href: '/galeri', label: 'Galeri' },
       { href: '/kontak', label: 'Kontak' },
       { href: '/faq', label: 'FAQ' },
     ],

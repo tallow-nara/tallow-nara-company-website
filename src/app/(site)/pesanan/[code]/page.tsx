@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { OrderDetails } from '@/components/shop/OrderDetails'
-import { getOrderByToken } from '@/lib/orders/queries'
+import { getCurrentCustomer } from '@/lib/customers/session'
+import { getOrderByToken, getOrderForCustomer } from '@/lib/orders/queries'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Pesanan', robots: { index: false } }
@@ -11,7 +12,12 @@ type Props = { params: Promise<{ code: string }>; searchParams: Promise<{ t?: st
 
 export default async function OrderPage({ params, searchParams }: Props) {
   const [{ code }, { t }] = await Promise.all([params, searchParams])
-  const order = t ? await getOrderByToken(code, t) : null
+  // Dua jalan masuk: tautan pembayaran (token), atau pemilik pesanan yang sedang masuk.
+  let order = t ? await getOrderByToken(code, t) : null
+  if (!order) {
+    const customer = await getCurrentCustomer()
+    order = customer ? await getOrderForCustomer(code, customer.id) : null
+  }
   if (!order) notFound()
 
   return (

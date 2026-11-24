@@ -1,0 +1,151 @@
+/*
+ * Tema admin Tallownara: putih bersih dengan aksen biru muda.
+ * Memakai variabel bawaan Payload, jadi seluruh admin ikut berubah tanpa menyentuh komponennya.
+ * Berkas ini tidak dalam @layer, sehingga mengalahkan nilai bawaan Payload.
+ */
+:root,
+html[data-theme='light'] {
+  --tln-blue: #2572c0; /* tombol utama, tautan: kontras 4.9:1 dengan teks putih */
+  --tln-blue-hover: #1c5fa6;
+  --tln-blue-soft: #eaf3fc; /* latar sorotan lembut */
+  --tln-blue-line: #cfe2f6;
+
+  /* Abu-abu bawaan diganti abu kebiruan yang sangat muda */
+  --color-base-0: #ffffff;
+  --color-base-50: #f7fafd;
+  --color-base-100: #eff5fb;
+  --color-base-150: #e1ecf7;
+  --color-base-200: #d1e0f0;
+  --color-base-250: #c1d4e8;
+  --color-base-300: #adc4de;
+  --color-base-350: #98b3d1;
+  --color-base-400: #829fc2;
+  --color-base-450: #6e8cb2;
+  --color-base-500: #5b7aa2;
+  --color-base-550: #4c6a91;
+  --color-base-600: #405b7f;
+  --color-base-650: #364d6c;
+  --color-base-700: #2d405a;
+  --color-base-750: #253448;
+  --color-base-800: #1d2a3a;
+  --color-base-850: #162130;
+  --color-base-900: #0f1925;
+  --color-base-950: #080f18;
+
+  --style-radius-s: 8px;
+  --style-radius-m: 12px;
+  --style-radius-l: 18px;
+
+  --accessibility-outline: 2px solid var(--tln-blue);
+  --accessibility-outline-offset: 2px;
+}
+
+body {
+  background: #ffffff;
+}
+
+/* Tombol utama berwarna biru, bukan hitam */
+.btn--style-primary {
+  --bg-color: var(--tln-blue);
+  --color: #ffffff;
+  --hover-bg: var(--tln-blue-hover);
+  --hover-color: #ffffff;
+}
+
+.btn--style-secondary {
+  --btn-border: 1px solid var(--tln-blue);
+  --color: var(--tln-blue-hover);
+  --hover-color: var(--tln-blue-hover);
+  --hover-btn-border: 1px solid var(--tln-blue-hover);
+}
+
+.btn--style-secondary:hover {
+  background: var(--tln-blue-soft);
+}
+
+.btn--style-pill {
+  --bg-color: var(--tln-blue-soft);
+  --hover-bg: var(--tln-blue-line);
+}
+
+/* Menu samping: sorotan biru muda pada halaman yang sedang dibuka */
+.nav {
+  background: var(--tln-blue-soft);
+  border-right: 1px solid var(--tln-blue-line);
+}
+
+.nav a.active,
+.nav a[aria-current='page'],
+.nav__link.active {
+  background: #ffffff;
+  color: var(--tln-blue-hover);
+  font-weight: 600;
+}
+
+.nav-group__toggle {
+  font-weight: 600;
+}
+
+/* Kolom isian: tepi biru muda saat fokus */
+input:focus,
+textarea:focus,
+.rs__control--is-focused {
+  border-color: var(--tln-blue) !important;
+  box-shadow: 0 0 0 3px var(--tln-blue-line) !important;
+}
+
+/* Tabel daftar */
+.table th {
+  background: var(--tln-blue-soft);
+}
+
+.table tbody tr:nth-child(odd) td {
+  background: #ffffff;
+}
+
+.table tbody tr:nth-child(even) td {
+  background: var(--color-base-50);
+}
+
+.table tbody tr:hover td {
+  background: var(--tln-blue-soft);
+}
+
+/* Kartu di dasbor */
+.card,
+.collection-card {
+  border-radius: var(--style-radius-m);
+}
+
+/* Logo di halaman masuk dan menu */
+.tln-logo {
+  display: block;
+  width: auto;
+  height: 2.25rem;
+}
+
+.template-minimal .tln-logo {
+  height: 3.25rem;
+  margin-inline: auto;
+}
+
+/* Teks bantu dan judul kolom harus tetap terbaca (kontras minimal 4.5:1) */
+.field-description,
+.field-label + .field-description,
+.table th,
+.search-filter__input::placeholder,
+.upload__description {
+  color: var(--color-base-650);
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.tln-icon {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: cover;
+  object-position: left center;
+}

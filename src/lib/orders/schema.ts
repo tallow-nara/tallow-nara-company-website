@@ -12,7 +12,8 @@ export const contactFields = {
   postalCode: z.string().regex(/^\d{5}$/, 'Kode pos terdiri dari 5 angka.'),
 }
 
-export const checkoutSchema = z.object({
+export const checkoutSchema = z
+  .object({
   ...contactFields,
   areaId: z.string().min(1, 'Cari lalu pilih kecamatan tujuan.'),
   areaLabel: z.string().min(1),
@@ -22,6 +23,8 @@ export const checkoutSchema = z.object({
   items: z
     .array(z.object({ productId: z.number().int().positive(), quantity: z.number().int().positive() }))
     .min(1, 'Keranjang Anda masih kosong.'),
-})
+  })
+  // Email pesanan selalu diambil dari akun yang sedang masuk, bukan dari isian browser.
+  .omit({ customerEmail: true })
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>

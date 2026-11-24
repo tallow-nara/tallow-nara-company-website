@@ -10,11 +10,11 @@ const LINKS = [
   { href: '/produk', label: 'Produk' },
   { href: '/#cara-pakai', label: 'Cara pakai' },
   { href: '/tentang-kami', label: 'Tentang kami' },
-  { href: '/galeri', label: 'Pencapaian' },
+  { href: '/galeri', label: 'Galeri' },
   { href: '/lacak', label: 'Lacak pesanan' },
 ]
 
-export function NavLinks() {
+export function NavLinks({ signedIn }: { signedIn: boolean }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
@@ -35,6 +35,15 @@ export function NavLinks() {
             </li>
           ))}
           <li className="ml-3">
+            <Link
+              href={signedIn ? '/akun' : '/masuk'}
+              aria-current={isCurrent(signedIn ? '/akun' : '/masuk') ? 'page' : undefined}
+              className={linkClass}
+            >
+              {signedIn ? 'Akun saya' : 'Masuk'}
+            </Link>
+          </li>
+          <li>
             <CartLink />
           </li>
         </ul>
@@ -73,6 +82,16 @@ export function NavLinks() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href={signedIn ? '/akun' : '/masuk'}
+                onClick={close}
+                aria-current={isCurrent(signedIn ? '/akun' : '/masuk') ? 'page' : undefined}
+                className={`${linkClass} -ml-4 w-full py-2`}
+              >
+                {signedIn ? 'Akun saya' : 'Masuk'}
+              </Link>
+            </li>
           </ul>
         </nav>
       )}
