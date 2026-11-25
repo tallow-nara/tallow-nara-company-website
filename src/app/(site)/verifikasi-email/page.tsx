@@ -23,8 +23,6 @@ export default async function VerifyEmailPage({ searchParams }: Props) {
     )
   }
 
-  // Halaman ini hanya memeriksa tautan. Verifikasi baru terjadi saat tombol ditekan,
-  // supaya pemindai tautan di email tidak ikut memakainya.
   if (token && (await isTokenValid('verifikasi', token))) {
     return (
       <AuthShell title="Verifikasi email" lead="Satu langkah lagi untuk mengaktifkan pemesanan di akun Anda.">

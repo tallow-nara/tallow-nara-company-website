@@ -1,6 +1,5 @@
 import { randomInt } from 'node:crypto'
 
-// Tanpa 0, O, 1, I, L agar mudah dibaca dan didiktekan.
 const ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'
 
 export function generateOrderCode(): string {

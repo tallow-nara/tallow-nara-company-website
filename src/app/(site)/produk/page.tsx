@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Produk',
-  description: 'Balm dan sabun tallow sapi grass-fed, terdaftar di BPOM dan halal.',
+  description: 'Balm dan sabun tallow sapi grass-fed asal Tuban, diproduksi di Bogor.',
 }
 
 export default async function ProductsPage() {
@@ -35,8 +35,7 @@ export default async function ProductsPage() {
           <p className="kicker">Toko</p>
           <h1 className="display mt-4">Produk</h1>
           <p className="mt-6 max-w-xl">
-            Setiap produk memakai tallow dari sapi yang diberi pakan rumput, diolah di Tuban, dan
-            terdaftar di BPOM.
+            Setiap produk memakai lemak sapi yang diberi pakan rumput dari Tuban, lalu diolah dan dikemas di Bogor.
           </p>
         </div>
         <div className="relative col-span-4 hidden aspect-[9/7] lg:block">

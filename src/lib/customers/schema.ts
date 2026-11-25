@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { checkPassword, CUSTOMER_PASSWORD_MIN } from '../password-policy'
 import { normalizePhone } from '../phone'
 
-/** Aturan isian akun. Bebas dari modul server agar bisa dipakai juga untuk validasi di browser. */
 export const nameField = z.string().trim().min(2, 'Isi nama lengkap, minimal 2 huruf.').max(80, 'Nama maksimal 80 huruf.')
 
 export const emailField = z
@@ -34,7 +33,6 @@ export const loginSchema = z.object({ email: emailField, password: loginPassword
 export const forgotSchema = z.object({ email: emailField })
 export const resetSchema = z.object({ token: z.string().min(20), password: newPasswordField })
 
-/** Hanya mengizinkan alamat di situs ini sebagai tujuan setelah masuk. */
 export function safeNext(value: unknown, fallback = '/akun'): string {
   if (typeof value !== 'string') return fallback
   if (!value.startsWith('/') || value.startsWith('//') || value.includes('\\')) return fallback

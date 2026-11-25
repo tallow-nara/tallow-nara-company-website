@@ -30,7 +30,6 @@ function paramsFor(template: keyof typeof SUBJECTS, order: NotifiableOrder): str
   }
 }
 
-/** Kegagalan notifikasi dicatat, tetapi tidak boleh menggagalkan pesanan. */
 export async function notifyOrder(template: keyof typeof SUBJECTS, order: NotifiableOrder): Promise<void> {
   const params = paramsFor(template, order)
   const results = await Promise.allSettled([

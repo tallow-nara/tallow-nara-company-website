@@ -53,7 +53,7 @@ export const Home: GlobalConfig = {
               name: 'heroCaption',
               type: 'text',
               label: 'Keterangan di pojok foto',
-              admin: { description: 'Contoh: Diolah di Tuban, Jawa Timur. Hanya tampil di layar lebar.' },
+              admin: { description: 'Contoh: Diolah di Bogor, Jawa Barat. Hanya tampil di layar lebar.' },
             },
           ],
         },

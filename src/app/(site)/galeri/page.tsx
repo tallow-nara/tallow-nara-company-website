@@ -10,7 +10,7 @@ import { albumMeta, isAlbumKind, KIND_LABELS, KIND_ORDER, photoCount } from '@/l
 export const dynamic = 'force-dynamic'
 
 const DEFAULT_TITLE = 'Galeri'
-const DEFAULT_INTRO = 'Jejak Tallownara di panggung kompetisi, pameran, dan dapur produksi di Tuban.'
+const DEFAULT_INTRO = 'Jejak Tallownara di panggung kompetisi, pameran, dan dapur produksi di Bogor.'
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getGalleryPage()

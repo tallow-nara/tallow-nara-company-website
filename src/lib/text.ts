@@ -6,7 +6,6 @@ export function toParagraphs(text: string | null | undefined): string[] {
     .filter(Boolean)
 }
 
-/** Mengubah judul menjadi alamat URL, misal "TEI 2026" → "tei-2026". */
 export function slugify(text: string): string {
   return text
     .normalize('NFKD')

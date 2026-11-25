@@ -1,7 +1,6 @@
 import { parseMidtransNotification } from './midtrans-signature'
 import type { PaymentAdapter } from './types'
 
-/** Kunci khusus simulasi lokal. Bukan rahasia dan tidak berlaku di produksi. */
 export const MOCK_SERVER_KEY = 'simulasi-lokal'
 
 export function createMockPaymentAdapter(): PaymentAdapter {

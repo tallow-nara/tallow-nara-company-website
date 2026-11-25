@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useEffectEvent, useRef, useState, type FormEvent } from 'react'
 
 import { getRatesAction, placeOrderAction, searchAreasAction } from '@/lib/actions'
 import type { ShippingArea, ShippingRate } from '@/lib/integrations/shipping/types'
 import { formatRupiah } from '@/lib/money'
 import { contactFields } from '@/lib/orders/schema'
-import type { CartProduct } from '@/lib/shop-types'
+import type { CartRow } from '@/lib/shop-types'
 
 import { clearCart } from './cart-store'
 
@@ -66,13 +66,10 @@ const FOCUS_ID: Record<(typeof FIELD_ORDER)[number], string> = {
   acceptTerms: 'acceptTerms',
 }
 
-type Row = { quantity: number; product: CartProduct }
-
 export type CheckoutAccount = { name: string; email: string; phone: string | null }
 
-export function CheckoutForm({ rows, account }: { rows: Row[]; account: CheckoutAccount }) {
+export function CheckoutForm({ rows, account }: { rows: CartRow[]; account: CheckoutAccount }) {
   const [initial] = useState(readSaved)
-  // Data akun mengisi otomatis; isian yang pernah diubah di checkout ini tetap dipertahankan.
   const [values, setValues] = useState<Values>({
     ...initial,
     customerName: initial.customerName || account.name,
@@ -92,7 +89,7 @@ export function CheckoutForm({ rows, account }: { rows: Row[]; account: Checkout
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const submittingRef = useRef(false)
 
-  const items = rows.map(({ quantity, product }) => ({ productId: product.id, quantity }))
+  const items = rows.map(({ quantity, key }) => (key.variantId ? { productId: key.productId, variantId: key.variantId, quantity } : { productId: key.productId, quantity }))
   const itemsKey = JSON.stringify(items)
 
   useEffect(() => {
@@ -107,11 +104,9 @@ export function CheckoutForm({ rows, account }: { rows: Row[]; account: Checkout
       .catch(() => setRateState({ kind: 'error', message: 'Ongkir belum bisa dimuat.' }))
 
   const initialAreaId = initial.area?.id
+  const loadInitialRates = useEffectEvent((areaId: string) => void fetchRates(areaId))
   useEffect(() => {
-    if (!initialAreaId) return
-    void fetchRates(initialAreaId)
-    // Hanya memuat ulang ongkir dari data tersimpan saat halaman dibuka.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (initialAreaId) loadInitialRates(initialAreaId)
   }, [initialAreaId])
 
   const loadRates = (areaId: string) => {
@@ -160,7 +155,7 @@ export function CheckoutForm({ rows, account }: { rows: Row[]; account: Checkout
 
   const rates = rateState.kind === 'ready' ? rateState.rates : []
   const selectedRate = rates.find((rate) => rateKeyOf(rate) === rateKey)
-  const subtotal = rows.reduce((sum, { quantity, product }) => sum + product.price * quantity, 0)
+  const subtotal = rows.reduce((sum, { quantity, price }) => sum + price * quantity, 0)
   const total = subtotal + (selectedRate?.price ?? 0)
 
   const submit = async (event: FormEvent) => {
@@ -336,10 +331,13 @@ export function CheckoutForm({ rows, account }: { rows: Row[]; account: Checkout
         <div className="panel-white rounded-[var(--radius-md)] p-6 lg:sticky lg:top-28">
           <h2 className="text-3xl font-normal">Ringkasan</h2>
           <ul className="mt-5 space-y-3 border-t border-stone pt-4">
-            {rows.map(({ quantity, product }) => (
-              <li key={product.id} className="flex justify-between gap-4 text-base">
-                <span>{product.name} × {quantity}</span>
-                <span className="tabular">{formatRupiah(product.price * quantity)}</span>
+            {rows.map(({ quantity, product, variantLabel, price, key }) => (
+              <li key={`${key.productId}:${key.variantId ?? ''}`} className="flex justify-between gap-4 text-base">
+                <span>
+                  {product.name}
+                  {variantLabel ? ` (${variantLabel})` : ''} × {quantity}
+                </span>
+                <span className="tabular">{formatRupiah(price * quantity)}</span>
               </li>
             ))}
           </ul>

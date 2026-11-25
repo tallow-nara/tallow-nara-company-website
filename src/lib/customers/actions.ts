@@ -35,7 +35,6 @@ function fieldErrors(schema: ZodType, values: unknown): Record<string, string> |
 const BUSY: FormState = { status: 'error', message: 'Permintaan belum bisa diproses. Data Anda aman, silakan coba lagi.' }
 
 export async function registerAction(_previous: FormState, formData: FormData): Promise<FormState> {
-  // Kolom jebakan untuk bot; manusia tidak melihatnya.
   if (formData.get('website')) return { status: 'ok' }
 
   const values = read(formData, 'name', 'email', 'phone', 'password')

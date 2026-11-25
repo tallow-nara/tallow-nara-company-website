@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload'
 
 import { nobody } from '../access'
 
-/** Token sekali pakai untuk verifikasi email dan atur ulang kata sandi. Hanya hash yang disimpan. */
 export const CustomerTokens: CollectionConfig = {
   slug: 'customer-tokens',
   admin: { hidden: true },

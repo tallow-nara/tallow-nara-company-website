@@ -17,9 +17,10 @@
     "db:up": "docker compose up -d --wait db",
     "db:down": "docker compose down",
     "seed": "payload run src/seed.ts",
-    "generate:types": "payload generate:types",
-    "generate:importmap": "payload generate:importmap",
-    "admin:super-admin": "payload run src/scripts/jadikan-super-admin.ts"
+    "generate:types": "payload generate:types && node src/scripts/bersihkan-komentar.mjs src/payload-types.ts",
+    "generate:importmap": "payload generate:importmap && node src/scripts/bersihkan-komentar.mjs 'src/app/(payload)/admin/importMap.js'",
+    "admin:super-admin": "payload run src/scripts/jadikan-super-admin.ts",
+    "admin:reset-sandi": "payload run src/scripts/reset-sandi-admin.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -33,6 +34,7 @@
     "@payloadcms/next": "3.93.0",
     "@payloadcms/richtext-lexical": "3.93.0",
     "@payloadcms/translations": "3.93.0",
+    "@payloadcms/ui": "3.93.0",
     "graphql": "^16.15.0",
     "next": "16.4.6",
     "payload": "3.93.0",

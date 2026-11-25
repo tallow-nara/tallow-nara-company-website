@@ -12,7 +12,6 @@ type Props = { params: Promise<{ code: string }>; searchParams: Promise<{ t?: st
 
 export default async function OrderPage({ params, searchParams }: Props) {
   const [{ code }, { t }] = await Promise.all([params, searchParams])
-  // Dua jalan masuk: tautan pembayaran (token), atau pemilik pesanan yang sedang masuk.
   let order = t ? await getOrderByToken(code, t) : null
   if (!order) {
     const customer = await getCurrentCustomer()

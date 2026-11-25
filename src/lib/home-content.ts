@@ -1,6 +1,5 @@
 import type { Home, Media } from '@/payload-types'
 
-/** Gambar yang bisa berasal dari admin (Media) atau berkas bawaan di public/foto. */
 export type ImageSource = { src: string; alt: string; focal: string }
 
 export function pickImage(media: number | Media | null | undefined, fallback: Omit<ImageSource, 'focal'>): ImageSource {
@@ -18,13 +17,12 @@ function list<T>(items: T[] | null | undefined, fallback: T[]): T[] {
   return items && items.length > 0 ? items : fallback
 }
 
-/** Isi bawaan; dipakai bila kolom di admin (menu Beranda) masih kosong. */
 export const HOME_DEFAULTS = {
   heroTitle: 'Tallow sapi grass-fed untuk kulit yang terawat.',
   heroBody:
-    'Balm dan sabun yang melembapkan serta membantu menjaga skin barrier, dibuat dari bahan baku lokal Tuban dengan bahan sesederhana mungkin.',
+    'Balm dan sabun yang melembapkan serta membantu menjaga skin barrier, dibuat dari lemak sapi grass-fed asal Tuban dengan bahan sesederhana mungkin.',
   heroBadges: ['Terdaftar BPOM', 'Halal', 'Organik'],
-  heroCaption: 'Diolah di Tuban, Jawa Timur',
+  heroCaption: 'Diolah di Bogor, Jawa Barat',
   heroImage: {
     src: '/foto/hero-peternakan.webp',
     alt: 'Toples tallow balm dan botol sabun Tallownara di pagar peternakan saat matahari terbenam',
@@ -61,7 +59,7 @@ export const HOME_DEFAULTS = {
     },
   ],
   processTitle: 'Dari padang rumput ke toples',
-  processIntro: 'Setiap tahap dikerjakan di Tuban, dari peternak lokal sampai pengemasan.',
+  processIntro: 'Lemak dipilih dari peternak lokal di Tuban, lalu diolah sampai dikemas di Bogor.',
   processImage: { src: '/foto/sapi-padang.webp', alt: '' },
   process: [
     { title: 'Sapi yang diberi pakan rumput', body: 'Lemak berasal dari peternak lokal di Tuban, bersertifikat halal dan organik.' },
@@ -87,7 +85,6 @@ export const HOME_DEFAULTS = {
   ],
 }
 
-/** Menggabungkan isi admin dengan isi bawaan, sehingga halaman selalu lengkap. */
 export function resolveHomeContent(home: Partial<Home> | null) {
   const d = HOME_DEFAULTS
   const heroImage = pickImage(home?.heroImage, d.heroImage)

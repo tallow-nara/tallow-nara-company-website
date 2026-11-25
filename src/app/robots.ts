@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next'
 
-// Alamat admin sengaja tidak ditulis di sini agar tidak bocor lewat robots.txt; admin sudah noindex.
 export default function robots(): MetadataRoute.Robots {
   const site = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, '')
   return {

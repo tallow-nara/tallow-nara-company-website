@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Tentang kami',
-  description: 'Kisah Tallownara, visi-misi, sumber bahan baku di Tuban, dan orang di baliknya.',
+  description: 'Kisah Tallownara, visi-misi, sumber lemak di Tuban, produksi di Bogor, dan orang di baliknya.',
 }
 
 type TeamMember = NonNullable<About['team']>[number]

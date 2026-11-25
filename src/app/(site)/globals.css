@@ -138,7 +138,7 @@
     color: var(--olive-deep);
   }
 
-  /* Tombol kaca: dipakai di atas foto */
+  /* #tombol-kaca */
   .btn-glass {
     border-color: var(--glass-edge);
     background-color: var(--glass-fill);
@@ -152,7 +152,7 @@
     color: var(--olive-deep);
   }
 
-  /* Permukaan kaca bergaya Apple: blur + tepi terang + bayangan lembut */
+  /* #kaca */
   .glass {
     border: 1px solid var(--glass-edge);
     background-color: var(--glass-fill);
@@ -165,7 +165,7 @@
     background-color: var(--glass-fill-strong);
   }
 
-  /* Kaca gelap untuk teks putih di atas foto */
+  /* #kaca-gelap */
   .glass-dark {
     border: 1px solid rgb(255 255 255 / 0.18);
     background-color: rgb(34 32 26 / 0.55);
@@ -174,7 +174,7 @@
     backdrop-filter: blur(var(--glass-blur)) saturate(150%);
   }
 
-  /* Panel permukaan membulat, pengganti kartu berbayang */
+  /* #panel */
   .panel {
     border: 1px solid rgb(228 220 196 / 0.7);
     border-radius: var(--radius-lg);
@@ -187,7 +187,7 @@
     background-color: rgb(255 255 255 / 0.7);
   }
 
-  /* Label kecil berbentuk pil */
+  /* #chip */
   .chip {
     display: inline-flex;
     align-items: center;
@@ -290,7 +290,7 @@
   }
 }
 
-/* Muncul halus saat digulir; hanya di peramban yang mendukung, tanpa JavaScript */
+/* #reveal */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .reveal {
@@ -312,7 +312,7 @@
   }
 }
 
-/* Peramban tanpa blur atau pengguna yang meminta transparansi rendah: pakai permukaan padat */
+/* #cadangan-kaca */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass,
   .btn-glass {

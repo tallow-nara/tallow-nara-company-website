@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Checkout', robots: { index: false } }
 
 export default async function CheckoutPage() {
-  // Checkout butuh akun. Isi keranjang disimpan di browser, jadi tidak hilang saat masuk atau daftar.
   const customer = await getCurrentCustomer()
   if (!customer) redirect('/masuk?lanjut=/checkout')
 

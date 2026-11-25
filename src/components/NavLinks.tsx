@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { CartLink } from './shop/CartLink'
 
 const LINKS = [
+  { href: '/', label: 'Beranda' },
   { href: '/produk', label: 'Produk' },
   { href: '/#cara-pakai', label: 'Cara pakai' },
   { href: '/tentang-kami', label: 'Tentang kami' },
@@ -19,7 +20,7 @@ export function NavLinks({ signedIn }: { signedIn: boolean }) {
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
 
-  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  const isCurrent = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(`${href}/`))
   const linkClass =
     'inline-flex min-h-11 items-center rounded-full px-4 text-ink no-underline transition-colors hover:bg-white/70 hover:text-ink aria-[current=page]:bg-white aria-[current=page]:font-semibold aria-[current=page]:shadow-[0_1px_2px_rgb(34_32_26/0.08)]'
 
@@ -34,16 +35,14 @@ export function NavLinks({ signedIn }: { signedIn: boolean }) {
               </Link>
             </li>
           ))}
-          <li className="ml-3">
-            <Link
-              href={signedIn ? '/akun' : '/masuk'}
-              aria-current={isCurrent(signedIn ? '/akun' : '/masuk') ? 'page' : undefined}
-              className={linkClass}
-            >
-              {signedIn ? 'Akun saya' : 'Masuk'}
-            </Link>
-          </li>
-          <li>
+          {signedIn && (
+            <li className="ml-3">
+              <Link href="/akun" aria-current={isCurrent('/akun') ? 'page' : undefined} className={linkClass}>
+                Akun saya
+              </Link>
+            </li>
+          )}
+          <li className={signedIn ? undefined : 'ml-3'}>
             <CartLink />
           </li>
         </ul>
@@ -82,16 +81,18 @@ export function NavLinks({ signedIn }: { signedIn: boolean }) {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href={signedIn ? '/akun' : '/masuk'}
-                onClick={close}
-                aria-current={isCurrent(signedIn ? '/akun' : '/masuk') ? 'page' : undefined}
-                className={`${linkClass} -ml-4 w-full py-2`}
-              >
-                {signedIn ? 'Akun saya' : 'Masuk'}
-              </Link>
-            </li>
+            {signedIn && (
+              <li>
+                <Link
+                  href="/akun"
+                  onClick={close}
+                  aria-current={isCurrent('/akun') ? 'page' : undefined}
+                  className={`${linkClass} -ml-4 w-full py-2`}
+                >
+                  Akun saya
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       )}

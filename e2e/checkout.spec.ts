@@ -21,7 +21,6 @@ test('pembeli harus punya akun, lalu bisa membeli sampai pesanan Dibayar lewat s
   await expectNoAxeViolations(page)
   await page.getByRole('link', { name: 'Lanjut ke checkout' }).click()
 
-  // Tanpa akun, checkout mengarahkan ke halaman masuk dan keranjang tetap tersimpan.
   await expect(page).toHaveURL(/\/masuk\?lanjut=\/checkout/)
   await page.getByRole('link', { name: 'Daftar sekarang' }).click()
   await page.getByRole('button', { name: 'Buat akun' }).click()
@@ -37,7 +36,6 @@ test('pembeli harus punya akun, lalu bisa membeli sampai pesanan Dibayar lewat s
   await expectNoAxeViolations(page)
   await page.getByRole('button', { name: 'Buat akun' }).click()
 
-  // Email harus diverifikasi lebih dulu sebelum memesan.
   await expect(page.getByRole('heading', { name: 'Verifikasi email dulu' })).toBeVisible()
   execFileSync('corepack', ['pnpm', 'exec', 'payload', 'run', 'src/scripts/verifikasi-akun-uji.ts', email], {
     stdio: 'ignore',

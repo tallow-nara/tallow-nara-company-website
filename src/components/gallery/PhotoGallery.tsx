@@ -11,10 +11,6 @@ export type GalleryPhoto = {
   height: number
 }
 
-/**
- * Foto album dalam kolom bertingkat (masonry): setiap foto tampil utuh dengan rasio aslinya,
- * tanpa dipotong. Klik foto untuk membuka tampilan besar dengan tombol sebelumnya/berikutnya.
- */
 export function PhotoGallery({ photos }: { photos: GalleryPhoto[] }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [index, setIndex] = useState<number | null>(null)

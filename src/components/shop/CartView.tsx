@@ -4,10 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { formatRupiah } from '@/lib/money'
-import type { CartProduct } from '@/lib/shop-types'
+import { resolveCartLines, type CartProduct } from '@/lib/shop-types'
 
 import { TemplateText } from '../TemplateText'
-import { removeFromCart, setCartQuantity, useCart, useHydrated } from './cart-store'
+import { lineKeyOf, removeFromCart, setCartQuantity, useCart, useHydrated } from './cart-store'
 import { QuantityStepper } from './QuantityStepper'
 
 export function CartView({ products }: { products: CartProduct[] }) {
@@ -22,13 +22,10 @@ export function CartView({ products }: { products: CartProduct[] }) {
     )
   }
 
-  const rows = lines.flatMap((line) => {
-    const product = products.find((candidate) => candidate.id === line.productId)
-    return product ? [{ line, product }] : []
-  })
-  const hasMissing = rows.length !== lines.length
-  const hasOverStock = rows.some(({ line, product }) => line.quantity > product.stock)
-  const subtotal = rows.reduce((sum, { line, product }) => sum + product.price * line.quantity, 0)
+  const { rows, missing } = resolveCartLines(lines, products)
+  const hasMissing = missing > 0
+  const hasOverStock = rows.some((row) => row.quantity > row.stock)
+  const subtotal = rows.reduce((sum, row) => sum + row.price * row.quantity, 0)
 
   if (rows.length === 0) {
     return (
@@ -50,47 +47,50 @@ export function CartView({ products }: { products: CartProduct[] }) {
           <p role="status" className="mt-4 text-warning">Ada produk yang sudah tidak tersedia dan kami sembunyikan.</p>
         )}
         <ul className="mt-8">
-          {rows.map(({ line, product }) => (
-            <li key={product.id} className="flex gap-4 border-t border-stone py-6 sm:gap-6">
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-paper sm:h-32 sm:w-32">
-                {product.imageUrl && (
-                  <Image src={product.imageUrl} alt={product.imageAlt} fill sizes="128px" className="object-contain p-2" />
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap justify-between gap-x-4">
-                  <h2 className="text-2xl font-normal">
-                    <Link href={`/produk/${product.slug}`} className="text-olive-deep no-underline hover:underline">
-                      {product.name}
-                    </Link>
-                  </h2>
-                  <p className="tabular font-semibold">{formatRupiah(product.price * line.quantity)}</p>
+          {rows.map(({ key, quantity, product, variantLabel, price, stock, imageUrl }) => {
+            const fullName = variantLabel ? `${product.name} (${variantLabel})` : product.name
+            return (
+              <li key={lineKeyOf(key)} className="flex gap-4 border-t border-stone py-6 sm:gap-6">
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-paper sm:h-32 sm:w-32">
+                  {imageUrl && <Image src={imageUrl} alt={product.imageAlt} fill sizes="128px" className="object-contain p-2" />}
                 </div>
-                <p className="mt-1 text-base text-muted">
-                  <TemplateText text={product.sizeLabel} />
-                </p>
-                {line.quantity > product.stock && (
-                  <p className="field-error">Stok tersisa {product.stock}. Kurangi jumlahnya untuk melanjutkan.</p>
-                )}
-                <div className="mt-3 flex flex-wrap items-center gap-4">
-                  <QuantityStepper
-                    value={line.quantity}
-                    max={product.stock}
-                    label={`Jumlah ${product.name}`}
-                    onChange={(quantity) => setCartQuantity(product.id, quantity)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeFromCart(product.id)}
-                    className="min-h-11 text-base text-error underline"
-                    aria-label={`Hapus ${product.name} dari keranjang`}
-                  >
-                    Hapus
-                  </button>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap justify-between gap-x-4">
+                    <h2 className="text-2xl font-normal">
+                      <Link href={`/produk/${product.slug}`} className="text-olive-deep no-underline hover:underline">
+                        {product.name}
+                      </Link>
+                    </h2>
+                    <p className="tabular font-semibold">{formatRupiah(price * quantity)}</p>
+                  </div>
+                  <p className="mt-1 text-base text-muted">
+                    {variantLabel ?? <TemplateText text={product.sizeLabel} />}
+                  </p>
+                  {quantity > stock && (
+                    <p className="field-error">
+                      {stock > 0 ? `Stok tersisa ${stock}. Kurangi jumlahnya untuk melanjutkan.` : 'Stok habis. Hapus barang ini untuk melanjutkan.'}
+                    </p>
+                  )}
+                  <div className="mt-3 flex flex-wrap items-center gap-4">
+                    <QuantityStepper
+                      value={quantity}
+                      max={Math.max(stock, 1)}
+                      label={`Jumlah ${fullName}`}
+                      onChange={(next) => setCartQuantity(key, next)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeFromCart(key)}
+                      className="min-h-11 text-base text-error underline"
+                      aria-label={`Hapus ${fullName} dari keranjang`}
+                    >
+                      Hapus
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ul>
       </div>
 

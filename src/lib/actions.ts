@@ -29,7 +29,9 @@ export async function searchAreasAction(
 
 const rateRequestSchema = z.object({
   areaId: z.string().min(1),
-  items: z.array(z.object({ productId: z.number().int(), quantity: z.number().int() })).min(1),
+  items: z
+    .array(z.object({ productId: z.number().int(), variantId: z.string().max(40).optional(), quantity: z.number().int() }))
+    .min(1),
 })
 
 export async function getRatesAction(
@@ -48,7 +50,13 @@ export async function getRatesAction(
     })
     const priced = priceItems(
       parsed.data.items,
-      docs.map((doc) => ({ ...doc, isVisible: doc.isVisible ?? false })),
+      docs.map((doc) => ({
+        ...doc,
+        price: doc.price ?? 0,
+        weightGrams: doc.weightGrams ?? 0,
+        stock: doc.stock ?? 0,
+        isVisible: doc.isVisible ?? false,
+      })),
     )
     if (!priced.ok) return priced
 

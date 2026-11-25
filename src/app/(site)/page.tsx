@@ -15,7 +15,7 @@ import { CONTACT } from '@/lib/site'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Tallownara · Perawatan kulit tallow sapi grass-fed dari Tuban',
+  title: 'Tallownara · Perawatan kulit tallow sapi grass-fed',
 }
 
 export default async function HomePage() {

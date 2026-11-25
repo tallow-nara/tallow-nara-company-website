@@ -2,7 +2,6 @@ import Image from 'next/image'
 
 import type { Media } from '@/payload-types'
 
-/** Titik fokus dari admin (persen) agar bagian penting foto tidak terpotong. */
 export function focalPosition(media: Pick<Media, 'focalX' | 'focalY'>): string {
   return `${media.focalX ?? 50}% ${media.focalY ?? 50}%`
 }

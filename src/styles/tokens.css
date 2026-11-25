@@ -1,42 +1,42 @@
 :root {
-  /* Permukaan */
+  /* #permukaan */
   --white: #ffffff;
   --ivory: #fbf8ec;
   --paper: #f3eedb;
   --stone: #e4dcc4;
 
-  /* Merek */
+  /* #merek */
   --olive: #6b5a1f;
   --olive-deep: #4a3e14;
 
-  /* Aksen */
+  /* #aksen */
   --sage: #6f7d5c;
   --forest: #3e5233;
   --amber: #7a3f1c;
 
-  /* Teks */
+  /* #teks */
   --ink: #22201a;
   --muted: #6a6455;
 
-  /* Status */
+  /* #status */
   --success: var(--forest);
   --warning: #9a6b12;
   --error: #9b2c1f;
 }
 
 :root {
-  /* Sudut membulat */
+  /* #radius */
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 32px;
 
-  /* Kaca (efek blur) */
+  /* #kaca */
   --glass-fill: rgb(251 248 236 / 0.68);
   --glass-fill-strong: rgb(251 248 236 / 0.82);
   --glass-edge: rgb(255 255 255 / 0.72);
   --glass-blur: 22px;
 
-  /* Bayangan lembut, berlapis */
+  /* #bayangan */
   --shadow-soft: 0 1px 2px rgb(34 32 26 / 0.05), 0 16px 40px -18px rgb(34 32 26 / 0.22);
   --shadow-float: 0 1px 2px rgb(34 32 26 / 0.06), 0 28px 60px -24px rgb(34 32 26 / 0.32);
 }

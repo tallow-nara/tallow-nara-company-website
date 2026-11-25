@@ -4,11 +4,6 @@ import { nobody, staffOnly, superAdminOnly } from '../access'
 
 const readOnly = { readOnly: true }
 
-/**
- * Akun pembeli. Sengaja BUKAN koleksi `auth` Payload: pembeli tidak pernah mendapat token Payload,
- * sehingga mustahil dipakai masuk ke admin. Kata sandi disimpan sebagai hash scrypt dan tidak pernah
- * bisa dibaca lewat API (akses field dimatikan untuk semua orang).
- */
 export const Customers: CollectionConfig = {
   slug: 'customers',
   labels: { singular: 'Pelanggan', plural: 'Pelanggan' },

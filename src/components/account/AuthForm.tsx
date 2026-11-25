@@ -24,15 +24,10 @@ type Props = {
   successNotice?: boolean
 }
 
-/**
- * Formulir akun: label di atas, validasi saat keluar dari kolom dan saat kirim,
- * fokus pindah ke kesalahan pertama, tombol kirim tidak dimatikan.
- */
 export function AuthForm({ action, fields, submitLabel, pendingLabel, hidden, honeypot, footer, successNotice }: Props) {
   const [state, formAction, pending] = useActionState(action, {})
   const [clientErrors, setClientErrors] = useState<Record<string, string>>({})
   const [shown, setShown] = useState<Record<string, boolean>>({})
-  // Isian disimpan di state: React mengosongkan kolom biasa setelah formulir terkirim, sehingga data hilang bila ada galat.
   const [values, setValues] = useState<Record<string, string>>({})
   const formRef = useRef<HTMLFormElement>(null)
   const lastFocused = useRef<FormState | null>(null)
@@ -57,7 +52,6 @@ export function AuthForm({ action, fields, submitLabel, pendingLabel, hidden, ho
     return message
   }
 
-  // Validasi di browser dulu; hanya data yang lolos dikirim ke server.
   const submit = (formData: FormData) => {
     const problems = fields.filter((field) => check(field, String(formData.get(field.name) ?? '')))
     if (problems.length > 0) {
@@ -92,8 +86,6 @@ export function AuthForm({ action, fields, submitLabel, pendingLabel, hidden, ho
                 spellCheck={false}
                 aria-invalid={Boolean(error)}
                 aria-describedby={describedBy || undefined}
-                // Saat fokus pindah ke tombol kirim, validasi dilakukan oleh pengiriman itu sendiri.
-                // Jika tidak, pesan yang muncul/hilang menggeser tombol dan klik pertama terlewat.
                 onBlur={(event) => {
                   const next = event.relatedTarget
                   if (next instanceof HTMLButtonElement && next.type === 'submit') return

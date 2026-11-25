@@ -102,7 +102,6 @@ export async function registerCustomer(input: {
   try {
     await sendVerificationEmail(customer)
   } catch (error) {
-    // Akun tetap jadi; pembeli bisa meminta kirim ulang dari halaman Akun.
     console.error('Email verifikasi gagal dikirim', error)
   }
   return { ok: true, customer: toSessionCustomer(customer) }
@@ -150,7 +149,6 @@ export async function authenticateCustomer(email: string, password: string): Pro
   return { ok: true, customer: toSessionCustomer(customer) }
 }
 
-/** Selalu terlihat berhasil agar tidak membocorkan email mana yang terdaftar. */
 export async function requestPasswordReset(email: string): Promise<void> {
   const payload = await getPayload({ config })
   const customer = await findByEmail(payload, email)
@@ -192,7 +190,6 @@ export async function verifyEmailToken(token: string): Promise<boolean> {
   return true
 }
 
-/** Hanya memeriksa, tidak menghabiskan token. Penghabisan token lewat aksi POST agar pemindai tautan email tidak memakainya. */
 export async function isTokenValid(kind: 'verifikasi' | 'reset', token: string): Promise<boolean> {
   const payload = await getPayload({ config })
   const { totalDocs } = await payload.count({
@@ -220,11 +217,9 @@ export async function resetPasswordWithToken(token: string, password: string): P
       passwordHash: await hashPassword(password),
       failedLogins: 0,
       lockedUntil: null,
-      // Mengikuti tautan reset di email membuktikan email ini milik pemiliknya.
       emailVerifiedAt: new Date().toISOString(),
     },
   })
-  // Semua perangkat harus masuk ulang dengan kata sandi baru.
   await payload.delete({ collection: 'customer-sessions', where: { customer: { equals: customerId } } })
   return true
 }

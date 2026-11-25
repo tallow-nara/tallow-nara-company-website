@@ -5,6 +5,7 @@ import { getSiteSettings } from '@/lib/content'
 import { CONTACT } from '@/lib/site'
 
 import logo from '../../public/logo-tallownara.png'
+import { EmailIcon, InstagramIcon, WhatsAppIcon } from './SocialIcons'
 import { TemplateText } from './TemplateText'
 
 const COLUMNS = [
@@ -51,13 +52,25 @@ export async function SiteFooter() {
               </p>
               <ul className="mt-6 space-y-1 text-base">
                 <li>
-                  <a href={CONTACT.whatsappUrl}>WhatsApp {CONTACT.whatsappDisplay}</a>
+                  <a href={CONTACT.whatsappUrl} className="inline-flex items-center gap-3 py-1 no-underline hover:underline">
+                    <WhatsAppIcon className="size-6 shrink-0 text-white" />
+                    <span>WhatsApp</span>
+                    <span className="sr-only">{CONTACT.whatsappDisplay}</span>
+                  </a>
                 </li>
                 <li>
-                  <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+                  <a href={`mailto:${CONTACT.email}`} className="inline-flex items-center gap-3 py-1 no-underline hover:underline">
+                    <EmailIcon className="size-6 shrink-0 text-white" />
+                    <span>Email</span>
+                    <span className="sr-only">{CONTACT.email}</span>
+                  </a>
                 </li>
                 <li>
-                  <a href={CONTACT.instagramUrl}>Instagram {CONTACT.instagramHandle}</a>
+                  <a href={CONTACT.instagramUrl} className="inline-flex items-center gap-3 py-1 no-underline hover:underline">
+                    <InstagramIcon className="size-6 shrink-0 text-white" />
+                    <span>Instagram</span>
+                    <span className="sr-only">{CONTACT.instagramHandle}</span>
+                  </a>
                 </li>
               </ul>
             </div>

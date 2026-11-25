@@ -2,7 +2,14 @@
 
 import { useCallback, useSyncExternalStore } from 'react'
 
-export type CartLine = { productId: number; quantity: number }
+export type CartLine = { productId: number; variantId?: string; quantity: number }
+
+export type LineKey = { productId: number; variantId?: string }
+
+const sameLine = (line: LineKey, key: LineKey) =>
+  line.productId === key.productId && (line.variantId ?? null) === (key.variantId ?? null)
+
+export const lineKeyOf = (key: LineKey) => `${key.productId}:${key.variantId ?? ''}`
 
 const KEY = 'tallownara-keranjang'
 const EMPTY: CartLine[] = []
@@ -38,27 +45,26 @@ function write(lines: CartLine[]) {
   listeners.forEach((listener) => listener())
 }
 
-export function addToCart(productId: number, quantity: number, maxStock: number) {
+export function addToCart(key: LineKey, quantity: number, maxStock: number) {
   const lines = getSnapshot()
-  const existing = lines.find((line) => line.productId === productId)
+  const existing = lines.find((line) => sameLine(line, key))
   const nextQuantity = Math.min((existing?.quantity ?? 0) + quantity, maxStock)
-  write(
-    existing
-      ? lines.map((line) => (line.productId === productId ? { ...line, quantity: nextQuantity } : line))
-      : [...lines, { productId, quantity: nextQuantity }],
-  )
+  const entry: CartLine = key.variantId
+    ? { productId: key.productId, variantId: key.variantId, quantity: nextQuantity }
+    : { productId: key.productId, quantity: nextQuantity }
+  write(existing ? lines.map((line) => (sameLine(line, key) ? entry : line)) : [...lines, entry])
 }
 
-export function setCartQuantity(productId: number, quantity: number) {
+export function setCartQuantity(key: LineKey, quantity: number) {
   write(
     getSnapshot()
-      .map((line) => (line.productId === productId ? { ...line, quantity } : line))
+      .map((line) => (sameLine(line, key) ? { ...line, quantity } : line))
       .filter((line) => line.quantity > 0),
   )
 }
 
-export function removeFromCart(productId: number) {
-  write(getSnapshot().filter((line) => line.productId !== productId))
+export function removeFromCart(key: LineKey) {
+  write(getSnapshot().filter((line) => !sameLine(line, key)))
 }
 
 export function clearCart() {
@@ -71,7 +77,6 @@ export function useCart(): CartLine[] {
 
 const noopSubscribe = () => () => undefined
 
-/** False saat render server, true setelah browser siap membaca keranjang. */
 export function useHydrated(): boolean {
   return useSyncExternalStore(
     noopSubscribe,

@@ -3,17 +3,18 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { addToCart } from './cart-store'
+import { addToCart, type LineKey } from './cart-store'
 import { QuantityStepper } from './QuantityStepper'
 
 type AddToCartProps = {
   productId: number
+  variantId?: string
   productName: string
   stock: number
   compact?: boolean
 }
 
-export function AddToCart({ productId, productName, stock, compact }: AddToCartProps) {
+export function AddToCart({ productId, variantId, productName, stock, compact }: AddToCartProps) {
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
 
@@ -22,7 +23,8 @@ export function AddToCart({ productId, productName, stock, compact }: AddToCartP
   }
 
   const add = () => {
-    addToCart(productId, compact ? 1 : quantity, stock)
+    const key: LineKey = variantId ? { productId, variantId } : { productId }
+    addToCart(key, compact ? 1 : Math.min(quantity, stock), stock)
     setAdded(true)
   }
 

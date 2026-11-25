@@ -1,6 +1,5 @@
 const PLACEHOLDER = /(\[\[ISI:.*?\]\])/
 
-/** Menampilkan teks; bagian [[ISI: ...]] ditandai sebagai isian yang menyusul. */
 export function TemplateText({ text }: { text: string | null | undefined }) {
   if (!text) return null
 

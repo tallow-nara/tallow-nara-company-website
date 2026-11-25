@@ -1,6 +1,5 @@
 import { createHash, randomBytes } from 'node:crypto'
 
-/** Token acak untuk sesi, verifikasi email, dan reset sandi. Yang disimpan di database hanya hash-nya. */
 export function newToken(): string {
   return randomBytes(32).toString('base64url')
 }

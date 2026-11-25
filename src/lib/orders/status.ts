@@ -38,7 +38,6 @@ const BRANCHES: Partial<Record<OrderStatus, OrderStatus[]>> = {
   selesai: ['dikembalikan'],
 }
 
-/** Status hanya boleh maju. Pembayaran tidak boleh dilompati. */
 export function canTransition(from: OrderStatus, to: OrderStatus): boolean {
   if (from === to) return false
   if (BRANCHES[from]?.includes(to)) return true

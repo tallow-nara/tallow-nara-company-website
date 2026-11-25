@@ -28,7 +28,6 @@ import { serverEnv } from './lib/env'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const isProduction = process.env.NODE_ENV === 'production'
-// Asal permintaan yang boleh memakai cookie login. Saat pengembangan, port lokal ikut diizinkan.
 const trustedOrigins = [
   serverEnv.NEXT_PUBLIC_SITE_URL,
   ...(isProduction
@@ -37,9 +36,7 @@ const trustedOrigins = [
 ]
 
 export default buildConfig({
-  // Alamat admin dibaca dari .env (ADMIN_PATH) dan tidak ada di kode. src/proxy.ts meneruskannya ke halaman admin.
   routes: { admin: serverEnv.ADMIN_PATH },
-  // GraphQL tidak dipakai; dimatikan agar permukaan serangan lebih kecil.
   graphQL: { disable: true },
   csrf: trustedOrigins,
   cors: trustedOrigins,
@@ -48,12 +45,12 @@ export default buildConfig({
     user: Users.slug,
     importMap: {
       baseDir: dirname,
-      // Folder internal tetap /admin walau alamat publiknya rahasia (lihat src/proxy.ts).
       importMapFile: path.resolve(dirname, 'app/(payload)/admin/importMap.js'),
     },
     meta: { titleSuffix: ' · Tallownara' },
     components: {
-      beforeDashboard: ['/components/admin/DashboardWelcome#DashboardWelcome'],
+      views: { dashboard: { Component: '/components/admin/dashboard/Dashboard#Dashboard' } },
+      beforeNavLinks: ['/components/admin/NavDashboardLink#NavDashboardLink'],
       graphics: { Logo: '/components/admin/Logo#Logo', Icon: '/components/admin/Logo#Icon' },
     },
   },
@@ -80,12 +77,12 @@ export default buildConfig({
   i18n: {
     fallbackLanguage: 'id',
     supportedLanguages: { id },
-    // Kolom centang di daftar tampil "benar/salah" secara bawaan; "Ya/Tidak" lebih mudah dipahami.
     translations: { id: { general: { true: 'Ya', false: 'Tidak' } } },
   },
   secret: serverEnv.PAYLOAD_SECRET,
   sharp,
   typescript: {
+    autoGenerate: false,
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
 })

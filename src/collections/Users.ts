@@ -36,7 +36,6 @@ export const Users: CollectionConfig = {
       async ({ data, operation, req }) => {
         if (!data) return data
 
-        // Akun pertama yang dibuat lewat layar "buat admin pertama" otomatis menjadi Super admin.
         if (operation === 'create') {
           const { totalDocs } = await req.payload.count({ collection: 'users', req })
           if (totalDocs === 0) data.role = 'super-admin'
@@ -51,7 +50,6 @@ export const Users: CollectionConfig = {
     ],
     beforeChange: [
       async ({ data, originalDoc, operation, req }) => {
-        // Jaga agar selalu ada minimal satu Super admin.
         if (operation === 'update' && originalDoc?.role === 'super-admin' && data.role && data.role !== 'super-admin') {
           const { totalDocs } = await req.payload.count({
             collection: 'users',

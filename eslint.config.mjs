@@ -5,6 +5,10 @@ import nextTs from 'eslint-config-next/typescript'
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    files: ['src/components/admin/**/*.tsx'],
+    rules: { '@next/next/no-img-element': 'off' },
+  },
   globalIgnores([
     '.next/**',
     'media/**',

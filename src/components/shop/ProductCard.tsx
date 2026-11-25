@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { firstImage } from '@/lib/shop-types'
+import { firstImage, shopVariants } from '@/lib/shop-types'
 import type { Product } from '@/payload-types'
 
 import { MediaImage } from '../MediaImage'
@@ -8,6 +8,8 @@ import { AddToCart } from './AddToCart'
 import { Price } from './Price'
 
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
+  const { variants } = shopVariants(product)
+  const prices = variants.map((variant) => variant.price)
   return (
     <article className="reveal flex h-full flex-col">
       <Link
@@ -33,9 +35,26 @@ export function ProductCard({ product, priority }: { product: Product; priority?
         </h3>
         {product.tagline && <p className="mt-2 text-base text-muted">{product.tagline}</p>}
         <div className="mt-auto pt-4">
-          <Price amount={product.price} isExample={product.isExamplePrice} />
-          <p className="mb-4 mt-1 text-sm text-muted">BPOM {product.bpomNumber.startsWith('[[') ? 'menyusul' : product.bpomNumber} · Halal</p>
-          <AddToCart compact productId={product.id} productName={product.name} stock={product.stock} />
+          <Price
+            amount={prices.length ? Math.min(...prices) : (product.price ?? 0)}
+            maxAmount={prices.length ? Math.max(...prices) : undefined}
+            isExample={product.isExamplePrice}
+          />
+          <p className="mb-4 mt-1 min-h-5 text-sm text-muted">
+            {[
+              product.hasBpom && product.bpomNumber ? `BPOM ${product.bpomNumber.startsWith('[[') ? 'menyusul' : product.bpomNumber}` : null,
+              product.showHalalLabel ? 'Halal' : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+          </p>
+          {variants.length > 0 ? (
+            <Link href={`/produk/${product.slug}`} className="btn btn-outline w-full">
+              Pilih varian
+            </Link>
+          ) : (
+            <AddToCart compact productId={product.id} productName={product.name} stock={product.stock ?? 0} />
+          )}
         </div>
       </div>
     </article>

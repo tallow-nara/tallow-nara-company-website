@@ -8,8 +8,10 @@ import { Paragraphs } from '@/components/Paragraphs'
 import { AddToCart } from '@/components/shop/AddToCart'
 import { Price } from '@/components/shop/Price'
 import { ReviewForm } from '@/components/shop/ReviewForm'
+import { VariantPicker } from '@/components/shop/VariantPicker'
 import { TemplateText } from '@/components/TemplateText'
 import { getApprovedReviews, getProductBySlug } from '@/lib/content'
+import { shopVariants } from '@/lib/shop-types'
 import { CONTACT } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
@@ -42,6 +44,7 @@ export default async function ProductPage({ params }: Props) {
   const images = product.images ?? []
   const benefits = product.benefits ?? []
   const steps = product.howToUse ?? []
+  const { options, variants } = shopVariants(product)
 
   return (
     <div className="page-shell pb-20">
@@ -69,37 +72,60 @@ export default async function ProductPage({ params }: Props) {
           <div className="lg:sticky lg:top-28 lg:pl-8">
             <h1 className="text-[clamp(2.5rem,4.5vw,3.75rem)] font-normal">{product.name}</h1>
             {product.tagline && <p className="mt-3 text-muted">{product.tagline}</p>}
-            <Price amount={product.price} isExample={product.isExamplePrice} className="mt-6 text-2xl font-semibold" />
-            <p className="mt-1 text-base text-muted">
-              Ukuran <TemplateText text={product.sizeLabel} />
-            </p>
-
-            <div className="mt-6">
-              <AddToCart productId={product.id} productName={product.name} stock={product.stock} />
-            </div>
+            {product.hasVariants ? (
+              <div className="mt-6">
+                {variants.length > 0 ? (
+                  <VariantPicker
+                    productId={product.id}
+                    productName={product.name}
+                    isExamplePrice={product.isExamplePrice}
+                    options={options}
+                    variants={variants}
+                  />
+                ) : (
+                  <p className="font-semibold text-error">Produk ini sedang tidak dijual</p>
+                )}
+              </div>
+            ) : (
+              <>
+                <Price amount={product.price ?? 0} isExample={product.isExamplePrice} className="mt-6 text-2xl font-semibold" />
+                <p className="mt-1 text-base text-muted">
+                  Ukuran <TemplateText text={product.sizeLabel} />
+                </p>
+                <div className="mt-6">
+                  <AddToCart productId={product.id} productName={product.name} stock={product.stock ?? 0} />
+                </div>
+              </>
+            )}
             <a href={CONTACT.whatsappUrl} className="link-arrow">
               Tanya produk ini lewat WhatsApp
             </a>
 
-            <div className="mt-8 flex items-center gap-4 border-t border-stone pt-6">
-              <span className="relative block h-16 w-12 shrink-0">
-                <Image src="/foto/sertifikasi-halal.webp" alt="Label Halal Indonesia" fill sizes="48px" className="object-contain" />
-              </span>
-              <dl className="text-base">
-                <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-muted">BPOM</dt>
-                  <dd className="tabular font-semibold">
-                    <TemplateText text={product.bpomNumber} />
-                  </dd>
-                </div>
-                <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-muted">Sertifikat halal</dt>
-                  <dd className="tabular font-semibold">
-                    <TemplateText text={product.halalNumber} />
-                  </dd>
-                </div>
-              </dl>
-            </div>
+            {(product.hasBpom || product.showHalalLabel) && (
+              <div className="mt-8 flex items-center gap-4 border-t border-stone pt-6">
+                {product.showHalalLabel && (
+                  <span className="relative block h-16 w-12 shrink-0">
+                    <Image src="/foto/sertifikasi-halal.webp" alt="" fill sizes="48px" className="object-contain" />
+                  </span>
+                )}
+                <dl className="text-base">
+                  {product.hasBpom && product.bpomNumber && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-muted">BPOM</dt>
+                      <dd className="tabular font-semibold">
+                        <TemplateText text={product.bpomNumber} />
+                      </dd>
+                    </div>
+                  )}
+                  {product.showHalalLabel && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="sr-only">Sertifikasi</dt>
+                      <dd className="font-semibold">Halal Indonesia</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
 
             <div className="mt-8">
               {product.description && (

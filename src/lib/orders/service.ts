@@ -64,10 +64,12 @@ export async function createOrder(
     products.map((product) => ({
       id: product.id,
       name: product.name,
-      price: product.price,
-      weightGrams: product.weightGrams,
-      stock: product.stock,
+      price: product.price ?? 0,
+      weightGrams: product.weightGrams ?? 0,
+      stock: product.stock ?? 0,
       isVisible: product.isVisible ?? false,
+      hasVariants: product.hasVariants,
+      variants: product.variants,
     })),
   )
   if (!priced.ok) return priced
@@ -128,7 +130,7 @@ export async function createOrder(
       customer: { name: input.customerName, email: account.email, phone: customerPhone },
       items: [
         ...priced.items.map((item) => ({
-          id: String(item.productId),
+          id: item.variantId ? `${item.productId}-${item.variantId}` : String(item.productId),
           name: item.name.slice(0, 50),
           price: item.unitPrice,
           quantity: item.quantity,
@@ -162,7 +164,6 @@ async function uniqueOrderCode(payload: Payload): Promise<string> {
 
 export type WebhookOutcome = 'processed' | 'duplicate' | 'ignored'
 
-/** Satu-satunya jalur yang menandai pesanan Dibayar. Tanda tangan sudah diperiksa pemanggil. */
 export async function applyPaymentNotification(
   notification: PaymentNotification,
   source: string,
@@ -214,9 +215,24 @@ export async function applyPaymentNotification(
           execute: (query: unknown) => Promise<unknown>
         }
         for (const item of order.items) {
-          await db.execute(
-            sql`UPDATE products SET stock = GREATEST(stock - ${item.quantity}, 0) WHERE id = ${item.productId}`,
-          )
+          if (item.variantId) {
+            await db.execute(sql`
+              UPDATE products SET
+                variants = jsonb_set(variants, '{items}', (
+                  SELECT coalesce(jsonb_agg(
+                    CASE WHEN entry->>'id' = ${item.variantId}
+                      THEN jsonb_set(entry, '{stock}', to_jsonb(GREATEST((entry->>'stock')::int - ${item.quantity}, 0)))
+                      ELSE entry END
+                    ORDER BY position), '[]'::jsonb)
+                  FROM jsonb_array_elements(variants->'items') WITH ORDINALITY AS t(entry, position)
+                )),
+                stock = GREATEST(stock - ${item.quantity}, 0)
+              WHERE id = ${item.productId} AND jsonb_typeof(variants->'items') = 'array'`)
+          } else {
+            await db.execute(
+              sql`UPDATE products SET stock = GREATEST(stock - ${item.quantity}, 0) WHERE id = ${item.productId}`,
+            )
+          }
         }
         outcome = 'processed'
       }

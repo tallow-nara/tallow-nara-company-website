@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-// Langkah diambil dari petunjuk pakai di katalog produk; tanpa klaim manfaat baru.
 const STEPS = [
   {
     title: 'Ambil secukupnya',

@@ -5,7 +5,6 @@ import { TemplateText } from '@/components/TemplateText'
 import { albumMeta, KIND_LABELS, photoCount } from '@/lib/gallery'
 import type { Achievement } from '@/payload-types'
 
-/** Kartu album: sampul seragam 4:5 agar grid selalu rapi, berapa pun jumlah dan bentuk fotonya. */
 export function AlbumCard({ album, headingLevel = 'h2' }: { album: Achievement; headingLevel?: 'h2' | 'h3' }) {
   const Heading = headingLevel
   const count = photoCount(album)

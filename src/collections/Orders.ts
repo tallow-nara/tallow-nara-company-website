@@ -91,6 +91,8 @@ export const Orders: CollectionConfig = {
               fields: [
                 { name: 'productId', type: 'number', required: true, label: 'ID produk' },
                 { name: 'name', type: 'text', required: true, label: 'Nama' },
+                { name: 'variantLabel', type: 'text', label: 'Pilihan', admin: { description: 'Contoh: 50 ml · Lavender. Kosong untuk produk tanpa pilihan.' } },
+                { name: 'variantId', type: 'text', label: 'ID pilihan', admin: { hidden: true } },
                 { name: 'unitPrice', type: 'number', required: true, label: 'Harga satuan' },
                 { name: 'quantity', type: 'number', required: true, label: 'Jumlah' },
                 { name: 'weightGrams', type: 'number', required: true, label: 'Berat (gram)' },

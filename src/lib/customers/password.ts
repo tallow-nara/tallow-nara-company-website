@@ -14,7 +14,6 @@ function derive(password: string, salt: Buffer, n: number, r: number, p: number)
   })
 }
 
-/** Hash kata sandi dengan scrypt + garam acak. Format: scrypt$N$r$p$garam$hash (base64). */
 export async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(16)
   const key = await derive(password, salt, N, R, P)
@@ -31,7 +30,6 @@ export async function verifyPassword(password: string, stored: string): Promise<
 
 let dummyHash: Promise<string> | undefined
 
-/** Dipakai saat email tidak ditemukan, agar waktu respons tidak membocorkan email mana yang terdaftar. */
 export async function burnPasswordCheck(password: string): Promise<void> {
   dummyHash ??= hashPassword('kata-sandi-pengecoh')
   await verifyPassword(password, await dummyHash)

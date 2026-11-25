@@ -89,7 +89,7 @@ async function foto(name: string, alt: string): Promise<number> {
   return created.id
 }
 
-// Foto halaman Tentang kami: hanya mengisi yang masih kosong.
+// #tentang-kami
 const currentAbout = await payload.findGlobal({ slug: 'about', depth: 0 })
 const TEAM_PHOTOS: Record<string, [string, string]> = {
   'Khoirur Rahman, S.Ag': ['tim-khoirur', 'Potret Khoirur Rahman'],
@@ -114,15 +114,15 @@ await payload.updateGlobal({
   },
 })
 
-// Identitas dan angka (angka dari profil perusahaan).
+// #identitas
 const settings = await payload.findGlobal({ slug: 'site-settings' })
 if (!settings.legalName) {
   await payload.updateGlobal({
     slug: 'site-settings',
     data: {
       legalName: '[[ISI: nama badan usaha]]',
-      legalAddress: '[[ISI: alamat badan usaha]], Tuban, Jawa Timur',
-      nib: '[[ISI: NIB]]',
+      legalAddress: 'Point Mall, Lt. Ground Blok A 122–123, Jl. R.A. Kartini No. 1, Lebak Bulus, Jakarta Selatan',
+      nib: '0407250073593',
       hours: 'Senin sampai Sabtu, [[ISI: jam buka]]',
       stats: [
         { value: '4,9/5', label: 'Peringkat e-commerce' },
@@ -134,7 +134,7 @@ if (!settings.legalName) {
   })
 }
 
-// Produk. Harga, ukuran, dan berat adalah contoh sampai diisi pemilik.
+// #produk
 const LUXURY_INGREDIENTS =
   'Beef Tallow, Simmondsia Chinensis (Jojoba) Seed Oil, Prunus Amygdalus Dulcis (Sweet Almond) Oil, Helianthus Annuus (Sunflower) Seed Oil, Calendula Officinalis Flower Extract (in Sunflower and Sweet Almond Oils), Rosa Canina Fruit Oil, Anthemis Nobilis Flower Oil, Lavandula Angustifolia Oil, Boswellia Carterii Oil.'
 const SOAP_INGREDIENTS =
@@ -155,7 +155,6 @@ const PRODUCTS = [
     weightGrams: 250,
     isBestSeller: true,
     bpomNumber: 'NA18250118219',
-    halalNumber: '[[ISI: nomor sertifikat halal]]',
     description:
       'Pelembap serbaguna dari tallow sapi grass-fed dan minyak nabati, yang membantu melembapkan kulit kering. Bisa dipakai harian untuk wajah dan tubuh.\n\nTanpa petrolatum, paraben, sulfat, BHT, pewangi sintetis, dan pewarna sintetis.',
     benefits: ['Melembapkan kulit kering', 'Membantu menjaga skin barrier', 'Asam lemaknya menyerupai sebum, sehingga mudah menyerap', 'Serbaguna untuk wajah, tubuh, bibir, dan rambut kering'],
@@ -182,7 +181,6 @@ const PRODUCTS = [
     weightGrams: 250,
     isBestSeller: false,
     bpomNumber: '[[ISI: nomor BPOM]]',
-    halalNumber: '[[ISI: nomor sertifikat halal]]',
     description:
       'Balm harian berbahan tallow sapi grass-fed yang praktis dibawa ke mana saja dan membantu melembapkan kulit.\n\nTanpa petrolatum, paraben, sulfat, BHT, pewangi sintetis, dan pewarna sintetis.',
     benefits: ['Melembapkan bibir, tangan, dan wajah', 'Membantu menjaga skin barrier'],
@@ -204,7 +202,6 @@ const PRODUCTS = [
     weightGrams: 300,
     isBestSeller: false,
     bpomNumber: 'NA18250702788',
-    halalNumber: '[[ISI: nomor sertifikat halal]]',
     description:
       'Sabun cair dari tallow sapi grass-fed organik. Proses saponifikasi superfatting membantu membersihkan dengan lembut tanpa membuat kulit terasa kering.',
     benefits: ['Membersihkan dengan lembut', 'Melembapkan sekaligus membantu menjaga skin barrier', 'Tanpa sulfat'],
@@ -240,7 +237,7 @@ for (const [index, { photos, benefits, howToUse, ...product }] of PRODUCTS.entri
 }
 payload.logger.info('Produk siap.')
 
-// Testimoni dari profil perusahaan.
+// #testimoni
 const { totalDocs: reviewCount } = await payload.count({ collection: 'reviews' })
 if (reviewCount === 0) {
   await payload.create({
@@ -269,7 +266,7 @@ if (reviewCount === 0) {
   })
 }
 
-// Pencapaian: placeholder lama diganti data dari profil perusahaan.
+// #pencapaian
 type Entry = {
   title: string
   kind: 'lomba' | 'acara'
@@ -352,7 +349,7 @@ for (const [index, { replaces, photos, ...entry }] of ENTRIES.entries()) {
 }
 payload.logger.info('Pencapaian siap.')
 
-// Galeri: lengkapi alamat halaman album lama, album kegiatan, dan album unggulan beranda.
+// #galeri
 const { docs: allAlbums } = await payload.find({ collection: 'achievements', depth: 0, pagination: false })
 for (const album of allAlbums) {
   if (!album.slug) await payload.update({ collection: 'achievements', id: album.id, data: { slug: slugify(album.title) } })
@@ -365,13 +362,13 @@ if (hasProduction === 0) {
   await payload.create({
     collection: 'achievements',
     data: {
-      title: 'Produksi di Tuban',
+      title: 'Produksi di Bogor',
       kind: 'kegiatan',
       dateLabel: '[[ISI: waktu]]',
-      location: 'Tuban, Jawa Timur',
+      location: 'Bogor, Jawa Barat',
       summary: 'Tallow dimasak perlahan dan disaring dua kali di fasilitas produksi kami sebelum diolah menjadi balm dan sabun.',
       photos: [
-        await foto('produksi-ruang', 'Ruang produksi Tallownara di Tuban'),
+        await foto('produksi-ruang', 'Ruang produksi Tallownara di Bogor'),
         await foto('produksi-mesin', 'Peralatan baja tahan karat untuk mengolah tallow'),
         await foto('lokakarya', 'Lokakarya perawatan kulit tallow bersama tim Tallownara'),
       ],
@@ -398,7 +395,7 @@ if (featuredCount === 0) {
 }
 payload.logger.info('Galeri siap.')
 
-// Beranda: diisi dari teks bawaan sekali saja, supaya pemilik bisa langsung mengubahnya di admin.
+// #beranda
 const currentHome = await payload.findGlobal({ slug: 'home', depth: 0 })
 if (!currentHome.heroTitle) {
   const d = HOME_DEFAULTS
@@ -440,7 +437,7 @@ if (!currentHome.heroTitle) {
   payload.logger.info('Beranda siap.')
 }
 
-// Halaman kebijakan dan FAQ: templat awal, perlu ditinjau pemilik dan penasihat hukum.
+// #kebijakan-faq
 const IDENTITY = '[[ISI: nama badan usaha]], beralamat di [[ISI: alamat badan usaha]]'
 const LEGAL = [
   {
@@ -452,7 +449,7 @@ const LEGAL = [
       ['Pemesanan', 'Pesanan dibuat tanpa perlu akun. Anda wajib mengisi nama, email, nomor WhatsApp, dan alamat dengan benar. Setiap pesanan mendapat kode dengan awalan TLN-.'],
       ['Harga dan pembayaran', 'Harga tercantum dalam rupiah. Ongkos kirim dihitung otomatis sesuai alamat dan kurir pilihan Anda. Pembayaran tersedia melalui QRIS, virtual account, e-wallet, dan kartu. Bayar di tempat (COD) belum tersedia.\n\nPesanan yang tidak dibayar dalam 24 jam otomatis kedaluwarsa.'],
       ['Stok', 'Stok dikurangi setelah pembayaran terkonfirmasi. Bila stok habis setelah Anda membayar, kami akan menghubungi Anda untuk mengganti produk atau mengembalikan dana.'],
-      ['Pengiriman', 'Pesanan dikirim dari Tuban, Jawa Timur melalui kurir yang Anda pilih. Nomor resi kami kirim lewat WhatsApp. Estimasi waktu berasal dari kurir dan dapat berubah.'],
+      ['Pengiriman', 'Pesanan dikirim dari Bogor, Jawa Barat melalui kurir yang Anda pilih. Nomor resi kami kirim lewat WhatsApp. Estimasi waktu berasal dari kurir dan dapat berubah.'],
       ['Penggunaan produk', 'Produk kami adalah kosmetik, bukan obat. Hentikan pemakaian dan hubungi tenaga kesehatan bila muncul reaksi yang tidak diinginkan.'],
       ['Hukum yang berlaku', 'Ketentuan ini tunduk pada hukum Republik Indonesia. Sengketa diselesaikan lebih dulu secara musyawarah.'],
     ],
@@ -498,14 +495,14 @@ if (faqCount === 0) {
   const FAQS: [string, string, 'produk' | 'pesanan' | 'pengiriman'][] = [
     ['Apa itu tallow?', 'Tallow adalah lemak sapi yang dimurnikan. Asam lemaknya menyerupai sebum pada kulit manusia, sehingga sudah dipakai sebagai pelembap sejak ribuan tahun lalu.', 'produk'],
     ['Apakah aromanya seperti daging sapi?', 'Tidak. Tallow kami melalui penyaringan ganda, dan pembeli kami menggambarkan aromanya netral.', 'produk'],
-    ['Apakah produknya terdaftar di BPOM dan halal?', 'Ya. Nomor notifikasi BPOM dan informasi sertifikat halal tercantum di halaman setiap produk.', 'produk'],
+    ['Apakah produknya terdaftar di BPOM dan halal?', 'Produk yang sudah terdaftar menampilkan nomor notifikasi BPOM dan Label Halal Indonesia di halaman produknya.', 'produk'],
     ['Berapa lama produk bisa dipakai setelah dibuka?', 'Tallow balm sebaiknya dihabiskan dalam 6 bulan setelah dibuka. Simpan di tempat sejuk dan kering.', 'produk'],
     ['Mengapa tekstur balm berubah?', 'Suhu yang berubah-ubah bisa membuat balm lebih lembut atau cair. Ini alami selama tidak muncul jamur atau aroma yang tidak biasa.', 'produk'],
     ['Apakah saya harus membuat akun?', 'Tidak. Anda cukup mengisi nama, email, nomor WhatsApp, dan alamat saat checkout.', 'pesanan'],
     ['Metode pembayaran apa saja yang tersedia?', 'QRIS, virtual account bank, e-wallet, dan kartu. Bayar di tempat (COD) belum tersedia.', 'pesanan'],
     ['Berapa lama batas pembayaran?', 'Pesanan otomatis kedaluwarsa bila belum dibayar dalam 24 jam.', 'pesanan'],
     ['Bagaimana cara melacak pesanan?', 'Buka halaman Lacak pesanan, lalu masukkan kode pesanan dan 4 digit terakhir nomor WhatsApp Anda.', 'pengiriman'],
-    ['Dari mana pesanan dikirim?', 'Dari Tuban, Jawa Timur. Ongkos kirim dan estimasi tiba muncul otomatis saat checkout.', 'pengiriman'],
+    ['Dari mana pesanan dikirim?', 'Dari tempat produksi kami di Bogor, Jawa Barat. Ongkos kirim dan estimasi tiba muncul otomatis saat checkout.', 'pengiriman'],
     ['Bagaimana bila produk rusak saat diterima?', 'Ajukan paling lambat 2 hari kerja setelah paket diterima, sertakan kode pesanan dan video membuka paket. Lihat Kebijakan pengembalian untuk rinciannya.', 'pengiriman'],
   ]
   for (const [index, [question, answer, category]] of FAQS.entries()) {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import type { CartProduct } from '@/lib/shop-types'
+import { resolveCartLines, type CartProduct } from '@/lib/shop-types'
 
 import { useCart, useHydrated } from './cart-store'
 import { CheckoutForm, type CheckoutAccount } from './CheckoutForm'
@@ -19,10 +19,7 @@ export function CheckoutClient({ products, account }: { products: CartProduct[];
     )
   }
 
-  const rows = lines.flatMap((line) => {
-    const product = products.find((candidate) => candidate.id === line.productId)
-    return product ? [{ quantity: line.quantity, product }] : []
-  })
+  const { rows } = resolveCartLines(lines, products)
 
   if (rows.length === 0) {
     return (

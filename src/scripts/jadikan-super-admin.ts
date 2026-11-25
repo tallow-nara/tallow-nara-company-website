@@ -1,5 +1,3 @@
-// Menjadikan satu akun admin sebagai Super admin.
-// Pakai: corepack pnpm admin:super-admin email@anda.com
 import { getPayload } from 'payload'
 
 import config from '../payload.config'

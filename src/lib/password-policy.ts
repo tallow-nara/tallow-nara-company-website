@@ -1,4 +1,3 @@
-/** Aturan kata sandi. Pesan ditulis agar pengguna tahu persis apa yang perlu diperbaiki. */
 export const STAFF_PASSWORD_MIN = 12
 export const CUSTOMER_PASSWORD_MIN = 8
 

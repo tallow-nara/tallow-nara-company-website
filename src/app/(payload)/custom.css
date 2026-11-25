@@ -1,16 +1,11 @@
-/*
- * Tema admin Tallownara: putih bersih dengan aksen biru muda.
- * Memakai variabel bawaan Payload, jadi seluruh admin ikut berubah tanpa menyentuh komponennya.
- * Berkas ini tidak dalam @layer, sehingga mengalahkan nilai bawaan Payload.
- */
 :root,
 html[data-theme='light'] {
-  --tln-blue: #2572c0; /* tombol utama, tautan: kontras 4.9:1 dengan teks putih */
+  --tln-blue: #2572c0;
   --tln-blue-hover: #1c5fa6;
-  --tln-blue-soft: #eaf3fc; /* latar sorotan lembut */
+  --tln-blue-soft: #eaf3fc;
   --tln-blue-line: #cfe2f6;
 
-  /* Abu-abu bawaan diganti abu kebiruan yang sangat muda */
+  /* #warna-dasar */
   --color-base-0: #ffffff;
   --color-base-50: #f7fafd;
   --color-base-100: #eff5fb;
@@ -44,7 +39,7 @@ body {
   background: #ffffff;
 }
 
-/* Tombol utama berwarna biru, bukan hitam */
+/* #tombol */
 .btn--style-primary {
   --bg-color: var(--tln-blue);
   --color: #ffffff;
@@ -68,25 +63,99 @@ body {
   --hover-bg: var(--tln-blue-line);
 }
 
-/* Menu samping: sorotan biru muda pada halaman yang sedang dibuka */
+/* #menu-samping */
 .nav {
-  background: var(--tln-blue-soft);
+  background: #ffffff;
   border-right: 1px solid var(--tln-blue-line);
 }
 
-.nav a.active,
-.nav a[aria-current='page'],
-.nav__link.active {
-  background: #ffffff;
+.nav-group {
+  margin-bottom: 14px;
+}
+
+.nav-group__toggle,
+.nav-group__label {
+  color: var(--color-base-550);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tln-nav-top {
+  width: 100%;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-base-100);
+}
+
+.nav .nav__link {
+  gap: 12px;
+  width: 100%;
+  margin-block: 1px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  color: var(--color-base-750);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.nav a.nav__link:hover,
+.nav a.nav__link:focus-visible {
+  background: var(--color-base-50);
+  color: var(--tln-blue-hover);
+  text-decoration: none;
+}
+
+/* #menu-aktif */
+.nav .nav__link:has(.nav__link-indicator),
+.nav .nav__link.tln-nav-active {
+  background: var(--tln-blue-soft);
   color: var(--tln-blue-hover);
   font-weight: 600;
 }
 
-.nav-group__toggle {
-  font-weight: 600;
+.nav__link-indicator {
+  inset-inline-start: 0;
+  height: 20px;
+  background: var(--tln-blue);
 }
 
-/* Kolom isian: tepi biru muda saat fokus */
+.nav .nav__link::before {
+  content: '';
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  -webkit-mask: var(--tln-nav-icon, none) center / contain no-repeat;
+  mask: var(--tln-nav-icon, none) center / contain no-repeat;
+}
+
+/* #bilah-atas */
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--tln-blue-line);
+}
+
+/* #ikon-menu */
+#nav-tln-dashboard { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273.5%27%20y%3D%273.5%27%20width%3D%277%27%20height%3D%278%27%20rx%3D%271.5%27%2F%3E%3Crect%20x%3D%2713.5%27%20y%3D%273.5%27%20width%3D%277%27%20height%3D%275%27%20rx%3D%271.5%27%2F%3E%3Crect%20x%3D%2713.5%27%20y%3D%2711.5%27%20width%3D%277%27%20height%3D%279%27%20rx%3D%271.5%27%2F%3E%3Crect%20x%3D%273.5%27%20y%3D%2714.5%27%20width%3D%277%27%20height%3D%276%27%20rx%3D%271.5%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-tln-website { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2712%27%20r%3D%278.5%27%2F%3E%3Cpath%20d%3D%27M3.5%2012h17M12%203.5c2.5%202.6%203.5%205.4%203.5%208.5s-1%205.9-3.5%208.5c-2.5-2.6-3.5-5.4-3.5-8.5s1-5.9%203.5-8.5z%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-products { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M3.5%207.5%2012%203l8.5%204.5v9L12%2021l-8.5-4.5z%27%2F%3E%3Cpath%20d%3D%27M3.5%207.5%2012%2012l8.5-4.5M12%2012v9%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-orders { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M6%203.5h12v17l-3-2-3%202-3-2-3%202z%27%2F%3E%3Cpath%20d%3D%27M9%208h6M9%2012h6%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-customers { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Ccircle%20cx%3D%279%27%20cy%3D%278.5%27%20r%3D%273.5%27%2F%3E%3Cpath%20d%3D%27M2.5%2020a6.5%206.5%200%200%201%2013%200%27%2F%3E%3Cpath%20d%3D%27M16%205.2a3.5%203.5%200%200%201%200%206.6M18%2014.5a6.5%206.5%200%200%201%203.5%205.5%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-reviews { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27m12%203.5%202.6%205.3%205.9.9-4.3%204.1%201%205.8L12%2016.9l-5.2%202.7%201-5.8L3.5%209.7l5.9-.9z%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-achievements { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273%27%20y%3D%275%27%20width%3D%2718%27%20height%3D%2714%27%20rx%3D%272.5%27%2F%3E%3Ccircle%20cx%3D%279%27%20cy%3D%2710%27%20r%3D%271.5%27%2F%3E%3Cpath%20d%3D%27m21%2016-5-5-8%208%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-legal-pages { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M14%203.5H7A1.5%201.5%200%200%200%205.5%205v14A1.5%201.5%200%200%200%207%2020.5h10a1.5%201.5%200%200%200%201.5-1.5V8z%27%2F%3E%3Cpath%20d%3D%27M14%203.5V8h4.5M9%2013h6M9%2016.5h4%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-faqs { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2712%27%20r%3D%278.5%27%2F%3E%3Cpath%20d%3D%27M9.5%209.5a2.5%202.5%200%201%201%203.5%202.3c-.6.3-1%20.8-1%201.5v.2M12%2017h.01%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-media { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M4%2016.5V7a2%202%200%200%201%202-2h12a2%202%200%200%201%202%202v9.5%27%2F%3E%3Cpath%20d%3D%27M3%2019h18%27%2F%3E%3Cpath%20d%3D%27m7%2015%203.5-4%203%203%202-2%202.5%203%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-users { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%203.5%2019%206v5.5c0%204.3-3%207.7-7%209-4-1.3-7-4.7-7-9V6z%27%2F%3E%3Cpath%20d%3D%27m9%2012%202%202%204-4%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-webhook-events { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M3.5%2012h4l2.5-6%204%2012%202.5-6h4%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-global-home { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M4%2010.5%2012%204l8%206.5V19a1%201%200%200%201-1%201h-4.5v-6h-5v6H5a1%201%200%200%201-1-1z%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-global-about { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%2712%27%20r%3D%278.5%27%2F%3E%3Cpath%20d%3D%27M12%2011v5M12%208h.01%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-global-gallery-page { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Crect%20x%3D%273.5%27%20y%3D%273.5%27%20width%3D%2717%27%20height%3D%2717%27%20rx%3D%272.5%27%2F%3E%3Cpath%20d%3D%27M3.5%209.5h17M9.5%209.5v11%27%2F%3E%3C%2Fsvg%3E"); }
+#nav-global-site-settings { --tln-nav-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M4%207h10M18%207h2M4%2017h4M12%2017h8%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%277%27%20r%3D%272%27%2F%3E%3Ccircle%20cx%3D%2710%27%20cy%3D%2717%27%20r%3D%272%27%2F%3E%3C%2Fsvg%3E"); }
+
+/* #kolom-isian */
 input:focus,
 textarea:focus,
 .rs__control--is-focused {
@@ -94,7 +163,7 @@ textarea:focus,
   box-shadow: 0 0 0 3px var(--tln-blue-line) !important;
 }
 
-/* Tabel daftar */
+/* #tabel */
 .table th {
   background: var(--tln-blue-soft);
 }
@@ -111,13 +180,13 @@ textarea:focus,
   background: var(--tln-blue-soft);
 }
 
-/* Kartu di dasbor */
+/* #kartu */
 .card,
 .collection-card {
   border-radius: var(--style-radius-m);
 }
 
-/* Logo di halaman masuk dan menu */
+/* #logo */
 .tln-logo {
   display: block;
   width: auto;
@@ -129,7 +198,13 @@ textarea:focus,
   margin-inline: auto;
 }
 
-/* Teks bantu dan judul kolom harus tetap terbaca (kontras minimal 4.5:1) */
+/* #keterangan-kolom */
+.field-description {
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
 .field-description,
 .field-label + .field-description,
 .table th,

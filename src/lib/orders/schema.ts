@@ -21,10 +21,15 @@ export const checkoutSchema = z
   serviceCode: z.string().min(1, 'Pilih salah satu layanan kurir.'),
   acceptTerms: z.literal(true, 'Centang persetujuan Syarat & Ketentuan untuk melanjutkan.'),
   items: z
-    .array(z.object({ productId: z.number().int().positive(), quantity: z.number().int().positive() }))
+    .array(
+      z.object({
+        productId: z.number().int().positive(),
+        variantId: z.string().max(40).optional(),
+        quantity: z.number().int().positive(),
+      }),
+    )
     .min(1, 'Keranjang Anda masih kosong.'),
   })
-  // Email pesanan selalu diambil dari akun yang sedang masuk, bukan dari isian browser.
   .omit({ customerEmail: true })
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>

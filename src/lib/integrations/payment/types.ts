@@ -21,6 +21,5 @@ export type PaymentNotification = {
 export interface PaymentAdapter {
   name: string
   createPayment(input: CreatePaymentInput): Promise<CreatePaymentResult>
-  /** Mengembalikan null bila tanda tangan tidak sah. */
   parseNotification(body: unknown): PaymentNotification | null
 }

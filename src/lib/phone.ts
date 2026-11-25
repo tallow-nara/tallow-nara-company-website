@@ -1,4 +1,3 @@
-/** Mengubah nomor WA ke format +62, atau null bila bukan nomor seluler Indonesia. */
 export function normalizePhone(input: string): string | null {
   const digits = input.replace(/[\s\-().]/g, '').replace(/^\+/, '')
   let national: string

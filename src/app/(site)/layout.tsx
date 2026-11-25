@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     default: 'Tallownara · Perawatan kulit tallow sapi grass-fed',
     template: '%s · Tallownara',
   },
-  description: 'Perawatan kulit berbahan tallow sapi grass-fed dari Tuban, Jawa Timur.',
+  description: 'Perawatan kulit berbahan tallow sapi grass-fed asal Tuban, diproduksi di Bogor.',
 }
 
 export default function SiteLayout({ children }: { children: ReactNode }) {

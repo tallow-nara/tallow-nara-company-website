@@ -6,7 +6,6 @@ import { SESSION_MS, toSessionCustomer, type SessionCustomer } from './service'
 import { hashToken, newToken } from './tokens'
 
 const isProduction = process.env.NODE_ENV === 'production'
-// Awalan __Host- (hanya produksi, wajib HTTPS) mengikat cookie ke domain ini saja.
 const COOKIE_NAME = isProduction ? '__Host-tln_sesi' : 'tln_sesi'
 
 export async function startSession(customerId: number): Promise<void> {
@@ -42,7 +41,6 @@ export async function endSession(): Promise<void> {
   await payload.delete({ collection: 'customer-sessions', where: { tokenHash: { equals: hashToken(token) } } })
 }
 
-/** Pembeli yang sedang masuk, atau null. Dipakai di server component dan server action. */
 export async function getCurrentCustomer(): Promise<SessionCustomer | null> {
   const store = await cookies()
   const token = store.get(COOKIE_NAME)?.value

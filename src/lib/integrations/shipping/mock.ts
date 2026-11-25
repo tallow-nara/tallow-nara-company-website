@@ -29,7 +29,6 @@ const SERVICES = [
   { courierCode: 'sicepat', courierName: 'SiCepat', serviceCode: 'best', serviceName: 'Best', perKg: [12000, 18000, 26000, 48000], estimate: ['1 hari', '1-2 hari', '1-2 hari', '2-3 hari'] },
 ]
 
-/** Data tiruan untuk pengembangan, dipakai selama belum ada API key Biteship. */
 export function createMockShippingAdapter(): ShippingAdapter {
   return {
     name: 'mock',

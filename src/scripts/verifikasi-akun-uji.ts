@@ -1,5 +1,3 @@
-// Khusus tes otomatis: menandai email terverifikasi untuk akun uji (alamat berakhiran @uji.example).
-// Tidak menyentuh akun pembeli sungguhan.
 import { getPayload } from 'payload'
 
 import config from '../payload.config'
